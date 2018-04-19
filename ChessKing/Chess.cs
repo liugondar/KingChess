@@ -33,6 +33,6 @@ namespace ChessKing
         private bool isQueen = false;
         private int evaluation;
 
-
+        public virtual void FindWay(ChessSquare[,] board, int row, int col){}
     }
 }
