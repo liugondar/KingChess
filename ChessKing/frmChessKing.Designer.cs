@@ -1,4 +1,6 @@
-﻿namespace ChessKing
+﻿using System;
+
+namespace ChessKing
 {
 	partial class frmChessKing
 	{
@@ -283,8 +285,8 @@
 			this.Name = "frmChessKing";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Chess King";
-			//this.Load += new System.EventHandler(this.frmChessKing_Load);
-			this.menuStrip1.ResumeLayout(false);
+            this.Load += new System.EventHandler(this.frmChessKing_Load);
+            this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
@@ -293,9 +295,11 @@
 
 		}
 
-		#endregion
+      
 
-		private System.Windows.Forms.Button btn2Player;
+        #endregion
+
+        private System.Windows.Forms.Button btn2Player;
 		private System.Windows.Forms.Button bnt1Player;
 		private System.Windows.Forms.Button bntQuit;
 		private System.Windows.Forms.MenuStrip menuStrip1;

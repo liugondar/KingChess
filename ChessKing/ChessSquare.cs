@@ -20,6 +20,7 @@ namespace ChessKing
         public Chess Chess { get; set; }
         public int Row { get; set; }
         public int Col { get; set; }
+        public FindWayAction findWayAction;
         public ChessSquare(ChessSquare a)
         {
             Chess = a.Chess;
@@ -62,5 +63,9 @@ namespace ChessKing
 
         private List<ChessSquare[,]> avalBoard = new List<ChessSquare[,]>();
 
+        protected override void OnClick(EventArgs e)
+        {
+           //TODO: tao event onclick tung o co 
+        }
     }
 }

@@ -49,8 +49,34 @@ namespace ChessKing
             Player.URL = "Sound.mp3";
             Player.settings.autoStart = true;
         }
+        private void frmChessKing_Load(object sender, EventArgs e)
+        {
+            for (int row = 0; row < 8; row++)
+                for (int col = 0; col < 8; col++)
+                {
+                    ChessSquare temp = new ChessSquare();
+                    if (row % 2 == 0)
+                    {
+                        if (col % 2 == 0) temp.BackColor = Color.LavenderBlush;
+                        else temp.BackColor = Color.DarkSlateGray;
+                    }
+                    else
+                    {
+                        if (col % 2 == 0) temp.BackColor = Color.DarkSlateGray;
+                        else temp.BackColor = Color.LavenderBlush;
+                    }
 
-       
+                    temp.Location = new Point((col + 1) * 60, (row + 1) * 60);
+                    temp.Row = row;
+                    temp.Col = col;
+
+                    Board[row, col] = temp;
+
+                    this.Controls.Add(Board[row, col]);
+                }
+        }
+
+
         #region Events
         private void bntQuit_Click(object sender, EventArgs e)
         {
