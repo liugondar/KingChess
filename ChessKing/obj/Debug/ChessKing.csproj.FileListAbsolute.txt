@@ -12,3 +12,15 @@ D:\wingondar\Desktop\Dinh\ChessKing\ChessKing\obj\Debug\ChessKing.Form2.resource
 D:\wingondar\Desktop\Dinh\ChessKing\ChessKing\obj\Debug\ChessKing.Form3.resources
 D:\wingondar\Desktop\Dinh\ChessKing\ChessKing\bin\Debug\AxInterop.WMPLib.dll
 D:\wingondar\Desktop\Dinh\ChessKing\ChessKing\obj\Debug\ChessKing.csproj.CopyComplete
+D:\wingondar\Desktop\Dinh\ChessKing\ChessKing\bin\Debug\Image\Chess_bdt60.png
+D:\wingondar\Desktop\Dinh\ChessKing\ChessKing\bin\Debug\Image\Chess_blt60.png
+D:\wingondar\Desktop\Dinh\ChessKing\ChessKing\bin\Debug\Image\Chess_kdt60.png
+D:\wingondar\Desktop\Dinh\ChessKing\ChessKing\bin\Debug\Image\Chess_klt60.png
+D:\wingondar\Desktop\Dinh\ChessKing\ChessKing\bin\Debug\Image\Chess_ndt60.png
+D:\wingondar\Desktop\Dinh\ChessKing\ChessKing\bin\Debug\Image\Chess_nlt60.png
+D:\wingondar\Desktop\Dinh\ChessKing\ChessKing\bin\Debug\Image\Chess_pdt60.png
+D:\wingondar\Desktop\Dinh\ChessKing\ChessKing\bin\Debug\Image\Chess_plt60.png
+D:\wingondar\Desktop\Dinh\ChessKing\ChessKing\bin\Debug\Image\Chess_qdt60.png
+D:\wingondar\Desktop\Dinh\ChessKing\ChessKing\bin\Debug\Image\Chess_qlt60.png
+D:\wingondar\Desktop\Dinh\ChessKing\ChessKing\bin\Debug\Image\Chess_rdt60.png
+D:\wingondar\Desktop\Dinh\ChessKing\ChessKing\bin\Debug\Image\Chess_rlt60.png

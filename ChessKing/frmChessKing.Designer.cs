@@ -73,11 +73,11 @@ namespace ChessKing
 			this.btn2Player.Text = "2 Player";
 			this.btn2Player.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
 			this.btn2Player.UseVisualStyleBackColor = false;
-			//this.btn2Player.Click += new System.EventHandler(this.btn2Player_Click);
-			// 
-			// bnt1Player
-			// 
-			this.bnt1Player.BackColor = System.Drawing.Color.Orange;
+            this.btn2Player.Click += new System.EventHandler(this.btn2Player_Click);
+            // 
+            // bnt1Player
+            // 
+            this.bnt1Player.BackColor = System.Drawing.Color.Orange;
 			this.bnt1Player.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
 			this.bnt1Player.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.bnt1Player.ForeColor = System.Drawing.Color.Black;
@@ -87,11 +87,11 @@ namespace ChessKing
 			this.bnt1Player.TabIndex = 1;
 			this.bnt1Player.Text = "1 Player";
 			this.bnt1Player.UseVisualStyleBackColor = false;
-			//this.bnt1Player.Click += new System.EventHandler(this.bnt1Player_Click);
-			// 
-			// bntQuit
-			// 
-			this.bntQuit.BackColor = System.Drawing.Color.OliveDrab;
+            this.bnt1Player.Click += new System.EventHandler(this.bnt1Player_Click);
+            // 
+            // bntQuit
+            // 
+            this.bntQuit.BackColor = System.Drawing.Color.OliveDrab;
 			this.bntQuit.FlatAppearance.BorderColor = System.Drawing.Color.White;
 			this.bntQuit.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
 			this.bntQuit.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -294,8 +294,6 @@ namespace ChessKing
 			this.PerformLayout();
 
 		}
-
-      
 
         #endregion
 

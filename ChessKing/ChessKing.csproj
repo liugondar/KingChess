@@ -114,18 +114,42 @@
     <None Include="Resources\back2.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Images\Chess_bdt60.png" />
-    <Content Include="Images\Chess_blt60.png" />
-    <Content Include="Images\Chess_kdt60.png" />
-    <Content Include="Images\Chess_klt60.png" />
-    <Content Include="Images\Chess_ndt60.png" />
-    <Content Include="Images\Chess_nlt60.png" />
-    <Content Include="Images\Chess_pdt60.png" />
-    <Content Include="Images\Chess_plt60.png" />
-    <Content Include="Images\Chess_qdt60.png" />
-    <Content Include="Images\Chess_qlt60.png" />
-    <Content Include="Images\Chess_rdt60.png" />
-    <Content Include="Images\Chess_rlt60.png" />
+    <Content Include="Image\Chess_bdt60.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\Chess_blt60.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\Chess_kdt60.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\Chess_klt60.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\Chess_ndt60.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\Chess_nlt60.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\Chess_pdt60.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\Chess_plt60.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\Chess_qdt60.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\Chess_qlt60.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\Chess_rdt60.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\Chess_rlt60.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
