@@ -68,7 +68,9 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="Help\HD.pdf" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -81,6 +83,29 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\B1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\back.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\back2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\Chess_bdt60.png" />
+    <Content Include="Images\Chess_blt60.png" />
+    <Content Include="Images\Chess_kdt60.png" />
+    <Content Include="Images\Chess_klt60.png" />
+    <Content Include="Images\Chess_ndt60.png" />
+    <Content Include="Images\Chess_nlt60.png" />
+    <Content Include="Images\Chess_pdt60.png" />
+    <Content Include="Images\Chess_plt60.png" />
+    <Content Include="Images\Chess_qdt60.png" />
+    <Content Include="Images\Chess_qlt60.png" />
+    <Content Include="Images\Chess_rdt60.png" />
+    <Content Include="Images\Chess_rlt60.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
