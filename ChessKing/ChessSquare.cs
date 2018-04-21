@@ -71,8 +71,6 @@ namespace ChessKing
         {
             //Không làm gì hết nếu ô clicked không có quân cờ
             if (this.Chess == null && !Common.IsSelectedSquare) return;
-
-            TraLaiOCoBinhThuongKhiClick2Lan();
             ThayDoiOCoKhiClickVaoOCoQuanCo();
         }
 
@@ -113,24 +111,6 @@ namespace ChessKing
                 {
                     //TODO: Xét lượt cờ đen khi chơi với AI
                 }
-            }
-        }
-
-        private void TraLaiOCoBinhThuongKhiClick2Lan()
-        {
-            if (Common.RowSelected == this.Row && Common.ColSelected == this.Col) //squares click itself for 2 time, hide the way and return old background
-            {
-                Common.IsSelectedSquare = false;
-                for (int i = 0; i < Common.CanMove.Count; i++)
-                {
-                    if (Common.CanMove[i].Chess == null) Common.CanMove[i].Image = null;
-                }
-                this.BackChessBoard();
-                this.BackColor = Common.OldBackGround;
-                Common.CanMove.Clear();
-                Common.RowSelected = -1;
-                Common.ColSelected = -1;
-                return;
             }
         }
 
@@ -268,8 +248,166 @@ namespace ChessKing
 
         private void ChangeTurn()
         {
-            throw new NotImplementedException();
+            if (Common.IsSelectedSquare == false) RenderWhenNotSelectedYet();
+            //selected
+            else RenderWhenSelected();
         }
+
+
+        /// <summary>
+        /// Khi click chọn quân cờ lân đầu
+        /// </summary>
+        private void RenderWhenNotSelectedYet()
+        {
+            //check square is not Empty 
+            if (this.Chess != null)
+            {
+                Common.IsSelectedSquare = true;
+                Common.OldBackGround = Common.Board[this.Row, this.Col].BackColor; //keep background color of chess square 
+                this.Chess.FindWay(Common.Board, this.Row, this.Col); //findway can move and eat
+                this.findWayAction();
+                this.BackColor = System.Drawing.Color.Violet; //change background to violet
+                Common.RowSelected = this.Row; //keep the row
+                Common.ColSelected = this.Col; //keep the col
+
+            }
+        }
+        /// <summary>
+        /// Khi click nước đi cho quân cờ hoặc click hủy bỏ chọn quân cờ
+        /// </summary>
+        private void RenderWhenSelected()
+        {
+            Common.IsSelectedSquare = false;//gan lai bang false de lan sau con thuc hien
+
+            if (Common.CanMove.Contains(this))//inside list Can Move
+            {
+                Common.RowProQueen = this.Row;
+                Common.ColProQueen = this.Col;
+                for (int i = 0; i < Common.CanMove.Count; i++)
+                {
+                    if (Common.CanMove[i].Chess == null)
+                        Common.CanMove[i].Image = null;
+                }
+                ThayDoiHinhAnh();
+                Common.IsTurn++; //change turn
+                Common.CanMove.Clear();
+                KiemTraPhongHau();
+                KiemTraQuanVuaConTrenBanCoKhong();
+                XuLiKhiDanhVoiAI();
+                KiemTraChieuVua();
+
+            }
+            else //not inside can move list
+            {
+                HuyBoChonQuan();
+            }
+        }
+
+        private void HuyBoChonQuan()
+        {
+            Common.Board[Common.RowSelected, Common.ColSelected].BackColor = Common.OldBackGround;
+            for (int i = 0; i < Common.CanMove.Count; i++)
+            {
+                if (Common.CanMove[i].Chess == null) Common.CanMove[i].Image = null;
+            }
+            this.BackChessBoard();
+            Common.CanMove.Clear();
+        }
+
+        private void KiemTraChieuVua()
+        {
+            bool isCheck = false;
+            ChessSquare Kingtemp = new ChessSquare();
+
+            this.Check(ref isCheck, ref Kingtemp);
+            if (isCheck)
+            {
+                Common.CanMove.Clear();
+                Checkmate(Kingtemp);
+            }
+
+            Common.CanEat.Clear();
+            Common.CanMove.Clear();
+
+            BackChessBoard();
+            if (Kingtemp.Chess != null && Kingtemp.Chess.IsKing == true)
+                Common.Board[Kingtemp.Row, Kingtemp.Col].BackColor = Color.BlueViolet;
+        }
+
+        private void XuLiKhiDanhVoiAI()
+        {
+            if (Common.Is2PlayerMode == false && Common.IsTurn % 2 == 1)
+            {
+                //TODO: add mini root de xu li ai
+                //this.minimaxRoot();
+                this.BackChessBoard();
+            }
+        }
+
+        private static void KiemTraQuanVuaConTrenBanCoKhong()
+        {
+            int soLuongVua = 0;
+            int colorTeam = 0;
+
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    if (Common.Board[i, j].Chess == null) Common.Board[i, j].Image = null;
+                    else if (Common.Board[i, j].Chess.IsKing) { soLuongVua++; colorTeam = Common.Board[i, j].Chess.Team; }
+                }
+            }
+
+            if (soLuongVua == 1)
+            {
+                if (colorTeam == (int)ColorTeam.White) MessageBox.Show("The White Wins!");
+                else MessageBox.Show("The Black Wins!");
+
+                Common.Close = true;
+            }
+        }
+
+        private void KiemTraPhongHau()
+        {
+            for (int j = 0; j < 8; j++)
+            {
+                if (Common.Board[0, j].Chess != null && Common.Board[0, j].Chess.IsPawn) phongHau(ref Common.Board[0, j]);
+                if (Common.Board[7, j].Chess != null && Common.Board[7, j].Chess.IsPawn) phongHau(ref Common.Board[7, j]);
+            }
+        }
+
+        private void ThayDoiHinhAnh()
+        {
+            //thay doi hinh anh
+            this.Image = Common.Board[Common.RowSelected, Common.ColSelected].Image;
+            Common.Board[Common.RowSelected, Common.ColSelected].Image = null;
+            //tra ve background cu
+            Common.Board[Common.RowSelected, Common.ColSelected].BackColor = Common.OldBackGround;
+            this.BackChessBoard();
+            //thay doi quan co
+            this.Chess = Common.Board[Common.RowSelected, Common.ColSelected].Chess;
+            Common.Board[Common.RowSelected, Common.ColSelected].Chess = null;
+        }
+
+        private void KiemTraChieuBi(ref bool isCheck, ref ChessSquare Kingtemp)
+        {
+            this.Check(ref isCheck, ref Kingtemp);
+            if (isCheck)
+            {
+                Common.CanMove.Clear();
+                Checkmate(Kingtemp);
+            }
+        }
+
+        private void XuLiKhiChoiVoiAI()
+        {
+            if (Common.Is2PlayerMode == false && Common.IsTurn % 2 == BlackTurn)
+            {
+                //TODO: add ai minimax root this.minimaxRoot();
+                this.BackChessBoard();
+            }
+        }
+
     }
 
 }
