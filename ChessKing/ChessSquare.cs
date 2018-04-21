@@ -346,7 +346,7 @@ namespace ChessKing
             }
         }
 
-        private static void KiemTraQuanVuaConTrenBanCoKhong()
+        private void KiemTraQuanVuaConTrenBanCoKhong()
         {
             int soLuongVua = 0;
             int colorTeam = 0;
