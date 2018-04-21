@@ -33,7 +33,7 @@ namespace ChessKing
         {
             if (row < Common.lastRowOfTable)
             {
-                bool isInTable = row >= Common.fisrtRowOfTable && row <= Common.lastRowOfTable;
+                bool isInTable = row >= Common.firstRowOfTable && row <= Common.lastRowOfTable;
                 if (isInTable)
                 {
                     CoTrangKiemTraOCheoBenTrai(board, row, col);
@@ -76,7 +76,7 @@ namespace ChessKing
         private void CoTrangKiemTraOCheoBenTrai(ChessSquare[,] board, int row, int col)
         {
 
-            bool laConTotDauTien = col <= Common.fisrtColOfTable;
+            bool laConTotDauTien = col <= Common.firstColOfTable;
             if (laConTotDauTien) return;
             //check duong cheo
             bool oCheoBenTraiCoQuanCo = board[row - 1, col - 1].Chess != null;
@@ -131,9 +131,9 @@ namespace ChessKing
         #region Xét tốt cờ đen
         private void XetCoDenDiTuTrenXuong(ChessSquare[,] board, int row, int col)
         {
-            if (row > Common.fisrtRowOfTable)
+            if (row > Common.firstRowOfTable)
             {
-                bool isInTable = row >= Common.fisrtRowOfTable && row <= Common.lastRowOfTable;
+                bool isInTable = row >= Common.firstRowOfTable && row <= Common.lastRowOfTable;
                 if (isInTable)
                 {
                     CoDenKiemTraOCheoTrai(board, row, col);
@@ -197,7 +197,7 @@ namespace ChessKing
         private void CoDenKiemTraOCheoTrai(ChessSquare[,] board, int row, int col)
         {
 
-            bool laConTotDauTien = col <= Common.fisrtColOfTable;
+            bool laConTotDauTien = col <= Common.firstColOfTable;
             if (laConTotDauTien) return;
             if (board[row + 1, col - 1].Chess != null)
             {

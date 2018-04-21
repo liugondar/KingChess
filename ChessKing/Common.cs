@@ -14,9 +14,9 @@ namespace ChessKing
         static public int IsTurn = 0;
         static public int WhiteTurn = 0;
         static public int BlackTurn = 0;
-        static public int fisrtRowOfTable = 0;
+        static public int firstRowOfTable = 0;
         static public int lastRowOfTable = 7;
-        static public int fisrtColOfTable = 0;
+        static public int firstColOfTable = 0;
         static public int lastColOfTable = 7;
         static public int whitePawnDefaultRow = 6;
         static public int blackPawnDefaultRow = 1;
