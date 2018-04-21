@@ -24,3 +24,4 @@ D:\wingondar\Desktop\Dinh\ChessKing\ChessKing\bin\Debug\Image\Chess_qlt60.png
 D:\wingondar\Desktop\Dinh\ChessKing\ChessKing\bin\Debug\Image\Chess_rdt60.png
 D:\wingondar\Desktop\Dinh\ChessKing\ChessKing\bin\Debug\Image\Chess_rlt60.png
 D:\wingondar\Desktop\Dinh\ChessKing\ChessKing\obj\Debug\ChessKing.frmChessKing.resources
+D:\wingondar\Desktop\Dinh\ChessKing\ChessKing\bin\Debug\Image\circle.png

@@ -24,6 +24,8 @@ namespace ChessKing
     {
         WMPLib.WindowsMediaPlayer Player = new WMPLib.WindowsMediaPlayer();
 
+        private const int WhiteTurn = 0;
+        private const int BlackTurn = 1;
         ChessSquare[,] Board = new ChessSquare[8, 8];
 
         string linkWhiteCastle = "Image\\Chess_rlt60.png";
@@ -213,7 +215,7 @@ namespace ChessKing
             //Refresh board
             if (Common.Is2PlayerMode == true)
             {
-                if (Common.IsTurn % 2 == 0) // Lượt cờ trắng
+                if (Common.IsTurn % 2 == WhiteTurn) 
                 {
                     pictureBox2.Visible = true;
                     pictureBox1.Visible = false;
@@ -224,6 +226,7 @@ namespace ChessKing
                     pictureBox2.Visible = false;
                 }
             }
+            // Ket thuc van co
             if (Common.Close == true)
             {
                 for (int i = 0; i < 8; i++)
