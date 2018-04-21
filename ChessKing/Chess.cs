@@ -16,12 +16,12 @@ namespace ChessKing
         };
         public bool IsDie { get; set; }
         public int Team { get => team; set => team = value; }
-        protected bool IsKing { get => isKing; set => isKing = value; }
-        protected bool IsPawn { get => isPawn; set => isPawn = value; }
-        protected bool IsBishop { get => isBishop; set => isBishop = value; }
-        protected bool IsCastle { get => isCastle; set => isCastle = value; }
-        protected bool IsKnight { get => isKnight; set => isKnight = value; }
-        protected bool IsQueen { get => isQueen; set => isQueen = value; }
+        public bool IsKing { get => isKing; set => isKing = value; }
+        public bool IsPawn { get => isPawn; set => isPawn = value; }
+        public bool IsBishop { get => isBishop; set => isBishop = value; }
+        public bool IsCastle { get => isCastle; set => isCastle = value; }
+        public bool IsKnight { get => isKnight; set => isKnight = value; }
+        public bool IsQueen { get => isQueen; set => isQueen = value; }
         public int Evaluation { get => evaluation; set => evaluation = value; }
 
         private int team = (int)ColorTeam.None;

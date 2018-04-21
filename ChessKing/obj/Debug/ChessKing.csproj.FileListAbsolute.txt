@@ -7,7 +7,6 @@ D:\wingondar\Desktop\Dinh\ChessKing\ChessKing\obj\Debug\ChessKing.csproj.Generat
 D:\wingondar\Desktop\Dinh\ChessKing\ChessKing\obj\Debug\ChessKing.csproj.CoreCompileInputs.cache
 D:\wingondar\Desktop\Dinh\ChessKing\ChessKing\obj\Debug\ChessKing.exe
 D:\wingondar\Desktop\Dinh\ChessKing\ChessKing\obj\Debug\ChessKing.pdb
-D:\wingondar\Desktop\Dinh\ChessKing\ChessKing\obj\Debug\ChessKing.frmChessKing.resources
 D:\wingondar\Desktop\Dinh\ChessKing\ChessKing\obj\Debug\ChessKing.Form2.resources
 D:\wingondar\Desktop\Dinh\ChessKing\ChessKing\obj\Debug\ChessKing.Form3.resources
 D:\wingondar\Desktop\Dinh\ChessKing\ChessKing\bin\Debug\AxInterop.WMPLib.dll
@@ -24,3 +23,4 @@ D:\wingondar\Desktop\Dinh\ChessKing\ChessKing\bin\Debug\Image\Chess_qdt60.png
 D:\wingondar\Desktop\Dinh\ChessKing\ChessKing\bin\Debug\Image\Chess_qlt60.png
 D:\wingondar\Desktop\Dinh\ChessKing\ChessKing\bin\Debug\Image\Chess_rdt60.png
 D:\wingondar\Desktop\Dinh\ChessKing\ChessKing\bin\Debug\Image\Chess_rlt60.png
+D:\wingondar\Desktop\Dinh\ChessKing\ChessKing\obj\Debug\ChessKing.frmChessKing.resources

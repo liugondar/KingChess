@@ -71,6 +71,7 @@ namespace ChessKing
                     temp.Col = col;
 
                     Board[row, col] = temp;
+                    Board[row, col].findWayAction += new FindWayAction(OnAction);
 
                     this.Controls.Add(Board[row, col]);
                 }
@@ -207,7 +208,34 @@ namespace ChessKing
 
             Common.Board = Board;
         }
-
+        private void OnAction()
+        {
+            //Refresh board
+            if (Common.Is2PlayerMode == true)
+            {
+                if (Common.IsTurn % 2 == 0) // Lượt cờ trắng
+                {
+                    pictureBox2.Visible = true;
+                    pictureBox1.Visible = false;
+                }
+                else //Lượt cờ đen
+                {
+                    pictureBox1.Visible = true;
+                    pictureBox2.Visible = false;
+                }
+            }
+            if (Common.Close == true)
+            {
+                for (int i = 0; i < 8; i++)
+                {
+                    for (int j = 0; j < 8; j++)
+                    {
+                        Board[i, j].Image = null;
+                    }
+                }
+            }
+            Board = Common.Board;
+        }
 
         #region Events
         private void bntQuit_Click(object sender, EventArgs e)
@@ -274,6 +302,8 @@ namespace ChessKing
             bnt1Player.Enabled = false;
             btn2Player.Enabled = false;
             MessageBox.Show("White go first");
+            pictureBox2.Visible = true;
+            pictureBox1.Visible = false;
         }
         private void bnt1Player_Click(object sender, EventArgs e)
         {
@@ -281,8 +311,19 @@ namespace ChessKing
             Common.Is2PlayerMode = false;
             bnt1Player.Enabled = false;
             btn2Player.Enabled = false;
+            pictureBox2.Visible = true;
+            pictureBox1.Visible = false;
         }
         #endregion
+
+        private void btnNewGame_Click(object sender, EventArgs e)
+        {
+            ResetBanCo();
+        }
+
+        private void ResetBanCo()
+        {
+        }
     }
 }
 
