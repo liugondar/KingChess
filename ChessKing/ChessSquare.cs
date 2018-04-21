@@ -12,6 +12,8 @@ namespace ChessKing
     {
         string linkBlackQueen = "Image\\Chess_qdt60.png";
         string linkWhiteQueen = "Image\\Chess_qlt60.png";
+        const int WhiteTurn = 0;
+        const int BlackTurn = 1;
         #region init fields
         enum ColorTeam
         {
@@ -67,8 +69,69 @@ namespace ChessKing
 
         protected override void OnClick(EventArgs e)
         {
-            //TODO: tao event onclick tung o co 
+            //Không làm gì hết nếu ô clicked không có quân cờ
+            if (this.Chess == null && !Common.IsSelectedSquare) return;
 
+            TraLaiOCoBinhThuongKhiClick2Lan();
+            ThayDoiOCoKhiClickVaoOCoQuanCo();
+        }
+
+        private void ThayDoiOCoKhiClickVaoOCoQuanCo()
+        {
+            // Quân trắng luôn do người chơi dùng nên không cần xét đến AI
+            if (Common.IsTurn % 2 == WhiteTurn)
+            {
+                if (Common.IsSelectedSquare == false) // chua click 
+                {
+                    if (this.Chess.Team == (int)ColorTeam.White)
+                    {
+                        this.ChangeTurn();
+                    }
+                    else
+                        return;
+                }
+                else //da click
+                {
+                    this.ChangeTurn();
+                }
+            }
+            else // black
+            {
+                if (Common.Is2PlayerMode)
+                {
+                    if (Common.IsSelectedSquare == false)//chua click
+                    {
+                        if (this.Chess.Team == (int)ColorTeam.Black) // check xem co dung team dang duoc di hay khong
+                        {
+                            this.ChangeTurn();
+                        }
+                        else return;
+                    }
+                    else this.ChangeTurn();
+                }
+                else
+                {
+                    //TODO: Xét lượt cờ đen khi chơi với AI
+                }
+            }
+        }
+
+        private void TraLaiOCoBinhThuongKhiClick2Lan()
+        {
+            if (Common.RowSelected == this.Row && Common.ColSelected == this.Col) //squares click itself for 2 time, hide the way and return old background
+            {
+                Common.IsSelectedSquare = false;
+                for (int i = 0; i < Common.CanMove.Count; i++)
+                {
+                    if (Common.CanMove[i].Chess == null) Common.CanMove[i].Image = null;
+                }
+                this.BackChessBoard();
+                this.BackColor = Common.OldBackGround;
+                Common.CanMove.Clear();
+                Common.RowSelected = -1;
+                Common.ColSelected = -1;
+                return;
+            }
         }
 
         private void phongHau(ref ChessSquare temp)
@@ -91,7 +154,7 @@ namespace ChessKing
         }
 
         private void Check(ref bool isCheck, ref ChessSquare KingTemp)
-        {   
+        {
             // mặc định chưa bị chiếu tướng isCheck=false
             isCheck = false;
             //check if King is danger
@@ -108,7 +171,7 @@ namespace ChessKing
                             {
                                 if (Common.CanMove[k].Chess.IsKing)
                                 {
-                                    isCheck= true;
+                                    isCheck = true;
                                     KingTemp = new ChessSquare(Common.CanMove[k]);
                                 }
                             }
@@ -144,7 +207,7 @@ namespace ChessKing
                     }
                 }
             Common.CanMove.Clear();
-            
+
             temp.Chess.FindWay(Common.Board, temp.Row, temp.Col);
 
             for (int i = 0; i < Common.CanMove.Count; i++)
@@ -194,7 +257,7 @@ namespace ChessKing
                 }
             }
 
-            if (isCheckmate )
+            if (isCheckmate)
             {
                 if (temp.Chess.Team == (int)ColorTeam.White) MessageBox.Show("The Black Wins");
                 else MessageBox.Show("The White Wins");
@@ -202,5 +265,11 @@ namespace ChessKing
                 Common.Close = true;
             }
         }
+
+        private void ChangeTurn()
+        {
+            throw new NotImplementedException();
+        }
     }
+
 }
