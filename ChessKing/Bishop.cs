@@ -9,7 +9,6 @@ namespace ChessKing
 {
     class Bishop : Chess
     {
-        string linkPoint = "Image\\circle.png";
         public Bishop()
         {
             this.IsBishop = true;
@@ -40,18 +39,14 @@ namespace ChessKing
                 if (Common.IsEmptyChessSquare(board, i, j))
                 {
                     //load blue poin on button, in the way of piece
-                    if (Common.IsTurn % 2 == Common.WhiteTurn || Common.Is2PlayerMode == true)
-                        board[i, j].Image = Image.FromFile(linkPoint);
-                    Common.CanMove.Add(board[i, j]);
+                    Common.ChangeBackgroundColorToCanMove(board, i, j);
                 }
                 else
                 {
                     //square is not empty, check color ,if diffirence about color, change back color
                     if (this.Team != board[i, j].Chess.Team)
                     {
-                        if (Common.IsTurn % 2 == Common.WhiteTurn || Common.Is2PlayerMode == true)
-                            board[i, j].BackColor = Color.Red;
-                        Common.CanMove.Add(board[i, j]);
+                        Common.ChangeBackgroundColorToCanEat(board, i, j);
                         break;
                     }
                     else
@@ -79,18 +74,14 @@ namespace ChessKing
                 if (Common.IsEmptyChessSquare(board, i, j))
                 {
                     //load blue poin on button, in the way of piece
-                    if (Common.IsTurn % 2 == Common.WhiteTurn || Common.Is2PlayerMode == true)
-                        board[i, j].Image = Image.FromFile(linkPoint);
-                    Common.CanMove.Add(board[i, j]);
+                    Common.ChangeBackgroundColorToCanMove(board, i, j);
                 }
                 else
                 {
                     //square is not empty, check color ,if diffirence about color, change back color
                     if (this.Team != board[i, j].Chess.Team)
                     {
-                        if (Common.IsTurn % 2 == Common.WhiteTurn || Common.Is2PlayerMode == true)
-                            board[i, j].BackColor = Color.Red;
-                        Common.CanMove.Add(board[i, j]);
+                        Common.ChangeBackgroundColorToCanEat(board, i, j);
                         break;
                     }
                     else
@@ -119,18 +110,14 @@ namespace ChessKing
                 if (Common.IsEmptyChessSquare(board, i, j))
                 {
                     //load blue poin on button, in the way of piece
-                    if (Common.IsTurn % 2 == Common.WhiteTurn || Common.Is2PlayerMode == true)
-                        board[i, j].Image = Image.FromFile(linkPoint);
-                    Common.CanMove.Add(board[i, j]);
+                    Common.ChangeBackgroundColorToCanMove(board, i, j);
                 }
                 else
                 {
                     //square is not empty, check color ,if diffirence about color, change back color
                     if (this.Team != board[i, j].Chess.Team)
                     {
-                        if (Common.IsTurn % 2 == Common.WhiteTurn || Common.Is2PlayerMode == true)
-                            board[i, j].BackColor = Color.Red;
-                        Common.CanMove.Add(board[i, j]);
+                        Common.ChangeBackgroundColorToCanEat(board, i, j);
                         break;
                     }
                     else
@@ -161,9 +148,7 @@ namespace ChessKing
                 if (Common.IsEmptyChessSquare(board, i, j))
                 {
                     //load blue poin on button, in the way of piece
-                    if (Common.IsTurn % 2 == Common.WhiteTurn || Common.Is2PlayerMode == true)
-                        board[i, j].Image = Image.FromFile(linkPoint);
-                    Common.CanMove.Add(board[i, j]);
+                    Common.ChangeBackgroundColorToCanMove(board, i, j);
                 }
                 else
                 {
@@ -171,10 +156,7 @@ namespace ChessKing
                     bool isDifferentTeam = this.Team != board[i, j].Chess.Team;
                     if (isDifferentTeam)
                     {
-                        if (Common.IsTurn % 2 == Common.WhiteTurn || Common.Is2PlayerMode == true)
-                            board[i, j].BackColor = Color.Red;
-                        Common.CanMove.Add(board[i, j]);
-                        break;
+                        Common.ChangeBackgroundColorToCanEat(board, i, j);
                     }
                     else
                     {

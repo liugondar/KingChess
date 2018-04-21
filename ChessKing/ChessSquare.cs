@@ -69,6 +69,8 @@ namespace ChessKing
 
         protected override void OnClick(EventArgs e)
         {
+            // Khóa bàn cờ khi hết cờ
+            if (Common.Close) return;
             //Không làm gì hết nếu ô clicked không có quân cờ
             if (this.Chess == null && !Common.IsSelectedSquare) return;
             ThayDoiOCoKhiClickVaoOCoQuanCo();

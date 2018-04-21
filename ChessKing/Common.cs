@@ -9,6 +9,7 @@ namespace ChessKing
 {
     class Common
     {
+        static public string linkPoint = "Image\\circle.png";
         static public bool Is2PlayerMode = false; //1 player
         static public bool IsSelectedSquare = false; //selected yet
         static public int IsTurn = 0;
@@ -24,6 +25,20 @@ namespace ChessKing
         {
             return board[row, col].Chess == null;
         }
+        static public void ChangeBackgroundColorToCanEat(ChessSquare[,] board, int row, int col)
+        {
+            if (IsTurn % 2 == WhiteTurn || Is2PlayerMode == true)
+                board[row, col].BackColor = Color.Red;
+            CanMove.Add(board[row, col]);
+        }
+        static public void ChangeBackgroundColorToCanMove(ChessSquare[,] board, int row, int col)
+        {
+            if (IsTurn % 2 == WhiteTurn || Is2PlayerMode == true)
+                board[row, col].Image = Image.FromFile(linkPoint);
+            CanMove.Add(board[row, col]);
+        }
+
+
         static public bool Close = false;
         static public ChessSquare[,] Board;
         static public List<ChessSquare> CanMove = new List<ChessSquare>(); // create list, save position of piece can move
