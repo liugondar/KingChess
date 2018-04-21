@@ -68,7 +68,7 @@ namespace ChessKing
         protected override void OnClick(EventArgs e)
         {
             //TODO: tao event onclick tung o co 
-          
+
         }
 
         private void phongHau(ref ChessSquare temp)
@@ -76,8 +76,6 @@ namespace ChessKing
             Chess newQueen = new Queen();
             if (temp.Chess.Team == 1) //white
             {
-                //Common.Board[Common.RowSelected, Common.ColSelected].Image = null;
-                //Common.Board[Common.RowSelected, Common.ColSelected].Chess = null;
                 newQueen.Team = (int)ColorTeam.White;
                 temp.Chess = newQueen;
                 temp.Image = Image.FromFile(linkWhiteQueen);
@@ -92,8 +90,10 @@ namespace ChessKing
             }
         }
 
-        private void Check(ref bool temp, ref ChessSquare KingTemp)
-        {
+        private void Check(ref bool isCheck, ref ChessSquare KingTemp)
+        {   
+            // mặc định chưa bị chiếu tướng isCheck=false
+            isCheck = false;
             //check if King is danger
             for (int i = 0; i < 8; i++)
                 for (int j = 0; j < 8; j++)
@@ -103,39 +103,31 @@ namespace ChessKing
                         Common.Board[i, j].Chess.FindWay(Common.Board, Common.Board[i, j].Row, Common.Board[i, j].Col);
                         for (int k = 0; k < Common.CanMove.Count; k++)
                         {
-                            if (Common.CanMove[k].Chess == null)
-                            {
-                                Common.CanMove[k].Image = null;
-                            }
+                            if (Common.CanMove[k].Chess == null) Common.CanMove[k].Image = null;
                             else
                             {
-                                if (Common.CanMove[k].Chess.IsKing == true)
+                                if (Common.CanMove[k].Chess.IsKing)
                                 {
-                                    temp = true;
+                                    isCheck= true;
                                     KingTemp = new ChessSquare(Common.CanMove[k]);
                                 }
-                                else
-                                { }
                             }
                         }
                     }
-                    else { }
                     Common.CanMove.Clear();
                 }
-            if (temp == true) return;
-            temp = false;
         }
 
         private void Checkmate(ChessSquare temp)
         {
-            bool checkmate = true;
-            //temp.Chess.FindWay(Common.Board, temp.Row, temp.Col);
+            bool isCheckmate = true;
 
             for (int i = 0; i < 8; i++)
                 for (int j = 0; j < 8; j++)
                 {
                     if (Common.Board[i, j].Chess != null)
                     {
+                        //Kiem tra chung team hay khong
                         if (Common.Board[i, j].Chess.Team != temp.Chess.Team)
                         {
                             Common.Board[i, j].Chess.FindWay(Common.Board, Common.Board[i, j].Row, Common.Board[i, j].Col);
@@ -150,12 +142,9 @@ namespace ChessKing
                             Common.CanMove.Clear();
                         }
                     }
-                    else
-                    {
-                    }
                 }
             Common.CanMove.Clear();
-
+            
             temp.Chess.FindWay(Common.Board, temp.Row, temp.Col);
 
             for (int i = 0; i < Common.CanMove.Count; i++)
@@ -186,15 +175,12 @@ namespace ChessKing
                                         }
                                         if (Common.CanMove[k].Col == temp2.Col && Common.CanMove[k].Row == temp2.Row)
                                         {
-                                            checkmate = false;
+                                            isCheckmate = false;
                                             break;
                                         }
                                     }
                                     Common.CanMove.Clear();
                                 }
-                            }
-                            else
-                            {
                             }
                         }
                 }
@@ -203,12 +189,12 @@ namespace ChessKing
             {
                 while (Common.CanMove.Count > 0)
                 {
-                    if (!Common.CanEat.Contains(Common.CanMove[Common.CanMove.Count - 1])) checkmate = false;
+                    if (!Common.CanEat.Contains(Common.CanMove[Common.CanMove.Count - 1])) isCheckmate = false;
                     Common.CanMove.Remove(Common.CanMove[Common.CanMove.Count - 1]);
                 }
             }
 
-            if (checkmate == true)
+            if (isCheckmate )
             {
                 if (temp.Chess.Team == (int)ColorTeam.White) MessageBox.Show("The Black Wins");
                 else MessageBox.Show("The White Wins");
