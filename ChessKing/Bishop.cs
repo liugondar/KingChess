@@ -157,6 +157,7 @@ namespace ChessKing
                     if (isDifferentTeam)
                     {
                         Common.ChangeBackgroundColorToCanEat(board, i, j);
+                        break;
                     }
                     else
                     {
