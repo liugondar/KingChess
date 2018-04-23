@@ -357,6 +357,14 @@ namespace ChessKing
 
         private void ResetBanCo()
         {
+            for (int row = 0; row < 8; row++)
+                for (int col = 0; col < 8; col++)
+                {
+                    Board[row, col].Chess=null;
+                    Board[row, col].Image = null;
+                    btn2Player.Enabled = true;
+                    bnt1Player.Enabled = true;
+                }
         }
 
         private void buttonMinimize_Click(object sender, EventArgs e)
