@@ -50,6 +50,7 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.btnNewGame = new System.Windows.Forms.Button();
+            this.buttonMinimize = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -64,9 +65,9 @@
             this.btn2Player.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btn2Player.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn2Player.ForeColor = System.Drawing.SystemColors.Control;
-            this.btn2Player.Location = new System.Drawing.Point(683, 271);
+            this.btn2Player.Location = new System.Drawing.Point(646, 238);
             this.btn2Player.Name = "btn2Player";
-            this.btn2Player.Size = new System.Drawing.Size(75, 25);
+            this.btn2Player.Size = new System.Drawing.Size(111, 25);
             this.btn2Player.TabIndex = 0;
             this.btn2Player.Text = "2 Player";
             this.btn2Player.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
@@ -79,9 +80,9 @@
             this.bnt1Player.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.bnt1Player.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.bnt1Player.ForeColor = System.Drawing.Color.Black;
-            this.bnt1Player.Location = new System.Drawing.Point(683, 311);
+            this.bnt1Player.Location = new System.Drawing.Point(646, 278);
             this.bnt1Player.Name = "bnt1Player";
-            this.bnt1Player.Size = new System.Drawing.Size(75, 23);
+            this.bnt1Player.Size = new System.Drawing.Size(111, 23);
             this.bnt1Player.TabIndex = 1;
             this.bnt1Player.Text = "1 Player";
             this.bnt1Player.UseVisualStyleBackColor = false;
@@ -94,9 +95,9 @@
             this.bntQuit.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.bntQuit.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.bntQuit.ForeColor = System.Drawing.Color.LavenderBlush;
-            this.bntQuit.Location = new System.Drawing.Point(683, 351);
+            this.bntQuit.Location = new System.Drawing.Point(646, 384);
             this.bntQuit.Name = "bntQuit";
-            this.bntQuit.Size = new System.Drawing.Size(75, 23);
+            this.bntQuit.Size = new System.Drawing.Size(111, 23);
             this.bntQuit.TabIndex = 2;
             this.bntQuit.Text = "Quit";
             this.bntQuit.UseVisualStyleBackColor = false;
@@ -268,21 +269,38 @@
             this.btnNewGame.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnNewGame.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNewGame.ForeColor = System.Drawing.Color.LavenderBlush;
-            this.btnNewGame.Location = new System.Drawing.Point(671, 233);
+            this.btnNewGame.Location = new System.Drawing.Point(646, 182);
             this.btnNewGame.Name = "btnNewGame";
-            this.btnNewGame.Size = new System.Drawing.Size(105, 23);
+            this.btnNewGame.Size = new System.Drawing.Size(111, 23);
             this.btnNewGame.TabIndex = 6;
             this.btnNewGame.Text = "New Game";
             this.btnNewGame.UseVisualStyleBackColor = false;
             this.btnNewGame.Click += new System.EventHandler(this.btnNewGame_Click);
             // 
+            // buttonMinimize
+            // 
+            this.buttonMinimize.BackColor = System.Drawing.Color.OliveDrab;
+            this.buttonMinimize.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.buttonMinimize.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.buttonMinimize.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonMinimize.ForeColor = System.Drawing.Color.LavenderBlush;
+            this.buttonMinimize.Location = new System.Drawing.Point(646, 345);
+            this.buttonMinimize.Name = "buttonMinimize";
+            this.buttonMinimize.Size = new System.Drawing.Size(111, 23);
+            this.buttonMinimize.TabIndex = 7;
+            this.buttonMinimize.Text = "Minimize";
+            this.buttonMinimize.UseVisualStyleBackColor = false;
+            this.buttonMinimize.Click += new System.EventHandler(this.buttonMinimize_Click);
+            // 
             // frmChessKing
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.BackColor = System.Drawing.SystemColors.Control;
             this.BackgroundImage = global::ChessKing.Properties.Resources.B1;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(800, 610);
+            this.Controls.Add(this.buttonMinimize);
             this.Controls.Add(this.btnNewGame);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.pictureBox1);
@@ -291,7 +309,8 @@
             this.Controls.Add(this.btn2Player);
             this.Controls.Add(this.menuStrip1);
             this.Cursor = System.Windows.Forms.Cursors.Default;
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
+            this.DoubleBuffered = true;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -299,6 +318,9 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Chess King";
             this.Load += new System.EventHandler(this.frmChessKing_Load);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ChessBoard_MouseDown);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.ChessBoard_MouseMove);
+            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ChessBoard_MouseUp);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -332,6 +354,7 @@
         private System.Windows.Forms.ToolStripMenuItem teamToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem gameToolStripMenuItem;
         private System.Windows.Forms.Button btnNewGame;
+        private System.Windows.Forms.Button buttonMinimize;
     }
 }
 

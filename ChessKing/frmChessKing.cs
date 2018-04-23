@@ -27,7 +27,8 @@ namespace ChessKing
         private const int WhiteTurn = 0;
         private const int BlackTurn = 1;
         ChessSquare[,] Board = new ChessSquare[8, 8];
-
+        private bool dangkeo;
+        private Point diemkeo;
         string linkWhiteCastle = "Image\\Chess_rlt60.png";
         string linkWhiteBishop = "Image\\Chess_blt60.png";
         string linkWhiteKnight = "Image\\Chess_nlt60.png";
@@ -50,6 +51,10 @@ namespace ChessKing
             pictureBox2.BackColor = Color.Transparent;
             Player.URL = "Sound.mp3";
             Player.settings.autoStart = true;
+
+            FlashScreen FlashScr = new FlashScreen();
+            FlashScr.ShowDialog();
+            this.Refresh();
         }
         private void frmChessKing_Load(object sender, EventArgs e)
         {
@@ -239,7 +244,33 @@ namespace ChessKing
             }
             Board = Common.Board;
         }
+        #region Dùng chuột di chuyển form
+        private void ChessBoard_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                dangkeo = true;
+                diemkeo = new Point(e.X, e.Y);
+            }
+            else dangkeo = false;
+        }
 
+        private void ChessBoard_MouseUp(object sender, MouseEventArgs e)
+        {
+            dangkeo = false;
+        }
+
+        private void ChessBoard_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (dangkeo)
+            {
+                Point diemden;
+                diemden = this.PointToScreen(new Point(e.X, e.Y));
+                diemden.Offset(-diemkeo.X, -diemkeo.Y);
+                this.Location = diemden;
+            }
+        }
+        #endregion
         #region Events
         private void bntQuit_Click(object sender, EventArgs e)
         {
@@ -326,6 +357,12 @@ namespace ChessKing
 
         private void ResetBanCo()
         {
+        }
+
+        private void buttonMinimize_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+
         }
     }
 }
