@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -12,8 +13,6 @@ namespace ChessKing
     {
         string linkBlackQueen = "Image\\Chess_qdt60.png";
         string linkWhiteQueen = "Image\\Chess_qlt60.png";
-        const int WhiteTurn = 0;
-        const int BlackTurn = 1;
         #region init fields
         enum ColorTeam
         {
@@ -74,12 +73,20 @@ namespace ChessKing
             //Không làm gì hết nếu ô clicked không có quân cờ
             if (this.Chess == null && !Common.IsSelectedSquare) return;
             ThayDoiOCoKhiClickVaoOCoQuanCo();
+            Task.Run(() =>
+            {
+                Thread.Sleep(200); // delay
+                this.BeginInvoke((MethodInvoker)delegate
+                {
+                    this.findWayAction();
+                });
+            });
         }
 
         private void ThayDoiOCoKhiClickVaoOCoQuanCo()
         {
             // Quân trắng luôn do người chơi dùng nên không cần xét đến AI
-            if (Common.IsTurn % 2 == WhiteTurn)
+            if (Common.IsTurn % 2 == Common.WhiteTurn)
             {
                 if (Common.IsSelectedSquare == false) // chua click 
                 {
@@ -280,7 +287,7 @@ namespace ChessKing
         private void RenderWhenSelected()
         {
             Common.IsSelectedSquare = false;//gan lai bang false de lan sau con thuc hien
-
+            Common.IsEndTurn = true; // Gán cho biết đã kết thúc lượt 
             if (Common.CanMove.Contains(this))//inside list Can Move
             {
                 Common.RowProQueen = this.Row;
@@ -403,7 +410,7 @@ namespace ChessKing
 
         private void XuLiKhiChoiVoiAI()
         {
-            if (Common.Is2PlayerMode == false && Common.IsTurn % 2 == BlackTurn)
+            if (Common.Is2PlayerMode == false && Common.IsTurn % 2 == Common.BlackTurn)
             {
                 //TODO: add ai minimax root this.minimaxRoot();
                 this.BackChessBoard();

@@ -28,8 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btn2Player = new System.Windows.Forms.Button();
-            this.bnt1Player = new System.Windows.Forms.Button();
             this.bntQuit = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.optionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -41,6 +39,9 @@
             this.soundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.onToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.offToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gameTypeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.oneplayerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.twoplayerToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.onlineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.offlineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -56,46 +57,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
-            // btn2Player
-            // 
-            this.btn2Player.BackColor = System.Drawing.Color.Maroon;
-            this.btn2Player.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btn2Player.FlatAppearance.BorderColor = System.Drawing.Color.LightYellow;
-            this.btn2Player.FlatAppearance.BorderSize = 2;
-            this.btn2Player.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btn2Player.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn2Player.ForeColor = System.Drawing.SystemColors.Control;
-            this.btn2Player.Location = new System.Drawing.Point(646, 238);
-            this.btn2Player.Name = "btn2Player";
-            this.btn2Player.Size = new System.Drawing.Size(111, 25);
-            this.btn2Player.TabIndex = 0;
-            this.btn2Player.Text = "2 Player";
-            this.btn2Player.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
-            this.btn2Player.UseVisualStyleBackColor = false;
-            this.btn2Player.Click += new System.EventHandler(this.btn2Player_Click);
-            // 
-            // bnt1Player
-            // 
-            this.bnt1Player.BackColor = System.Drawing.Color.Orange;
-            this.bnt1Player.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.bnt1Player.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.bnt1Player.ForeColor = System.Drawing.Color.Black;
-            this.bnt1Player.Location = new System.Drawing.Point(646, 278);
-            this.bnt1Player.Name = "bnt1Player";
-            this.bnt1Player.Size = new System.Drawing.Size(111, 23);
-            this.bnt1Player.TabIndex = 1;
-            this.bnt1Player.Text = "1 Player";
-            this.bnt1Player.UseVisualStyleBackColor = false;
-            this.bnt1Player.Click += new System.EventHandler(this.bnt1Player_Click);
-            // 
             // bntQuit
             // 
-            this.bntQuit.BackColor = System.Drawing.Color.OliveDrab;
+            this.bntQuit.BackColor = System.Drawing.Color.Maroon;
             this.bntQuit.FlatAppearance.BorderColor = System.Drawing.Color.White;
             this.bntQuit.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.bntQuit.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.bntQuit.ForeColor = System.Drawing.Color.LavenderBlush;
-            this.bntQuit.Location = new System.Drawing.Point(646, 384);
+            this.bntQuit.Location = new System.Drawing.Point(646, 332);
             this.bntQuit.Name = "bntQuit";
             this.bntQuit.Size = new System.Drawing.Size(111, 23);
             this.bntQuit.TabIndex = 2;
@@ -121,7 +90,8 @@
             this.optionToolStripMenuItem.BackColor = System.Drawing.Color.Transparent;
             this.optionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.depthToolStripMenuItem,
-            this.soundToolStripMenuItem});
+            this.soundToolStripMenuItem,
+            this.gameTypeToolStripMenuItem});
             this.optionToolStripMenuItem.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.optionToolStripMenuItem.ForeColor = System.Drawing.Color.Honeydew;
             this.optionToolStripMenuItem.Name = "optionToolStripMenuItem";
@@ -136,7 +106,7 @@
             this.toolStripMenuItem4,
             this.veryHardToolStripMenuItem});
             this.depthToolStripMenuItem.Name = "depthToolStripMenuItem";
-            this.depthToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.depthToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.depthToolStripMenuItem.Text = "Level";
             // 
             // toolStripMenuItem2
@@ -173,7 +143,7 @@
             this.onToolStripMenuItem,
             this.offToolStripMenuItem});
             this.soundToolStripMenuItem.Name = "soundToolStripMenuItem";
-            this.soundToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.soundToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.soundToolStripMenuItem.Text = "Sound";
             // 
             // onToolStripMenuItem
@@ -189,6 +159,29 @@
             this.offToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
             this.offToolStripMenuItem.Text = "Off";
             this.offToolStripMenuItem.Click += new System.EventHandler(this.offToolStripMenuItem_Click);
+            // 
+            // gameTypeToolStripMenuItem
+            // 
+            this.gameTypeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.oneplayerToolStripMenuItem,
+            this.twoplayerToolStripMenuItem1});
+            this.gameTypeToolStripMenuItem.Name = "gameTypeToolStripMenuItem";
+            this.gameTypeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.gameTypeToolStripMenuItem.Text = "Game Mode";
+            // 
+            // oneplayerToolStripMenuItem
+            // 
+            this.oneplayerToolStripMenuItem.Name = "oneplayerToolStripMenuItem";
+            this.oneplayerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.oneplayerToolStripMenuItem.Text = "1 Player";
+            this.oneplayerToolStripMenuItem.Click += new System.EventHandler(this.oneplayerToolStripMenuItem_Click);
+            // 
+            // twoplayerToolStripMenuItem1
+            // 
+            this.twoplayerToolStripMenuItem1.Name = "twoplayerToolStripMenuItem1";
+            this.twoplayerToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.twoplayerToolStripMenuItem1.Text = "2 Player";
+            this.twoplayerToolStripMenuItem1.Click += new System.EventHandler(this.twoplayerToolStripMenuItem1_Click);
             // 
             // helpToolStripMenuItem1
             // 
@@ -269,7 +262,7 @@
             this.btnNewGame.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnNewGame.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNewGame.ForeColor = System.Drawing.Color.LavenderBlush;
-            this.btnNewGame.Location = new System.Drawing.Point(646, 182);
+            this.btnNewGame.Location = new System.Drawing.Point(646, 225);
             this.btnNewGame.Name = "btnNewGame";
             this.btnNewGame.Size = new System.Drawing.Size(111, 23);
             this.btnNewGame.TabIndex = 6;
@@ -279,12 +272,12 @@
             // 
             // buttonMinimize
             // 
-            this.buttonMinimize.BackColor = System.Drawing.Color.OliveDrab;
+            this.buttonMinimize.BackColor = System.Drawing.Color.Orange;
             this.buttonMinimize.FlatAppearance.BorderColor = System.Drawing.Color.White;
             this.buttonMinimize.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.buttonMinimize.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonMinimize.ForeColor = System.Drawing.Color.LavenderBlush;
-            this.buttonMinimize.Location = new System.Drawing.Point(646, 345);
+            this.buttonMinimize.ForeColor = System.Drawing.Color.Black;
+            this.buttonMinimize.Location = new System.Drawing.Point(646, 280);
             this.buttonMinimize.Name = "buttonMinimize";
             this.buttonMinimize.Size = new System.Drawing.Size(111, 23);
             this.buttonMinimize.TabIndex = 7;
@@ -305,8 +298,6 @@
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.bntQuit);
-            this.Controls.Add(this.bnt1Player);
-            this.Controls.Add(this.btn2Player);
             this.Controls.Add(this.menuStrip1);
             this.Cursor = System.Windows.Forms.Cursors.Default;
             this.DoubleBuffered = true;
@@ -331,9 +322,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Button btn2Player;
-        private System.Windows.Forms.Button bnt1Player;
         private System.Windows.Forms.Button bntQuit;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem optionToolStripMenuItem;
@@ -355,6 +343,9 @@
         private System.Windows.Forms.ToolStripMenuItem gameToolStripMenuItem;
         private System.Windows.Forms.Button btnNewGame;
         private System.Windows.Forms.Button buttonMinimize;
+        private System.Windows.Forms.ToolStripMenuItem gameTypeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem oneplayerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem twoplayerToolStripMenuItem1;
     }
 }
 

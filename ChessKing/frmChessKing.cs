@@ -12,7 +12,6 @@ using WMPLib;
 namespace ChessKing
 {
     public delegate void FindWayAction();
-
     enum ColorTeam
     {
         None,
@@ -22,13 +21,14 @@ namespace ChessKing
 
     public partial class frmChessKing : Form
     {
+
         WMPLib.WindowsMediaPlayer Player = new WMPLib.WindowsMediaPlayer();
 
-        private const int WhiteTurn = 0;
-        private const int BlackTurn = 1;
-        ChessSquare[,] Board = new ChessSquare[8, 8];
         private bool dangkeo;
         private Point diemkeo;
+
+        #region enit board image
+        ChessSquare[,] Board = new ChessSquare[8, 8];
         string linkWhiteCastle = "Image\\Chess_rlt60.png";
         string linkWhiteBishop = "Image\\Chess_blt60.png";
         string linkWhiteKnight = "Image\\Chess_nlt60.png";
@@ -41,14 +41,13 @@ namespace ChessKing
         string linkBlackQueen = "Image\\Chess_qdt60.png";
         string linkBlackKing = "Image\\Chess_kdt60.png";
         string linkBlackPawn = "Image\\Chess_pdt60.png";
-
-
-
+        #endregion
         public frmChessKing()
         {
             InitializeComponent();
             pictureBox1.BackColor = Color.Transparent;
             pictureBox2.BackColor = Color.Transparent;
+            Common.Is2PlayerMode = true;
             Player.URL = "Sound.mp3";
             Player.settings.autoStart = true;
 
@@ -218,9 +217,9 @@ namespace ChessKing
         private void OnAction()
         {
             //Refresh board
-            if (Common.Is2PlayerMode == true)
+            if (Common.Is2PlayerMode)
             {
-                if (Common.IsTurn % 2 == WhiteTurn) 
+                if (Common.IsTurn % 2 == Common.WhiteTurn)
                 {
                     pictureBox2.Visible = true;
                     pictureBox1.Visible = false;
@@ -230,9 +229,11 @@ namespace ChessKing
                     pictureBox1.Visible = true;
                     pictureBox2.Visible = false;
                 }
+                //Kết thúc lượt đổi vị trí kết thúc lượt
+                
             }
             // Ket thuc van co
-            if (Common.Close == true)
+            if (Common.Close)
             {
                 for (int i = 0; i < 8; i++)
                 {
@@ -254,12 +255,10 @@ namespace ChessKing
             }
             else dangkeo = false;
         }
-
         private void ChessBoard_MouseUp(object sender, MouseEventArgs e)
         {
             dangkeo = false;
         }
-
         private void ChessBoard_MouseMove(object sender, MouseEventArgs e)
         {
             if (dangkeo)
@@ -271,22 +270,20 @@ namespace ChessKing
             }
         }
         #endregion
+
         #region Events
         private void bntQuit_Click(object sender, EventArgs e)
         {
             this.Close();
         }
-
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
         {
             Common.Depth = 1;
         }
-
         private void toolStripMenuItem3_Click(object sender, EventArgs e)
         {
             Common.Depth = 2;
         }
-
         private void toolStripMenuItem4_Click(object sender, EventArgs e)
         {
             Common.Depth = 3;
@@ -295,82 +292,70 @@ namespace ChessKing
         {
             Common.Depth = 4;
         }
-
         private void onlineToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string url = "http://www.wikihow.com/Play-Chess";
             System.Diagnostics.Process.Start(url);
         }
-
         private void offlineToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Form3 frmHelp = new Form3();
             frmHelp.ShowDialog();
         }
-
         private void onToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Player.controls.play();
         }
-
         private void offToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Player.controls.stop();
         }
-
         private void teamToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Form2 frmAbout = new Form2();
             frmAbout.ShowDialog();
         }
-
         private void gameToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string url = "https://github.com/thanhthinn1997/simple-chess-programming/wiki/Gi%E1%BB%9Bi-thi%E1%BB%87u-Game-C%E1%BB%9D-vua";
             System.Diagnostics.Process.Start(url);
         }
-        private void btn2Player_Click(object sender, EventArgs e)
-        {
-            Display();
-            Common.Is2PlayerMode = true;
-            bnt1Player.Enabled = false;
-            btn2Player.Enabled = false;
-            MessageBox.Show("White go first");
-            pictureBox2.Visible = true;
-            pictureBox1.Visible = false;
-        }
-        private void bnt1Player_Click(object sender, EventArgs e)
-        {
-            Display();
-            Common.Is2PlayerMode = false;
-            bnt1Player.Enabled = false;
-            btn2Player.Enabled = false;
-            pictureBox2.Visible = true;
-            pictureBox1.Visible = false;
-        }
+      
         #endregion
-
         private void btnNewGame_Click(object sender, EventArgs e)
         {
             ResetBanCo();
+            Display();
+            Common.Close = false;
+            if (Common.Is2PlayerMode)
+            {
+                MessageBox.Show("White go first");
+                pictureBox2.Visible = true;
+                pictureBox1.Visible = false;
+            }
         }
-
         private void ResetBanCo()
         {
             for (int row = 0; row < 8; row++)
                 for (int col = 0; col < 8; col++)
                 {
-                    Board[row, col].Chess=null;
+                    Board[row, col].Chess = null;
                     Board[row, col].Image = null;
-                    btn2Player.Enabled = true;
-                    bnt1Player.Enabled = true;
                 }
+            Common.ResetPropToDefault(); 
         }
-
         private void buttonMinimize_Click(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Minimized;
 
+        }
+        private void oneplayerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Common.Is2PlayerMode = false;
+        }
+        private void twoplayerToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            Common.Is2PlayerMode = true;
         }
     }
 }

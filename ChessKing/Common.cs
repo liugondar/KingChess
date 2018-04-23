@@ -10,17 +10,31 @@ namespace ChessKing
     class Common
     {
         static public string linkPoint = "Image\\circle.png";
-        static public bool Is2PlayerMode = false; //1 player
+        static public bool Is2PlayerMode = true; //1 player
         static public bool IsSelectedSquare = false; //selected yet
         static public int IsTurn = 0;
         static public int WhiteTurn = 0;
-        static public int BlackTurn = 0;
+        static public int BlackTurn = 1;
         static public int firstRowOfTable = 0;
         static public int lastRowOfTable = 7;
         static public int firstColOfTable = 0;
         static public int lastColOfTable = 7;
         static public int whitePawnDefaultRow = 6;
         static public int blackPawnDefaultRow = 1;
+        static public void ResetPropToDefault()
+        {
+            Is2PlayerMode = true;
+            IsSelectedSquare = false;
+            IsTurn = 0;
+            WhiteTurn = 0;
+            BlackTurn = 1;
+            firstRowOfTable = 0;
+            lastRowOfTable = 7;
+            firstColOfTable = 0;
+            lastColOfTable = 7;
+            whitePawnDefaultRow = 6;
+            blackPawnDefaultRow = 1;
+        }
         static public bool IsEmptyChessSquare(ChessSquare[,] board, int row, int col)
         {
             return board[row, col].Chess == null;
