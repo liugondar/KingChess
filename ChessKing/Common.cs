@@ -23,7 +23,6 @@ namespace ChessKing
         static public int blackPawnDefaultRow = 1;
         static public void ResetPropToDefault()
         {
-            Is2PlayerMode = true;
             IsSelectedSquare = false;
             IsTurn = 0;
             WhiteTurn = 0;
@@ -68,6 +67,5 @@ namespace ChessKing
         static public int ColProQueen = -1;
 
         static public int Depth = 2;
-
     }
 }

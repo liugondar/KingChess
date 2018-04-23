@@ -407,15 +407,6 @@ namespace ChessKing
             }
         }
 
-        private void XuLiKhiChoiVoiAI()
-        {
-            if (Common.Is2PlayerMode == false && Common.IsTurn % 2 == Common.BlackTurn)
-            {
-                //TODO: add ai minimax root this.minimaxRoot();
-                this.BackChessBoard();
-            }
-        }
-
     }
 
 }
