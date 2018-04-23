@@ -287,7 +287,6 @@ namespace ChessKing
         private void RenderWhenSelected()
         {
             Common.IsSelectedSquare = false;//gan lai bang false de lan sau con thuc hien
-            Common.IsEndTurn = true; // Gán cho biết đã kết thúc lượt 
             if (Common.CanMove.Contains(this))//inside list Can Move
             {
                 Common.RowProQueen = this.Row;
