@@ -10,7 +10,7 @@ namespace ChessKing
     class Common
     {
         static public string linkPoint = "Image\\circle.png";
-        static public bool Is2PlayerMode = true; //1 player
+        static public bool Is2PlayerMode = false; //1 player
         static public bool IsSelectedSquare = false; //selected yet
         static public bool IsPlaying = false;
         static public int IsTurn = 0;

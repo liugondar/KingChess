@@ -356,7 +356,6 @@ namespace ChessKing
         private void buttonMinimize_Click(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Minimized;
-
         }
         private void oneplayerToolStripMenuItem_Click(object sender, EventArgs e)
         {

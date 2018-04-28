@@ -113,9 +113,7 @@
             // 
             // toolStripMenuItem2
             // 
-            this.toolStripMenuItem2.Checked = true;
             this.toolStripMenuItem2.CheckOnClick = true;
-            this.toolStripMenuItem2.CheckState = System.Windows.Forms.CheckState.Checked;
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
             this.toolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
             this.toolStripMenuItem2.Text = "Easy";
@@ -125,13 +123,15 @@
             // 
             this.toolStripMenuItem3.CheckOnClick = true;
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(150, 22);
             this.toolStripMenuItem3.Text = "Nomal";
             this.toolStripMenuItem3.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
             // 
             // toolStripMenuItem4
             // 
+            this.toolStripMenuItem4.Checked = true;
             this.toolStripMenuItem4.CheckOnClick = true;
+            this.toolStripMenuItem4.CheckState = System.Windows.Forms.CheckState.Checked;
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
             this.toolStripMenuItem4.Size = new System.Drawing.Size(180, 22);
             this.toolStripMenuItem4.Text = "Hard ";
@@ -141,7 +141,7 @@
             // 
             this.veryHardToolStripMenuItem.CheckOnClick = true;
             this.veryHardToolStripMenuItem.Name = "veryHardToolStripMenuItem";
-            this.veryHardToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.veryHardToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.veryHardToolStripMenuItem.Text = "Very Hard";
             this.veryHardToolStripMenuItem.Click += new System.EventHandler(this.veryHardToolStripMenuItem_Click);
             // 
@@ -162,14 +162,14 @@
             this.onToolStripMenuItem.CheckOnClick = true;
             this.onToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.onToolStripMenuItem.Name = "onToolStripMenuItem";
-            this.onToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.onToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
             this.onToolStripMenuItem.Text = "On";
             this.onToolStripMenuItem.Click += new System.EventHandler(this.onToolStripMenuItem_Click);
             // 
             // offToolStripMenuItem
             // 
             this.offToolStripMenuItem.Name = "offToolStripMenuItem";
-            this.offToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.offToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
             this.offToolStripMenuItem.Text = "Off";
             this.offToolStripMenuItem.Click += new System.EventHandler(this.offToolStripMenuItem_Click);
             // 
@@ -186,19 +186,19 @@
             // 
             // oneplayerToolStripMenuItem
             // 
+            this.oneplayerToolStripMenuItem.Checked = true;
             this.oneplayerToolStripMenuItem.CheckOnClick = true;
+            this.oneplayerToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.oneplayerToolStripMenuItem.Name = "oneplayerToolStripMenuItem";
-            this.oneplayerToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
+            this.oneplayerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.oneplayerToolStripMenuItem.Text = "1 Player";
             this.oneplayerToolStripMenuItem.Click += new System.EventHandler(this.oneplayerToolStripMenuItem_Click);
             // 
             // twoplayerToolStripMenuItem1
             // 
-            this.twoplayerToolStripMenuItem1.Checked = true;
             this.twoplayerToolStripMenuItem1.CheckOnClick = true;
-            this.twoplayerToolStripMenuItem1.CheckState = System.Windows.Forms.CheckState.Checked;
             this.twoplayerToolStripMenuItem1.Name = "twoplayerToolStripMenuItem1";
-            this.twoplayerToolStripMenuItem1.Size = new System.Drawing.Size(137, 22);
+            this.twoplayerToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.twoplayerToolStripMenuItem1.Text = "2 Player";
             this.twoplayerToolStripMenuItem1.Click += new System.EventHandler(this.twoplayerToolStripMenuItem1_Click);
             // 
