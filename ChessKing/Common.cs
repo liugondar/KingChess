@@ -12,6 +12,7 @@ namespace ChessKing
         static public string linkPoint = "Image\\circle.png";
         static public bool Is2PlayerMode = true; //1 player
         static public bool IsSelectedSquare = false; //selected yet
+        static public bool IsPlaying = false;
         static public int IsTurn = 0;
         static public int WhiteTurn = 0;
         static public int BlackTurn = 1;
@@ -25,6 +26,7 @@ namespace ChessKing
         {
             IsSelectedSquare = false;
             IsTurn = 0;
+            IsPlaying = false;
             WhiteTurn = 0;
             BlackTurn = 1;
             firstRowOfTable = 0;

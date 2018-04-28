@@ -332,7 +332,10 @@ namespace ChessKing
         {
             ResetBanCo();
             Display();
+            Common.IsPlaying = true;
             Common.Close = false;
+            Common.Is2PlayerMode = twoplayerToolStripMenuItem1.Checked ?
+                true : false;
             if (Common.Is2PlayerMode)
             {
                 MessageBox.Show("White go first");
@@ -357,12 +360,10 @@ namespace ChessKing
         }
         private void oneplayerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Common.Is2PlayerMode = false;
             UncheckOtherToolStripMenuItems((ToolStripMenuItem)sender);
         }
         private void twoplayerToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            Common.Is2PlayerMode = true;
             UncheckOtherToolStripMenuItems((ToolStripMenuItem)sender);
         }
 

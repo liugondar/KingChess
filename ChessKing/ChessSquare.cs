@@ -254,7 +254,9 @@ namespace ChessKing
             {
                 if (temp.Chess.Team == (int)ColorTeam.White) MessageBox.Show("The Black Wins");
                 else MessageBox.Show("The White Wins");
+                //TODO: add sound checkMate
 
+                Common.IsPlaying = false;
                 Common.Close = true;
             }
         }
@@ -374,7 +376,9 @@ namespace ChessKing
             {
                 if (colorTeam == (int)ColorTeam.White) MessageBox.Show("The White Wins!");
                 else MessageBox.Show("The Black Wins!");
+                 //TODO: add sound checkMate
 
+                Common.IsPlaying = false;
                 Common.Close = true;
             }
         }
