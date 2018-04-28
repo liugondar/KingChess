@@ -347,7 +347,7 @@ namespace ChessKing
             if (Common.Is2PlayerMode == false && Common.IsTurn % 2 == 1)
             {
                 //TODO: add mini root de xu li ai
-                //this.minimaxRoot();
+                this.minimaxRoot();
                 this.BackChessBoard();
             }
         }
@@ -493,10 +493,168 @@ namespace ChessKing
             board[this.Row, this.Col].Image = tempImage;
         }
 
-        private double minimax(int v1, ref ChessSquare[,] board, double alpha, double beta, bool v2)
+        protected double minimax(int depth, ref ChessSquare[,] root, double alpha, double beta, bool isMax)
         {
-            //TODO: write minimax algorithm
-            return 0f;
+            if (depth == 0)
+                return -this.BestValue(root);
+            ChessSquare[,] a = new ChessSquare[8, 8];
+
+            double bestValue;
+
+            int team = 0;
+            if (isMax == true)
+            {
+                team = 2;
+                bestValue = -9999;
+            } //black
+            else
+            {
+                team = 1;
+                bestValue = 9999;
+            } //white
+
+            //ke list can move from root
+            //List<ChessSquare[,]> tempList = new List<ChessSquare[,]>();
+            //createList(root, team, tempList);
+
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    int befRow = i;
+                    int befCol = j;
+                    if (!Common.IsEmptyChessSquare(root, befRow, befCol)
+                        && root[befRow, befCol].Chess.Team == team)
+                    {
+                        List<ChessSquare> RootTemp = new List<ChessSquare>();
+
+                        root[befRow, befCol].Chess.FindWay(root, befRow, befCol);
+
+                        for (int k = 0; k < Common.CanMove.Count; k++)
+                        {
+                            RootTemp.Add(Common.CanMove[k]);
+                        }
+                        Common.CanMove.Clear();
+
+                        Chess tempChess = new Chess();
+                        Image tempImage = null;
+
+                        for (int k = 0; k < RootTemp.Count; k++)
+                        {
+                            tempChess = root[RootTemp[k].Row, RootTemp[k].Col].Chess;
+                            tempImage = root[RootTemp[k].Row, RootTemp[k].Col].Image;
+
+                            root[RootTemp[k].Row, RootTemp[k].Col].Chess = root[befRow, befCol].Chess;
+                            root[RootTemp[k].Row, RootTemp[k].Col].Image = root[befRow, befCol].Image;
+                            root[befRow, befCol].Chess = null;
+                            root[befRow, befCol].Image = null;
+
+                            if (team == 2)
+                            {
+                                bestValue = Math.Max(bestValue, minimax(depth - 1, ref root, alpha, beta, !isMax));
+                                alpha = Math.Max(alpha, bestValue);
+                                if (beta <= alpha)
+                                {
+                                    root[RootTemp[k].Row, RootTemp[k].Col].Undo(ref root, befRow, befCol, tempChess, tempImage);
+                                    return bestValue;
+                                }
+                            }
+                            else
+                            {
+                                bestValue = Math.Min(bestValue, minimax(depth - 1, ref root, alpha, beta, !isMax));
+                                beta = Math.Min(beta, bestValue);
+                                if (beta <= alpha)
+                                {
+                                    root[RootTemp[k].Row, RootTemp[k].Col].Undo(ref root, befRow, befCol, tempChess, tempImage);
+                                    return bestValue;
+                                }
+                            }
+                            root[RootTemp[k].Row, RootTemp[k].Col].Undo(ref root, befRow, befCol, tempChess, tempImage);
+                        }
+                        RootTemp.Clear();
+                    }
+                }
+            }
+            return bestValue;
+        }
+
+        private double BestValue(ChessSquare[,] board)
+        {
+            double Val = 0;
+            for (int i = 0; i < 8; i++)
+                for (int j = 0; j < 8; j++)
+                {
+                    if (board[i, j].Chess != null)
+                    {
+                        double pieceEvaluation = 0;
+                        //Team trắng evalution >0
+                        if(board[i, j].Chess.Evaluation > 0){
+                            pieceEvaluation = getPieceEvaluation(board, i, j);
+                        }
+                        else //Team đen evalution <0
+                        {
+                            pieceEvaluation = -getPieceEvaluation(board, i, j);
+                        }
+                        Val = Val + board[i, j].Chess.Evaluation + pieceEvaluation;
+                    }
+                }
+            return Val;
+        }
+
+        /// <summary>
+        /// Evaluation được khởi tạo tại form frmChessKing khi khởi tạo các
+        /// quân cờ trên bàn cờ
+        /// - Quân trắng: pawn:10 ; castle: 50; knight: 30; bishop: 30; queen: 90; king: 900
+        /// - Quân đen: pawn:-10 ; castle:-50; knight:-30; bishop: -30; queen: -90; king: -900
+        /// </summary>
+        /// <param name="board"></param>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <returns></returns>
+        private double getPieceEvaluation(ChessSquare[,] board, int row, int col)
+        {
+            if (Common.IsEmptyChessSquare(board, row, col)) return 0;
+            if (board[row, col].Chess.IsPawn == true) //pawn
+            {
+                return (board[row, col].Chess.Evaluation > 0) 
+                    ? PieceEvaluation(Common.PawnWhite, row, col) 
+                    : PieceEvaluation(Common.PawnBlack, row, col);
+            }
+            else if (board[row, col].Chess.IsCastle == true) //Castle
+            {
+                return (board[row, col].Chess.Evaluation > 0) 
+                    ? PieceEvaluation(Common.CastleWhite, row, col) 
+                    : PieceEvaluation(Common.CastleBlack, row, col);
+            }
+            else if (board[row, col].Chess.IsKnight == true) //Knight
+            {
+                return (board[row, col].Chess.Evaluation > 0) 
+                    ? PieceEvaluation(Common.KnightWhite, row, col) 
+                    : PieceEvaluation(Common.KnightBlack, row, col);
+            }
+            else if (board[row, col].Chess.IsBishop == true) //Bishop
+            {
+                return (board[row, col].Chess.Evaluation > 0) 
+                    ? PieceEvaluation(Common.BishopWhite, row, col) 
+                    : PieceEvaluation(Common.BishopBlack, row, col);
+            }
+            else if (board[row, col].Chess.IsQueen == true) //Queen
+            {
+                return (board[row, col].Chess.Evaluation > 0) 
+                    ? PieceEvaluation(Common.QueenWhite, row, col) 
+                    : PieceEvaluation(Common.QueenBlack, row, col);
+            }
+            else //if (board[row, col].Chess.IsKing == true) //King
+            {
+                return (board[row, col].Chess.Evaluation > 0) 
+                    ? PieceEvaluation(Common.KingWhite, row, col) 
+                    : PieceEvaluation(Common.KingBlack, row, col);
+            }
+        }
+
+        public double PieceEvaluation(double[,] a, int row, int col)
+        {
+            return a[row, col];
         }
     }
 

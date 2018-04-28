@@ -68,6 +68,7 @@ namespace ChessKing
 
         static public int Depth = 2;
 
+        // Ma trận Piece-Square Table phục vụ cho AI tìm được value tốt nhất
         static public double[,] PawnWhite =
       {
             {0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0},
