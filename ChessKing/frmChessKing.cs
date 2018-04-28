@@ -48,7 +48,7 @@ namespace ChessKing
             pictureBox1.BackColor = Color.Transparent;
             pictureBox2.BackColor = Color.Transparent;
             Common.Is2PlayerMode = true;
-            Player.URL = "Sound.mp3";
+            Player.URL = "Sounds/Sound.mp3";
             Player.settings.autoStart = true;
 
             FlashScreen FlashScr = new FlashScreen();

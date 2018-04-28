@@ -13,6 +13,7 @@ namespace ChessKing
     {
         string linkBlackQueen = "Image\\Chess_qdt60.png";
         string linkWhiteQueen = "Image\\Chess_qlt60.png";
+        WMPLib.WindowsMediaPlayer Player = new WMPLib.WindowsMediaPlayer();
         #region init fields
         enum ColorTeam
         {
@@ -72,6 +73,9 @@ namespace ChessKing
             if (Common.Close) return;
             //Không làm gì hết nếu ô clicked không có quân cờ
             if (this.Chess == null && !Common.IsSelectedSquare) return;
+
+            Player.URL = "Sounds/Move.mp3";
+            Player.settings.autoStart = true;
             ThayDoiOCoKhiClickVaoOCoQuanCo();
             Task.Run(() =>
             {
