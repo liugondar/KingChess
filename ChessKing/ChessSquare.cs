@@ -487,7 +487,10 @@ namespace ChessKing
 
         private void Undo(ref ChessSquare[,] board, int befRow, int befCol, Chess tempChess, Image tempImage)
         {
-            //TODO: complete Undo method serve minimaxroot
+            board[befRow, befCol].Chess = board[this.Row, this.Col].Chess;
+            board[befRow, befCol].Image = board[this.Row, this.Col].Image;
+            board[this.Row, this.Col].Chess = tempChess;
+            board[this.Row, this.Col].Image = tempImage;
         }
 
         private double minimax(int v1, ref ChessSquare[,] board, double alpha, double beta, bool v2)
