@@ -279,18 +279,22 @@ namespace ChessKing
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
         {
             Common.Depth = 1;
+            UncheckOtherToolStripMenuItems((ToolStripMenuItem)sender);
         }
         private void toolStripMenuItem3_Click(object sender, EventArgs e)
         {
             Common.Depth = 2;
+            UncheckOtherToolStripMenuItems((ToolStripMenuItem)sender);
         }
         private void toolStripMenuItem4_Click(object sender, EventArgs e)
         {
             Common.Depth = 3;
+            UncheckOtherToolStripMenuItems((ToolStripMenuItem)sender);
         }
         private void veryHardToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Common.Depth = 4;
+            UncheckOtherToolStripMenuItems((ToolStripMenuItem)sender);
         }
         private void onlineToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -305,10 +309,12 @@ namespace ChessKing
         private void onToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Player.controls.play();
+            UncheckOtherToolStripMenuItems((ToolStripMenuItem)sender);
         }
         private void offToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Player.controls.stop();
+            UncheckOtherToolStripMenuItems((ToolStripMenuItem)sender);
         }
         private void teamToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -352,11 +358,37 @@ namespace ChessKing
         private void oneplayerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Common.Is2PlayerMode = false;
+            UncheckOtherToolStripMenuItems((ToolStripMenuItem)sender);
         }
         private void twoplayerToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             Common.Is2PlayerMode = true;
+            UncheckOtherToolStripMenuItems((ToolStripMenuItem)sender);
         }
+
+        private void subietm2ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            UncheckOtherToolStripMenuItems((ToolStripMenuItem)sender);
+        }
+        public void UncheckOtherToolStripMenuItems(ToolStripMenuItem selectedMenuItem)
+        {
+            selectedMenuItem.Checked = true;
+
+            // Select the other MenuItens from the ParentMenu(OwnerItens) and unchecked this,
+            // The current Linq Expression verify if the item is a real ToolStripMenuItem
+            // and if the item is a another ToolStripMenuItem to uncheck this.
+            foreach (var ltoolStripMenuItem in (from object
+                                                    item in selectedMenuItem.Owner.Items
+                                                let ltoolStripMenuItem = item as ToolStripMenuItem
+                                                where ltoolStripMenuItem != null
+                                                where !item.Equals(selectedMenuItem)
+                                                select ltoolStripMenuItem))
+                (ltoolStripMenuItem).Checked = false;
+
+            // This line is optional, for show the mainMenu after click
+            selectedMenuItem.Owner.Show();
+        }
+
     }
 }
 
