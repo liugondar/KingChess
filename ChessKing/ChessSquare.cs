@@ -410,13 +410,12 @@ namespace ChessKing
         protected void minimaxRoot()
         {
             int depth = Common.Depth;
-            double valueint = -9999;
+            double bestValue = -9999;
             double value = 0;
             double alpha = -10000, beta = 10000;
             bool isMax = true;
             ChessSquare[,] board = new ChessSquare[8, 8];
             ChessSquare[,] bestMove = new ChessSquare[8, 8];
-            ChessSquare[,] a = new ChessSquare[8, 8];
             board = Common.Board;
             for (int i = 0; i < 8; i++)
             {
@@ -453,7 +452,7 @@ namespace ChessKing
 
 
                             value = minimax(depth - 1, ref board, alpha, beta, !isMax);
-                            if (value >= valueint)
+                            if (value >= bestValue)
                             {
                                 for (int m = 0; m < 8; m++)
                                 {
@@ -462,15 +461,13 @@ namespace ChessKing
                                         bestMove[m, n] = new ChessSquare(board[m, n]);
                                     }
                                 }
-                                //bestMove = temp;
-                                valueint = value;
+                                bestValue = value;
                             }
                             //phục hồi lại trạng thái ban đầu quân cờ sau khi giả định
                             board[RootTemp[k].Row, RootTemp[k].Col].Undo(ref board, befRow, befCol, tempChess, tempImage);
                         }
                         RootTemp.Clear();
                     }
-
                 }
             }
 
