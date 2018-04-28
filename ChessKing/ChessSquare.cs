@@ -409,15 +409,15 @@ namespace ChessKing
 
         protected void minimaxRoot()
         {
-            int depth = Common.Depth; // Độ khó
-            double bestValue = -9999;
+            int depth = Common.Depth;
+            double valueint = -9999;
             double value = 0;
             double alpha = -10000, beta = 10000;
             bool isMax = true;
             ChessSquare[,] board = new ChessSquare[8, 8];
             ChessSquare[,] bestMove = new ChessSquare[8, 8];
+            ChessSquare[,] a = new ChessSquare[8, 8];
             board = Common.Board;
-
             for (int i = 0; i < 8; i++)
             {
                 for (int j = 0; j < 8; j++)
@@ -451,8 +451,9 @@ namespace ChessKing
                             board[befRow, befCol].Chess = null;
                             board[befRow, befCol].Image = null;
 
+
                             value = minimax(depth - 1, ref board, alpha, beta, !isMax);
-                            if (value >= bestValue)
+                            if (value >= valueint)
                             {
                                 for (int m = 0; m < 8; m++)
                                 {
@@ -461,13 +462,15 @@ namespace ChessKing
                                         bestMove[m, n] = new ChessSquare(board[m, n]);
                                     }
                                 }
-                                bestValue = value;
+                                //bestMove = temp;
+                                valueint = value;
                             }
                             //phục hồi lại trạng thái ban đầu quân cờ sau khi giả định
                             board[RootTemp[k].Row, RootTemp[k].Col].Undo(ref board, befRow, befCol, tempChess, tempImage);
                         }
                         RootTemp.Clear();
                     }
+
                 }
             }
 
@@ -481,6 +484,7 @@ namespace ChessKing
                     Common.Board[k, l].Image = bestMove[k, l].Image;
                 }
             }
+
             Common.IsTurn++;
         }
 
