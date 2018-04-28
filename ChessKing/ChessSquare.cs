@@ -407,6 +407,93 @@ namespace ChessKing
             }
         }
 
+        protected void minimaxRoot()
+        {
+            int depth = Common.Depth; // Độ khó
+            double bestValue = -9999;
+            double value = 0;
+            double alpha = -10000, beta = 10000;
+            bool isMax = true;
+            ChessSquare[,] board = new ChessSquare[8, 8];
+            ChessSquare[,] bestMove = new ChessSquare[8, 8];
+            board = Common.Board;
+
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    if (board[i, j].Chess != null && board[i, j].Chess.Team == (int)ColorTeam.Black)
+                    {
+                        List<ChessSquare> RootTemp = new List<ChessSquare>();
+
+                        int befRow = i;
+                        int befCol = j;
+                        board[befRow, befCol].Chess.FindWay(board, befRow, befCol);
+
+                        for (int k = 0; k < Common.CanMove.Count; k++)
+                        {
+                            RootTemp.Add(Common.CanMove[k]);
+                        }
+                        Common.CanMove.Clear();
+
+                        Chess tempChess = new Chess();
+                        Image tempImage = null;
+
+                        // Giả định lần lượt các nước đi quân cờ nếu nó có thể di chuyển
+                        //được để tìm được giá trị tốt nhất cho nước đi
+                        for (int k = 0; k < RootTemp.Count; k++)
+                        {
+                            tempChess = board[RootTemp[k].Row, RootTemp[k].Col].Chess;
+                            tempImage = board[RootTemp[k].Row, RootTemp[k].Col].Image;
+
+                            board[RootTemp[k].Row, RootTemp[k].Col].Chess = board[befRow, befCol].Chess;
+                            board[RootTemp[k].Row, RootTemp[k].Col].Image = board[befRow, befCol].Image;
+                            board[befRow, befCol].Chess = null;
+                            board[befRow, befCol].Image = null;
+
+                            value = minimax(depth - 1, ref board, alpha, beta, !isMax);
+                            if (value >= bestValue)
+                            {
+                                for (int m = 0; m < 8; m++)
+                                {
+                                    for (int n = 0; n < 8; n++)
+                                    {
+                                        bestMove[m, n] = new ChessSquare(board[m, n]);
+                                    }
+                                }
+                                bestValue = value;
+                            }
+                            //phục hồi lại trạng thái ban đầu quân cờ sau khi giả định
+                            board[RootTemp[k].Row, RootTemp[k].Col].Undo(ref board, befRow, befCol, tempChess, tempImage);
+                        }
+                        RootTemp.Clear();
+                    }
+                }
+            }
+
+            for (int k = 0; k < 8; k++)
+            {
+                for (int l = 0; l < 8; l++)
+                {
+                    Common.Board[k, l].Row = bestMove[k, l].Row;
+                    Common.Board[k, l].Col = bestMove[k, l].Col;
+                    Common.Board[k, l].Chess = bestMove[k, l].Chess;
+                    Common.Board[k, l].Image = bestMove[k, l].Image;
+                }
+            }
+            Common.IsTurn++;
+        }
+
+        private void Undo(ref ChessSquare[,] board, int befRow, int befCol, Chess tempChess, Image tempImage)
+        {
+            //TODO: complete Undo method serve minimaxroot
+        }
+
+        private double minimax(int v1, ref ChessSquare[,] board, double alpha, double beta, bool v2)
+        {
+            //TODO: write minimax algorithm
+            return 0f;
+        }
     }
 
 }
