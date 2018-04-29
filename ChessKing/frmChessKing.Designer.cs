@@ -107,7 +107,7 @@
             this.toolStripMenuItem4,
             this.veryHardToolStripMenuItem});
             this.depthToolStripMenuItem.Name = "depthToolStripMenuItem";
-            this.depthToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.depthToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.depthToolStripMenuItem.Text = "Level";
             this.depthToolStripMenuItem.Click += new System.EventHandler(this.subietm2ToolStripMenuItem_Click);
             // 
@@ -115,7 +115,7 @@
             // 
             this.toolStripMenuItem2.CheckOnClick = true;
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(150, 22);
             this.toolStripMenuItem2.Text = "Easy";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
@@ -133,7 +133,7 @@
             this.toolStripMenuItem4.CheckOnClick = true;
             this.toolStripMenuItem4.CheckState = System.Windows.Forms.CheckState.Checked;
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(150, 22);
             this.toolStripMenuItem4.Text = "Hard ";
             this.toolStripMenuItem4.Click += new System.EventHandler(this.toolStripMenuItem4_Click);
             // 
@@ -152,7 +152,7 @@
             this.onToolStripMenuItem,
             this.offToolStripMenuItem});
             this.soundToolStripMenuItem.Name = "soundToolStripMenuItem";
-            this.soundToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.soundToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.soundToolStripMenuItem.Text = "Sound";
             this.soundToolStripMenuItem.Click += new System.EventHandler(this.subietm2ToolStripMenuItem_Click);
             // 
@@ -180,7 +180,7 @@
             this.oneplayerToolStripMenuItem,
             this.twoplayerToolStripMenuItem1});
             this.gameTypeToolStripMenuItem.Name = "gameTypeToolStripMenuItem";
-            this.gameTypeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.gameTypeToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.gameTypeToolStripMenuItem.Text = "Game Mode";
             this.gameTypeToolStripMenuItem.Click += new System.EventHandler(this.subietm2ToolStripMenuItem_Click);
             // 
@@ -190,7 +190,7 @@
             this.oneplayerToolStripMenuItem.CheckOnClick = true;
             this.oneplayerToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.oneplayerToolStripMenuItem.Name = "oneplayerToolStripMenuItem";
-            this.oneplayerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.oneplayerToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.oneplayerToolStripMenuItem.Text = "1 Player";
             this.oneplayerToolStripMenuItem.Click += new System.EventHandler(this.oneplayerToolStripMenuItem_Click);
             // 
@@ -198,7 +198,7 @@
             // 
             this.twoplayerToolStripMenuItem1.CheckOnClick = true;
             this.twoplayerToolStripMenuItem1.Name = "twoplayerToolStripMenuItem1";
-            this.twoplayerToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.twoplayerToolStripMenuItem1.Size = new System.Drawing.Size(137, 22);
             this.twoplayerToolStripMenuItem1.Text = "2 Player";
             this.twoplayerToolStripMenuItem1.Click += new System.EventHandler(this.twoplayerToolStripMenuItem1_Click);
             // 

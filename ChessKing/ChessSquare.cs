@@ -13,7 +13,8 @@ namespace ChessKing
     {
         string linkBlackQueen = "Image\\Chess_qdt60.png";
         string linkWhiteQueen = "Image\\Chess_qlt60.png";
-        WMPLib.WindowsMediaPlayer Player = new WMPLib.WindowsMediaPlayer();
+        WMPLib.WindowsMediaPlayer moveSound = new WMPLib.WindowsMediaPlayer();
+        WMPLib.WindowsMediaPlayer checkSound = new WMPLib.WindowsMediaPlayer();
         #region init fields
         enum ColorTeam
         {
@@ -65,8 +66,6 @@ namespace ChessKing
                 }
         }
 
-        private List<ChessSquare[,]> avalBoard = new List<ChessSquare[,]>();
-
         protected override void OnClick(EventArgs e)
         {
             // Khóa bàn cờ khi hết cờ
@@ -74,8 +73,8 @@ namespace ChessKing
             //Không làm gì hết nếu ô clicked không có quân cờ
             if (this.Chess == null && !Common.IsSelectedSquare) return;
 
-            Player.URL = "Sounds/Move.mp3";
-            Player.settings.autoStart = true;
+            moveSound.URL = "Sounds/Move.wav";
+            moveSound.settings.autoStart = true;
             ThayDoiOCoKhiClickVaoOCoQuanCo();
             Task.Run(() =>
             {
@@ -120,14 +119,10 @@ namespace ChessKing
                     }
                     else this.ChangeTurn();
                 }
-                else
-                {
-                    //TODO: Xét lượt cờ đen khi chơi với AI
-                }
             }
         }
 
-        private void phongHau(ref ChessSquare temp)
+        private void PhongHau(ref ChessSquare temp)
         {
             Chess newQueen = new Queen();
             if (temp.Chess.Team == 1) //white
@@ -254,10 +249,14 @@ namespace ChessKing
             {
                 if (temp.Chess.Team == (int)ColorTeam.White) MessageBox.Show("The Black Wins");
                 else MessageBox.Show("The White Wins");
-                //TODO: add sound checkMate
 
                 Common.IsPlaying = false;
                 Common.Close = true;
+            }
+            else
+            {
+                checkSound.URL = "Sounds/Check.mp3";
+                checkSound.settings.autoStart = true;
             }
         }
 
@@ -387,8 +386,8 @@ namespace ChessKing
         {
             for (int j = 0; j < 8; j++)
             {
-                if (Common.Board[0, j].Chess != null && Common.Board[0, j].Chess.IsPawn) phongHau(ref Common.Board[0, j]);
-                if (Common.Board[7, j].Chess != null && Common.Board[7, j].Chess.IsPawn) phongHau(ref Common.Board[7, j]);
+                if (Common.Board[0, j].Chess != null && Common.Board[0, j].Chess.IsPawn) PhongHau(ref Common.Board[0, j]);
+                if (Common.Board[7, j].Chess != null && Common.Board[7, j].Chess.IsPawn) PhongHau(ref Common.Board[7, j]);
             }
         }
 

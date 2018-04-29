@@ -23,6 +23,7 @@ namespace ChessKing
     {
 
         WMPLib.WindowsMediaPlayer Player = new WMPLib.WindowsMediaPlayer();
+        WMPLib.WindowsMediaPlayer announcerNewGameWelcome= new WMPLib.WindowsMediaPlayer();
 
         private bool dangkeo;
         private Point diemkeo;
@@ -336,6 +337,8 @@ namespace ChessKing
             Common.Close = false;
             Common.Is2PlayerMode = twoplayerToolStripMenuItem1.Checked ?
                 true : false;
+            announcerNewGameWelcome.URL = "Sounds/announcer_welcome_05.mp3";
+            announcerNewGameWelcome.settings.autoStart = true;
             if (Common.Is2PlayerMode)
             {
                 MessageBox.Show("White go first");

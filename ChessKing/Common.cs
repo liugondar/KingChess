@@ -9,6 +9,8 @@ namespace ChessKing
 {
     class Common
     {
+
+        //logic
         static public string linkPoint = "Image\\circle.png";
         static public bool Is2PlayerMode = false; //1 player
         static public bool IsSelectedSquare = false; //selected yet
