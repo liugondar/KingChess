@@ -220,7 +220,7 @@ namespace ChessKing
             //Refresh board
             if (Common.Is2PlayerMode)
             {
-                if (Common.IsTurn % 2 == Common.WhiteTurn)
+                if (Common.IsTurn % 2 == Constants.WhiteTurn)
                 {
                     pictureBox2.Visible = true;
                     pictureBox1.Visible = false;

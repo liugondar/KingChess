@@ -12,31 +12,49 @@ namespace ChessKing
 
         //logic
         static public string linkPoint = "Image\\circle.png";
+        // Game mode
         static public bool Is2PlayerMode = false; //1 player
         static public bool IsSelectedSquare = false; //selected yet
         static public bool IsPlaying = false;
         static public int IsTurn = 0;
-        static public int WhiteTurn = 0;
-        static public int BlackTurn = 1;
-        static public int firstRowOfTable = 0;
-        static public int lastRowOfTable = 7;
-        static public int firstColOfTable = 0;
-        static public int lastColOfTable = 7;
-        static public int whitePawnDefaultRow = 6;
-        static public int blackPawnDefaultRow = 1;
+       
+
+        // Biến phục vụ mục đích nhập thành
+        static public bool isBlackKingSideCastleAvailable = false;
+        static public bool isBlackQueenSideCastleAvailable = false;
+
+        static public bool isWhiteKingSideCastleAvailable = false;
+        static public bool isWhiteQueenSideCastleAvailable = false;
+
+        static public bool isWhiteKingMoved = false;
+        static public bool isBlackKingMoved = false;
+
+        static public bool isBlackKingSideCastleMoved= false;
+        static public bool isBlackQueenSideCastleMoved= false;
+
+        static public bool isWhiteKingSideCastleMoved= false;
+        static public bool isWhiteQueenSideCastleMoved= false;
+
+       
         static public void ResetPropToDefault()
         {
             IsSelectedSquare = false;
             IsTurn = 0;
             IsPlaying = false;
-            WhiteTurn = 0;
-            BlackTurn = 1;
-            firstRowOfTable = 0;
-            lastRowOfTable = 7;
-            firstColOfTable = 0;
-            lastColOfTable = 7;
-            whitePawnDefaultRow = 6;
-            blackPawnDefaultRow = 1;
+            
+
+            isBlackKingSideCastleAvailable = false;
+            isBlackQueenSideCastleAvailable = false;
+            isWhiteKingSideCastleAvailable = false;
+            isWhiteQueenSideCastleAvailable = false;
+
+            isBlackKingMoved = false;
+            isWhiteKingMoved = false;
+
+            isBlackKingSideCastleMoved= false;
+            isBlackQueenSideCastleMoved= false;
+            isWhiteKingSideCastleMoved= false;
+            isWhiteQueenSideCastleMoved= false;
         }
         static public bool IsEmptyChessSquare(ChessSquare[,] board, int row, int col)
         {
@@ -44,13 +62,13 @@ namespace ChessKing
         }
         static public void ChangeBackgroundColorToCanEat(ChessSquare[,] board, int row, int col)
         {
-            if (IsTurn % 2 == WhiteTurn || Is2PlayerMode == true)
+            if (IsTurn % 2 == Constants.WhiteTurn || Is2PlayerMode == true)
                 board[row, col].BackColor = Color.Red;
             CanMove.Add(board[row, col]);
         }
         static public void ChangeBackgroundColorToCanMove(ChessSquare[,] board, int row, int col)
         {
-            if (IsTurn % 2 == WhiteTurn || Is2PlayerMode == true)
+            if (IsTurn % 2 == Constants.WhiteTurn || Is2PlayerMode == true)
                 board[row, col].Image = Image.FromFile(linkPoint);
             CanMove.Add(board[row, col]);
         }

@@ -78,7 +78,7 @@ namespace ChessKing
         /// <param name="col"></param>
         private void CheckLeftToRight(ChessSquare[,] board, int row, int col)
         {
-            for (int j = col + 1; j <= Common.lastColOfTable; j++)
+            for (int j = col + 1; j <= Constants.lastColOfTable; j++)
             {
                 if (Common.IsEmptyChessSquare(board, row, j))
                 {
@@ -104,7 +104,7 @@ namespace ChessKing
         /// <param name="col"></param>
         private void CheckRightToLeft(ChessSquare[,] board, int row, int col)
         {
-            for (int j = col - 1; j >= Common.firstColOfTable; j--)
+            for (int j = col - 1; j >= Constants.firstColOfTable; j--)
             {
                 if (Common.IsEmptyChessSquare(board, row, j))
                     //load blue poin on button, in the way of piece
@@ -132,9 +132,9 @@ namespace ChessKing
         {
             int j;
             j = col + 1;
-            for (int i = row + 1; i <= Common.lastRowOfTable; i++)
+            for (int i = row + 1; i <= Constants.lastRowOfTable; i++)
             {
-                if (j > Common.lastColOfTable) break;
+                if (j > Constants.lastColOfTable) break;
                 if (Common.IsEmptyChessSquare(board, i, j))
                 {
                     //load blue poin on button, in the way of piece
@@ -167,9 +167,9 @@ namespace ChessKing
         private void XetCheoPhaiLen(ChessSquare[,] board, int row, int col)
         {
             int j = col + 1;
-            for (int i = row - 1; i >= Common.firstRowOfTable; i--)
+            for (int i = row - 1; i >= Constants.firstRowOfTable; i--)
             {
-                if (j > Common.lastColOfTable) break;
+                if (j > Constants.lastColOfTable) break;
                 if (Common.IsEmptyChessSquare(board, i, j))
                 {
                     //load blue poin on button, in the way of piece
@@ -202,9 +202,9 @@ namespace ChessKing
         private void XetCheoTraiXuong(ChessSquare[,] board, int row, int col)
         {
             int j = col - 1;
-            for (int i = row + 1; i <= Common.lastRowOfTable; i++)
+            for (int i = row + 1; i <= Constants.lastRowOfTable; i++)
             {
-                if (j < Common.firstColOfTable) break;
+                if (j < Constants.firstColOfTable) break;
                 if (Common.IsEmptyChessSquare(board, i, j))
                 {
                     //load blue poin on button, in the way of piece
@@ -238,10 +238,10 @@ namespace ChessKing
         {
             // Khởi đầu bỏ qua vị trí bishop hiện tại, xét ô trái trên đầu tiên
             int j = col - 1;
-            for (int i = row - 1; i >= Common.firstRowOfTable; i--)
+            for (int i = row - 1; i >= Constants.firstRowOfTable; i--)
             {
                 // Kiểm tra điều kiện, nếu ngoài bàn cờ ( col <0) thì xong việc xét chéo trái lên
-                if (j < Common.firstColOfTable) break;
+                if (j < Constants.firstColOfTable) break;
 
                 if (Common.IsEmptyChessSquare(board, i, j))
                 {

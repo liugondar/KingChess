@@ -87,7 +87,7 @@ namespace ChessKing
         /// <param name="col"></param>
         private void CheckLeftToRight(ChessSquare[,] board, int row, int col)
         {
-            for (int j = col + 1; j <= Common.lastColOfTable; j++)
+            for (int j = col + 1; j <= Constants.lastColOfTable; j++)
             {
                 if (Common.IsEmptyChessSquare(board, row, j))
                 {
@@ -114,7 +114,7 @@ namespace ChessKing
         /// <param name="col"></param>
         private void CheckRightToLeft(ChessSquare[,] board, int row, int col)
         {
-            for (int j = col - 1; j >= Common.firstColOfTable; j--)
+            for (int j = col - 1; j >= Constants.firstColOfTable; j--)
             {
                 if (Common.IsEmptyChessSquare(board, row, j))
                     //load blue poin on button, in the way of piece

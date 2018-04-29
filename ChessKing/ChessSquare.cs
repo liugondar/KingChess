@@ -76,20 +76,24 @@ namespace ChessKing
             moveSound.URL = "Sounds/Move.wav";
             moveSound.settings.autoStart = true;
             ThayDoiOCoKhiClickVaoOCoQuanCo();
-            Task.Run(() =>
+
+            if (Common.Is2PlayerMode)
             {
-                Thread.Sleep(200); // delay
-                this.BeginInvoke((MethodInvoker)delegate
+                Task.Run(() =>
                 {
-                    this.findWayAction();
+                    Thread.Sleep(200); // delay
+                    this.BeginInvoke((MethodInvoker)delegate
+                    {
+                        this.findWayAction();
+                    });
                 });
-            });
+            }
         }
 
         private void ThayDoiOCoKhiClickVaoOCoQuanCo()
         {
             // Quân trắng luôn do người chơi dùng nên không cần xét đến AI
-            if (Common.IsTurn % 2 == Common.WhiteTurn)
+            if (Common.IsTurn % 2 == Constants.WhiteTurn)
             {
                 if (Common.IsSelectedSquare == false) // chua click 
                 {
@@ -301,6 +305,8 @@ namespace ChessKing
                     if (Common.CanMove[i].Chess == null)
                         Common.CanMove[i].Image = null;
                 }
+                KiemTraNhapThanh(colorTeam:(int)ColorTeam.White);
+                KiemTraNhapThanh(colorTeam:(int)ColorTeam.Black);
                 ThayDoiHinhAnh();
                 Common.IsTurn++; //change turn
                 Common.CanMove.Clear();
@@ -314,6 +320,102 @@ namespace ChessKing
             {
                 HuyBoChonQuan();
             }
+        }
+
+        private void KiemTraNhapThanh(int colorTeam)
+        {
+            //Check if not king chess => do nothing
+            var selectedChessSquare= Common.Board[Common.RowSelected, Common.ColSelected];
+            if (!selectedChessSquare.Chess.IsKing) return ;
+
+            //Variable for queen side castle
+            int rowLeftBishop=-1, colLeftBishop=-1;
+            int rowLeftCastle=-1, colLeftCastle=-1;
+            int rowQueen=-1, colQueen=-1;
+            //Varibale for king side castle
+            int rowRightCastle=-1, colRightCastle=-1;
+            int rowRightKnight=-1, colRightKnight=-1;
+            int rowRightBishop=-1, colRightBishop=-1;
+
+            //  Thêm giá trị các biến ở trên là 
+            //các vị trí default các quân cờ bên trắng nếu team trắng
+            if (colorTeam == (int)ColorTeam.White)
+            {
+                SetDefaultLocationForTeamWhite(out rowLeftBishop, out colLeftBishop, out rowLeftCastle, out colLeftCastle, out rowQueen, out colQueen, out rowRightCastle, out colRightCastle, out rowRightKnight, out colRightKnight, out rowRightBishop, out colRightBishop);
+            }
+            else// Thêm giá trị các biên ở trên là vị trí các quân cờ bên đen
+            {
+                SetDefaultLocationForTeamBlack(out rowLeftBishop, out colLeftBishop, out rowLeftCastle, out colLeftCastle, out rowQueen, out colQueen, out rowRightCastle, out colRightCastle, out rowRightKnight, out colRightKnight, out rowRightBishop, out colRightBishop);
+            }
+
+            // Click to default bishop to compile queen side castle
+            // Move castle to queen default square
+            bool isClickDefaultLeftBishopSquare =
+                this.Row == rowLeftBishop
+                && this.Col == colLeftBishop;
+            if (isClickDefaultLeftBishopSquare)
+            {
+
+                Common.Board[rowQueen, colQueen].Image = Common.Board[rowLeftCastle, colLeftCastle].Image;
+                Common.Board[rowLeftCastle, colLeftCastle].Image = null;
+                //tra ve background cu
+                Common.Board[rowLeftCastle, colLeftCastle].BackColor = Common.OldBackGround;
+                this.BackChessBoard();
+                //thay doi quan co
+                Common.Board[rowQueen, colQueen].Chess = Common.Board[rowLeftCastle, colLeftCastle].Chess;
+                Common.Board[rowLeftCastle, colLeftCastle].Chess = null;
+            }
+
+            // Click to default Knight to compile king side castle
+            // Move castle to bishop default square
+            bool isClickDefaultRightKnightSquare =
+                this.Row == rowRightKnight
+                && this.Col == colRightKnight;
+            if (isClickDefaultRightKnightSquare)
+            {
+                Common.Board[rowRightBishop, colRightBishop].Image = Common.Board[rowRightCastle, colRightCastle].Image;
+                Common.Board[rowRightCastle, colRightCastle].Image = null;
+                //tra ve background cu
+                Common.Board[rowRightCastle, colRightCastle].BackColor = Common.OldBackGround;
+                this.BackChessBoard();
+                //thay doi quan co
+                Common.Board[rowRightBishop, colRightBishop].Chess = Common.Board[rowRightCastle, colRightCastle].Chess;
+                Common.Board[rowRightCastle, colRightCastle].Chess = null;
+            }
+        }
+
+        private static void SetDefaultLocationForTeamBlack(out int rowLeftBishop, out int colLeftBishop, out int rowLeftCastle, out int colLeftCastle, out int rowQueen, out int colQueen, out int rowRightCastle, out int colRightCastle, out int rowRightKnight, out int colRightKnight, out int rowRightBishop, out int colRightBishop)
+        {
+            rowLeftBishop = Constants.rowBlackLeftBishopDefault;
+            colLeftBishop = Constants.colBlackLeftBishopDefault;
+            rowLeftCastle = Constants.rowBlackLeftCastleDefault;
+            colLeftCastle = Constants.colBlackLeftCastleDefault;
+            rowQueen = Constants.rowBlackQueenDefault;
+            colQueen = Constants.colBlackQueenDefault;
+
+            rowRightBishop = Constants.rowBlackRightBishopDefault;
+            colRightBishop = Constants.colBlackRightBishopDefault;
+            rowRightCastle = Constants.rowBlackRightCastleDefault;
+            colRightCastle = Constants.colBlackRightCastleDefault;
+            rowRightKnight = Constants.rowBlackRightKnightDefault;
+            colRightKnight = Constants.colBlackRightKnightDefault;
+        }
+
+        private static void SetDefaultLocationForTeamWhite(out int rowLeftBishop, out int colLeftBishop, out int rowLeftCastle, out int colLeftCastle, out int rowQueen, out int colQueen, out int rowRightCastle, out int colRightCastle, out int rowRightKnight, out int colRightKnight, out int rowRightBishop, out int colRightBishop)
+        {
+            rowLeftBishop = Constants.rowWhiteLeftBishopDefault;
+            colLeftBishop = Constants.colWhiteLeftBishopDefault;
+            rowLeftCastle = Constants.rowWhiteLeftCastleDefault;
+            colLeftCastle = Constants.colWhiteLeftCastleDefault;
+            rowQueen = Constants.rowWhiteQueenDefault;
+            colQueen = Constants.colWhiteQueenDefault;
+
+            rowRightBishop = Constants.rowWhiteRightBishopDefault;
+            colRightBishop = Constants.colWhiteRightBishopDefault;
+            rowRightCastle = Constants.rowWhiteRightCastleDefault;
+            colRightCastle = Constants.colWhiteRightCastleDefault;
+            rowRightKnight = Constants.rowWhiteRightKnightDefault;
+            colRightKnight = Constants.colWhiteRightKnightDefault;
         }
 
         private void HuyBoChonQuan()

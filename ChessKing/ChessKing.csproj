@@ -59,6 +59,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Common.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="FlashScreen.cs">
       <SubType>Form</SubType>
     </Compile>

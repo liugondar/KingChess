@@ -31,16 +31,16 @@ namespace ChessKing
         #region Xét tốt cờ trắng
         private void XetCoTrangDiTuDuoiLen(ChessSquare[,] board, int row, int col)
         {
-            if (row < Common.lastRowOfTable)
+            if (row < Constants.lastRowOfTable)
             {
-                bool isInTable = row >= Common.firstRowOfTable && row <= Common.lastRowOfTable;
+                bool isInTable = row >= Constants.firstRowOfTable && row <= Constants.lastRowOfTable;
                 if (isInTable)
                 {
                     CoTrangKiemTraOCheoBenTrai(board, row, col);
                     CoTrangKiemTraOCheoPhai(board, row, col);
                 }
 
-                if (row == Common.whitePawnDefaultRow)
+                if (row == Constants.whitePawnDefaultRow)
                     CoTrangCoTheTienHaiBuoc(board, row, col);
                 else
                     CoTrangCoTheTienMotBuoc(board, row, col);
@@ -48,7 +48,7 @@ namespace ChessKing
         }
         private void CoTrangKiemTraOCheoPhai(ChessSquare[,] board, int row, int col)
         {
-            bool laConTotCuoiCung = col >= Common.lastColOfTable;
+            bool laConTotCuoiCung = col >= Constants.lastColOfTable;
             if (laConTotCuoiCung) return;
 
             bool oCheoBenPhaiCoQuanCo = board[row - 1, col + 1].Chess != null;
@@ -76,7 +76,7 @@ namespace ChessKing
         private void CoTrangKiemTraOCheoBenTrai(ChessSquare[,] board, int row, int col)
         {
 
-            bool laConTotDauTien = col <= Common.firstColOfTable;
+            bool laConTotDauTien = col <= Constants.firstColOfTable;
             if (laConTotDauTien) return;
             //check duong cheo
             bool oCheoBenTraiCoQuanCo = board[row - 1, col - 1].Chess != null;
@@ -86,7 +86,7 @@ namespace ChessKing
                 if (quanCoKhacTeam)
                 {
                     // Báo hiệu có thể ăn quân cờ
-                    if (Common.IsTurn % 2 == Common.WhiteTurn || Common.Is2PlayerMode == true)
+                    if (Common.IsTurn % 2 == Constants.WhiteTurn || Common.Is2PlayerMode == true)
                         board[row - 1, col - 1].BackColor = Color.Red;
                     // Báo hiểu có thể ăn và tiến hóa
                     if (row - 1 == 0 && board[row, col].Chess.Team == 1)
@@ -119,7 +119,7 @@ namespace ChessKing
             {
                 if (Common.IsEmptyChessSquare(board, i, col))
                 {
-                    if (Common.IsTurn % 2 == Common.WhiteTurn || Common.Is2PlayerMode == true)
+                    if (Common.IsTurn % 2 == Constants.WhiteTurn || Common.Is2PlayerMode == true)
                         board[i, col].Image = Image.FromFile(linkPoint);
                     Common.CanMove.Add(board[i, col]);
                 }
@@ -131,16 +131,16 @@ namespace ChessKing
         #region Xét tốt cờ đen
         private void XetCoDenDiTuTrenXuong(ChessSquare[,] board, int row, int col)
         {
-            if (row > Common.firstRowOfTable)
+            if (row > Constants.firstRowOfTable)
             {
-                bool isInTable = row >= Common.firstRowOfTable && row <= Common.lastRowOfTable;
+                bool isInTable = row >= Constants.firstRowOfTable && row <= Constants.lastRowOfTable;
                 if (isInTable)
                 {
                     CoDenKiemTraOCheoTrai(board, row, col);
                     CoDenKiemTraOCheoPhai(board, row, col);
                 }
 
-                if (row == Common.blackPawnDefaultRow)
+                if (row == Constants.blackPawnDefaultRow)
                     CoDenCoTheTienhaiBuoc(board, row, col);
                 else
                     CoDenCoTheTienMotBuoc(board, row, col);
@@ -177,13 +177,13 @@ namespace ChessKing
         }
         private void CoDenKiemTraOCheoPhai(ChessSquare[,] board, int row, int col)
         {
-            bool laConTotCuoiCung = col >= Common.lastColOfTable;
+            bool laConTotCuoiCung = col >= Constants.lastColOfTable;
             if (laConTotCuoiCung) return;
             if (board[row + 1, col + 1].Chess != null)
             {
                 if (this.Team != board[row + 1, col + 1].Chess.Team)
                 {
-                    if (Common.IsTurn % 2 == Common.WhiteTurn || Common.Is2PlayerMode == true)
+                    if (Common.IsTurn % 2 == Constants.WhiteTurn || Common.Is2PlayerMode == true)
                         board[row + 1, col + 1].BackColor = Color.Red;
 
                     if (row + 1 == 0 && board[row, col].Chess.Team == 2)
@@ -197,7 +197,7 @@ namespace ChessKing
         private void CoDenKiemTraOCheoTrai(ChessSquare[,] board, int row, int col)
         {
 
-            bool laConTotDauTien = col <= Common.firstColOfTable;
+            bool laConTotDauTien = col <= Constants.firstColOfTable;
             if (laConTotDauTien) return;
             if (board[row + 1, col - 1].Chess != null)
             {

@@ -134,10 +134,10 @@ namespace ChessKing
         private void Xet2OBenTrenDiThang(ChessSquare[,] board, int row, int col)
         {
             //row-2
-            if (row - 2 >= Common.firstRowOfTable)
+            if (row - 2 >= Constants.firstRowOfTable)
             {
                 //col-1 Ô bên trái
-                if (col - 1 >= Common.firstColOfTable)
+                if (col - 1 >= Constants.firstColOfTable)
                 {
                     if (Common.IsEmptyChessSquare(board, row - 2, col - 1))
                     {
