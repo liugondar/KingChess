@@ -364,6 +364,16 @@ namespace ChessKing
                 //thay doi quan co
                 Common.Board[rowQueen, colQueen].Chess = Common.Board[rowLeftCastle, colLeftCastle].Chess;
                 Common.Board[rowLeftCastle, colLeftCastle].Chess = null;
+
+                if (colorTeam == (int)ColorTeam.White)
+                {
+                    //Thêm trạng thái đã castle để không thể castle lần 2
+                    Common.isWhiteKingCastled = true;
+                }
+                else
+                {//Thêm trạng thái đã castle để không thể castle lần 2
+                    Common.isBlackKingCastled = true;
+                }
             }
 
             // Click to default Knight to compile king side castle
@@ -381,6 +391,16 @@ namespace ChessKing
                 //thay doi quan co
                 Common.Board[rowRightBishop, colRightBishop].Chess = Common.Board[rowRightCastle, colRightCastle].Chess;
                 Common.Board[rowRightCastle, colRightCastle].Chess = null;
+
+                if (colorTeam == (int)ColorTeam.White)
+                {
+                    //Thêm trạng thái đã castle để không thể castle lần 2
+                    Common.isWhiteKingCastled = true;
+                }
+                else
+                {//Thêm trạng thái đã castle để không thể castle lần 2
+                    Common.isBlackKingCastled = true;
+                }
             }
         }
 
@@ -620,12 +640,13 @@ namespace ChessKing
                         {
                             Common.Board[0, colRightBishop].Image = Common.Board[0, colRightCastle].Image;
                             Common.Board[0, colRightCastle].Image = null;
-                            //tra ve background cu
                             Common.Board[0, colRightCastle].BackColor = Common.OldBackGround;
                             this.BackChessBoard();
-                            //thay doi quan co
                             Common.Board[0, colRightBishop].Chess = Common.Board[0, colRightCastle].Chess;
                             Common.Board[0, colRightCastle].Chess = null;
+                            //Thêm trạng thái đã castle để không thể castle lần 2
+                            Common.isBlackKingCastled = true;
+
                         }
                     }
 
@@ -644,6 +665,9 @@ namespace ChessKing
                             this.BackChessBoard();
                             Common.Board[0, colQueen].Chess = Common.Board[0, colLeftCastle].Chess;
                             Common.Board[0, colLeftCastle].Chess = null;
+
+                            //Thêm trạng thái đã castle để không thể castle lần 2
+                            Common.isBlackKingCastled = true;
                         }
                     }
                 }
