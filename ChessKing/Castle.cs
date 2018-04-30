@@ -14,6 +14,7 @@ namespace ChessKing
         {
             this.IsCastle = true;
         }
+        #region find way and display
         public override void FindWayAndAutoChangeSquareIfNeeded(ChessSquare[,] board, int row, int col)
         {
             CheckLeft(board, row, col);
@@ -89,7 +90,7 @@ namespace ChessKing
                 }
             }
         }
-
+        #endregion
         #region Clone find way without change background
         public override void FindWay(ChessSquare[,] board, int row, int col)
         {

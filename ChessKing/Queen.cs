@@ -12,6 +12,7 @@ namespace ChessKing
         {
             this.IsQueen = true;
         }
+        #region Findway and display         
         public override void FindWayAndAutoChangeSquareIfNeeded(ChessSquare[,] board, int row, int col)
         {
             CheckTop(board, row, col);
@@ -24,7 +25,6 @@ namespace ChessKing
             XetCheoPhaiLen(board, row, col);
             XetCheoPhaiXuong(board, row, col);
         }
-
         private void CheckTop(ChessSquare[,] board, int row, int col)
         {
             for (int i = row - 1; i >= 0; i--)
@@ -180,7 +180,7 @@ namespace ChessKing
                 j--;
             }
         }
-
+        #endregion
 
         public override void FindWay(ChessSquare[,] board, int row, int col)
         {

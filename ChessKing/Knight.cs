@@ -15,6 +15,8 @@ namespace ChessKing
         {
             this.IsKnight = true;
         }
+
+        #region Find way and display
         public override void FindWayAndAutoChangeSquareIfNeeded(ChessSquare[,] board, int row, int col)
         {
             Xet2OBenTrenDiThang(board, row, col);
@@ -164,7 +166,7 @@ namespace ChessKing
                 }
             }
         }
-
+        #endregion
         #region find way without display or change background
         public override void FindWay(ChessSquare[,] board, int row, int col)
         {
@@ -301,12 +303,12 @@ namespace ChessKing
                 {
                     if (board[row - 2, col + 1].Chess == null)
                     {
-                        Common.CanBeMoveTemp.Add(board[ row - 2, col + 1]);
+                        Common.CanBeMoveTemp.Add(board[row - 2, col + 1]);
                     }
                     else
                     {
                         if (this.Team != board[row - 2, col + 1].Chess.Team)
-                            Common.CanBeEat.Add(board[ row - 2, col + 1]);
+                            Common.CanBeEat.Add(board[row - 2, col + 1]);
                     }
                 }
             }
@@ -419,7 +421,7 @@ namespace ChessKing
                     if (board[row - 2, col + 1].Chess != null)
                     {
                         if (this.Team != board[row - 2, col + 1].Chess.Team)
-                            Common.CanBeProtect.Add(board[ row - 2, col + 1]);
+                            Common.CanBeProtect.Add(board[row - 2, col + 1]);
                     }
                 }
             }
