@@ -529,6 +529,7 @@ namespace ChessKing
 
             var colBlackKing = Constants.colBlackKingDefault;
             bool isBlackKingInDefault = false;
+            // Kiểm tra xem ô vua đen mặc định lúc thực hiện thuật toán có vua đen không?
             if (board[0, colBlackKing].Chess != null)
             {
                 isBlackKingInDefault = board[0, colBlackKing].Chess.IsKing
@@ -561,8 +562,6 @@ namespace ChessKing
                         {
                             tempChess = board[RootTemp[k].Row, RootTemp[k].Col].Chess;
                             tempImage = board[RootTemp[k].Row, RootTemp[k].Col].Image;
-                            //Kiểm tra có phải vua không
-                            // để xét nhập thành
 
                             board[RootTemp[k].Row, RootTemp[k].Col].Chess = board[befRow, befCol].Chess;
                             board[RootTemp[k].Row, RootTemp[k].Col].Image = board[befRow, befCol].Image;
@@ -603,14 +602,18 @@ namespace ChessKing
                 }
             }
 
+            // Nếu ban đầu vị trí mặc định có vua đen, Kiểm tra xem 
+            // Vua đen có đi vào 2 vị trí nhập thành ngắn và dài không
             if (isBlackKingInDefault)
             {
-                if (board[0, 4].Chess == null)
+                // Vua đã đi khỏi vị trí default => vị trí default không có cờ
+                if (board[0, colBlackKing].Chess == null)
                 {
                     var colRightBishop = Constants.colBlackRightBishopDefault;
                     var colRightKnight = Constants.colBlackRightKnightDefault;
                     var colRightCastle = Constants.colWhiteRightCastleDefault;
 
+                    // Kiểm tra king side castle
                     if (board[0, colRightKnight].Chess != null)
                     {
                         if (board[0, colRightKnight].Chess.IsKing)
@@ -627,6 +630,7 @@ namespace ChessKing
                     }
 
 
+                    // Kiểm tra queen side castle
                     var colQueen = Constants.colBlackQueenDefault;
                     var colLeftBishop = Constants.colBlackLeftBishopDefault;
                     var colLeftCastle = Constants.colBlackLeftCastleDefault;

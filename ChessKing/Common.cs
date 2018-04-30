@@ -35,6 +35,11 @@ namespace ChessKing
         static public bool isWhiteKingSideCastleMoved= false;
         static public bool isWhiteQueenSideCastleMoved= false;
 
+        // Kiểm tra xem đã nhập thành lần nào chưa, nếu rồi trả về false
+        // Chỉ có thể nhập thành 1 lần trong 1 game
+        static public bool isBlackKingCastled = false;
+        static public bool isWhiteKingCastled = false;
+
        
         static public void ResetPropToDefault()
         {
@@ -55,6 +60,9 @@ namespace ChessKing
             isBlackQueenSideCastleMoved= false;
             isWhiteKingSideCastleMoved= false;
             isWhiteQueenSideCastleMoved= false;
+
+            isBlackKingCastled = false;
+            isWhiteKingCastled = false;
         }
         static public bool IsEmptyChessSquare(ChessSquare[,] board, int row, int col)
         {
