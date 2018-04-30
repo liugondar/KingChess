@@ -305,8 +305,8 @@ namespace ChessKing
                     if (Common.CanMove[i].Chess == null)
                         Common.CanMove[i].Image = null;
                 }
-                KiemTraNhapThanh(colorTeam:(int)ColorTeam.White);
-                KiemTraNhapThanh(colorTeam:(int)ColorTeam.Black);
+                KiemTraNhapThanh(colorTeam: (int)ColorTeam.White);
+                KiemTraNhapThanh(colorTeam: (int)ColorTeam.Black);
                 ThayDoiHinhAnh();
                 Common.IsTurn++; //change turn
                 Common.CanMove.Clear();
@@ -325,17 +325,17 @@ namespace ChessKing
         private void KiemTraNhapThanh(int colorTeam)
         {
             //Check if not king chess => do nothing
-            var selectedChessSquare= Common.Board[Common.RowSelected, Common.ColSelected];
-            if (!selectedChessSquare.Chess.IsKing) return ;
+            var selectedChessSquare = Common.Board[Common.RowSelected, Common.ColSelected];
+            if (!selectedChessSquare.Chess.IsKing) return;
 
             //Variable for queen side castle
-            int rowLeftBishop=-1, colLeftBishop=-1;
-            int rowLeftCastle=-1, colLeftCastle=-1;
-            int rowQueen=-1, colQueen=-1;
+            int rowLeftBishop = -1, colLeftBishop = -1;
+            int rowLeftCastle = -1, colLeftCastle = -1;
+            int rowQueen = -1, colQueen = -1;
             //Varibale for king side castle
-            int rowRightCastle=-1, colRightCastle=-1;
-            int rowRightKnight=-1, colRightKnight=-1;
-            int rowRightBishop=-1, colRightBishop=-1;
+            int rowRightCastle = -1, colRightCastle = -1;
+            int rowRightKnight = -1, colRightKnight = -1;
+            int rowRightBishop = -1, colRightBishop = -1;
 
             //  Thêm giá trị các biến ở trên là 
             //các vị trí default các quân cờ bên trắng nếu team trắng
@@ -477,7 +477,7 @@ namespace ChessKing
             {
                 if (colorTeam == (int)ColorTeam.White) MessageBox.Show("The White Wins!");
                 else MessageBox.Show("The Black Wins!");
-                 //TODO: add sound checkMate
+                //TODO: add sound checkMate
 
                 Common.IsPlaying = false;
                 Common.Close = true;
@@ -526,6 +526,14 @@ namespace ChessKing
             ChessSquare[,] board = new ChessSquare[8, 8];
             ChessSquare[,] bestMove = new ChessSquare[8, 8];
             board = Common.Board;
+
+            var colBlackKing = Constants.colBlackKingDefault;
+            bool isBlackKingInDefault = false;
+            if (board[0, colBlackKing].Chess != null)
+            {
+                isBlackKingInDefault = board[0, colBlackKing].Chess.IsKing
+                    && board[0, colBlackKing].Chess.Team == (int)ColorTeam.Black;
+            }
             for (int i = 0; i < 8; i++)
             {
                 for (int j = 0; j < 8; j++)
@@ -553,9 +561,12 @@ namespace ChessKing
                         {
                             tempChess = board[RootTemp[k].Row, RootTemp[k].Col].Chess;
                             tempImage = board[RootTemp[k].Row, RootTemp[k].Col].Image;
+                            //Kiểm tra có phải vua không
+                            // để xét nhập thành
 
                             board[RootTemp[k].Row, RootTemp[k].Col].Chess = board[befRow, befCol].Chess;
                             board[RootTemp[k].Row, RootTemp[k].Col].Image = board[befRow, befCol].Image;
+
                             board[befRow, befCol].Chess = null;
                             board[befRow, befCol].Image = null;
 
@@ -572,6 +583,7 @@ namespace ChessKing
                                 }
                                 bestValue = value;
                             }
+
                             //phục hồi lại trạng thái ban đầu quân cờ sau khi giả định
                             board[RootTemp[k].Row, RootTemp[k].Col].Undo(ref board, befRow, befCol, tempChess, tempImage);
                         }
@@ -588,6 +600,48 @@ namespace ChessKing
                     Common.Board[k, l].Col = bestMove[k, l].Col;
                     Common.Board[k, l].Chess = bestMove[k, l].Chess;
                     Common.Board[k, l].Image = bestMove[k, l].Image;
+                }
+            }
+
+            if (isBlackKingInDefault)
+            {
+                if (board[0, 4].Chess == null)
+                {
+                    var colRightBishop = Constants.colBlackRightBishopDefault;
+                    var colRightKnight = Constants.colBlackRightKnightDefault;
+                    var colRightCastle = Constants.colWhiteRightCastleDefault;
+
+                    if (board[0, colRightKnight].Chess != null)
+                    {
+                        if (board[0, colRightKnight].Chess.IsKing)
+                        {
+                            Common.Board[0, colRightBishop].Image = Common.Board[0, colRightCastle].Image;
+                            Common.Board[0, colRightCastle].Image = null;
+                            //tra ve background cu
+                            Common.Board[0, colRightCastle].BackColor = Common.OldBackGround;
+                            this.BackChessBoard();
+                            //thay doi quan co
+                            Common.Board[0, colRightBishop].Chess = Common.Board[0, colRightCastle].Chess;
+                            Common.Board[0, colRightCastle].Chess = null;
+                        }
+                    }
+
+
+                    var colQueen = Constants.colBlackQueenDefault;
+                    var colLeftBishop = Constants.colBlackLeftBishopDefault;
+                    var colLeftCastle = Constants.colBlackLeftCastleDefault;
+                    if (board[0, colLeftBishop].Chess != null)
+                    {
+                        if (board[0, colLeftBishop].Chess.IsKing)
+                        {
+                            Common.Board[0, colQueen].Image = Common.Board[0, colLeftCastle].Image;
+                            Common.Board[0, colLeftCastle].Image = null;
+                            Common.Board[0, colLeftCastle].BackColor = Common.OldBackGround;
+                            this.BackChessBoard();
+                            Common.Board[0, colQueen].Chess = Common.Board[0, colLeftCastle].Chess;
+                            Common.Board[0, colLeftCastle].Chess = null;
+                        }
+                    }
                 }
             }
 
@@ -697,7 +751,8 @@ namespace ChessKing
                     {
                         double pieceEvaluation = 0;
                         //Team trắng evalution >0
-                        if(board[i, j].Chess.Evaluation > 0){
+                        if (board[i, j].Chess.Evaluation > 0)
+                        {
                             pieceEvaluation = getPieceEvaluation(board, i, j);
                         }
                         else //Team đen evalution <0
@@ -725,38 +780,38 @@ namespace ChessKing
             if (Common.IsEmptyChessSquare(board, row, col)) return 0;
             if (board[row, col].Chess.IsPawn == true) //pawn
             {
-                return (board[row, col].Chess.Evaluation > 0) 
-                    ? PieceEvaluation(Common.PawnWhite, row, col) 
+                return (board[row, col].Chess.Evaluation > 0)
+                    ? PieceEvaluation(Common.PawnWhite, row, col)
                     : PieceEvaluation(Common.PawnBlack, row, col);
             }
             else if (board[row, col].Chess.IsCastle == true) //Castle
             {
-                return (board[row, col].Chess.Evaluation > 0) 
-                    ? PieceEvaluation(Common.CastleWhite, row, col) 
+                return (board[row, col].Chess.Evaluation > 0)
+                    ? PieceEvaluation(Common.CastleWhite, row, col)
                     : PieceEvaluation(Common.CastleBlack, row, col);
             }
             else if (board[row, col].Chess.IsKnight == true) //Knight
             {
-                return (board[row, col].Chess.Evaluation > 0) 
-                    ? PieceEvaluation(Common.KnightWhite, row, col) 
+                return (board[row, col].Chess.Evaluation > 0)
+                    ? PieceEvaluation(Common.KnightWhite, row, col)
                     : PieceEvaluation(Common.KnightBlack, row, col);
             }
             else if (board[row, col].Chess.IsBishop == true) //Bishop
             {
-                return (board[row, col].Chess.Evaluation > 0) 
-                    ? PieceEvaluation(Common.BishopWhite, row, col) 
+                return (board[row, col].Chess.Evaluation > 0)
+                    ? PieceEvaluation(Common.BishopWhite, row, col)
                     : PieceEvaluation(Common.BishopBlack, row, col);
             }
             else if (board[row, col].Chess.IsQueen == true) //Queen
             {
-                return (board[row, col].Chess.Evaluation > 0) 
-                    ? PieceEvaluation(Common.QueenWhite, row, col) 
+                return (board[row, col].Chess.Evaluation > 0)
+                    ? PieceEvaluation(Common.QueenWhite, row, col)
                     : PieceEvaluation(Common.QueenBlack, row, col);
             }
             else //if (board[row, col].Chess.IsKing == true) //King
             {
-                return (board[row, col].Chess.Evaluation > 0) 
-                    ? PieceEvaluation(Common.KingWhite, row, col) 
+                return (board[row, col].Chess.Evaluation > 0)
+                    ? PieceEvaluation(Common.KingWhite, row, col)
                     : PieceEvaluation(Common.KingBlack, row, col);
             }
         }

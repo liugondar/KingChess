@@ -19,6 +19,7 @@ namespace ChessKing
         /// <param name="col"></param>
         public override void FindWay(ChessSquare[,] board, int row, int col)
         {
+
             // Kiểm tra các ô phía trên 
             KiemTraONhapThanh(board, row, col);
             KiemTraCacOPhiaTren(board, row, col);
