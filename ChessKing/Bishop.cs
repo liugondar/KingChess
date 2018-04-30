@@ -13,6 +13,8 @@ namespace ChessKing
         {
             this.IsBishop = true;
         }
+
+        #region find way and display
         public override void FindWayAndAutoChangeSquareIfNeeded(ChessSquare[,] board, int row, int col)
         {
             XetCheoTraiLen(board, row, col);
@@ -20,7 +22,6 @@ namespace ChessKing
             XetCheoPhaiLen(board, row, col);
             XetCheoPhaiXuong(board, row, col);
         }
-      
         private void XetCheoPhaiXuong(ChessSquare[,] board, int row, int col)
         {
             int j;
@@ -37,14 +38,8 @@ namespace ChessKing
                 {
                     //square is not empty, check color ,if diffirence about color, change back color
                     if (this.Team != board[i, j].Chess.Team)
-                    {
                         Common.ChangeBackgroundColorToCanEat(board, i, j);
                         break;
-                    }
-                    else
-                    {
-                        break;
-                    }
                 }
                 j++;
             }
@@ -57,21 +52,13 @@ namespace ChessKing
                 if (j > Constants.lastColOfTable) break;
                 if (Common.IsEmptyChessSquare(board, i, j))
                 {
-                    //load blue poin on button, in the way of piece
                     Common.ChangeBackgroundColorToCanMove(board, i, j);
                 }
                 else
                 {
-                    //square is not empty, check color ,if diffirence about color, change back color
                     if (this.Team != board[i, j].Chess.Team)
-                    {
                         Common.ChangeBackgroundColorToCanEat(board, i, j);
                         break;
-                    }
-                    else
-                    {
-                        break;
-                    }
                 }
                 j++;
             }
@@ -91,14 +78,8 @@ namespace ChessKing
                 {
                     //square is not empty, check color ,if diffirence about color, change back color
                     if (this.Team != board[i, j].Chess.Team)
-                    {
                         Common.ChangeBackgroundColorToCanEat(board, i, j);
                         break;
-                    }
-                    else
-                    {
-                        break;
-                    }
                 }
                 j--;
             }
@@ -122,35 +103,21 @@ namespace ChessKing
                     //square is not empty, check color team ,if diffirence about team color, change back color
                     bool isDifferentTeam = this.Team != board[i, j].Chess.Team;
                     if (isDifferentTeam)
-                    {
                         Common.ChangeBackgroundColorToCanEat(board, i, j);
                         break;
-                    }
-                    else
-                    {
-                        break;
-                    }
                 }
                 j--;
             }
         }
+        #endregion
 
-
-
-        /// <summary>
-        /// Không thay đổi background để k bị lỗi memory cho việc tìm 
-        /// ô nguy hiểm cho
-        /// </summary>
-        /// <param name="board"></param>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
+        #region find way and not display
         public override void FindWay(ChessSquare[,] board, int row, int col)
         {
             XetCheoTraiLenNoChangeBackground(board, row, col);
             XetCheoTraiXuongNoChangeBackground(board, row, col);
             XetCheoPhaiLenNoChangeBackground(board, row, col);
             XetCheoPhaiXuongNoChangeBackground(board, row, col);
-
         }
        
         private void XetCheoPhaiXuongNoChangeBackground(ChessSquare[,] board, int row, int col)
@@ -162,20 +129,14 @@ namespace ChessKing
                 if (j > Constants.lastColOfTable) break;
                 if (Common.IsEmptyChessSquare(board, i, j))
                 {
-                    Common.CanMove.Add(board[ i, j]);
+                    Common.CanBeMoveTemp.Add(board[ i, j]);
                 }
                 else
                 {
                     //square is not empty, check color ,if diffirence about color, change back color
                     if (this.Team != board[i, j].Chess.Team)
-                    {
-                        Common.CanEat.Add(board[i, j]);
+                        Common.CanBeEat.Add(board[i, j]);
                         break;
-                    }
-                    else
-                    {
-                        break;
-                    }
                 }
                 j++;
             }
@@ -188,21 +149,15 @@ namespace ChessKing
                 if (j > Constants.lastColOfTable) break;
                 if (Common.IsEmptyChessSquare(board, i, j))
                 {
-                    Common.CanMove.Add(board[i, j]);
+                    Common.CanBeMoveTemp.Add(board[i, j]);
 
                 }
                 else
                 {
                     //square is not empty, check color ,if diffirence about color, change back color
                     if (this.Team != board[i, j].Chess.Team)
-                    {
-                        Common.CanEat.Add(board[i, j]);
+                        Common.CanBeEat.Add(board[i, j]);
                         break;
-                    }
-                    else
-                    {
-                        break;
-                    }
                 }
                 j++;
             }
@@ -215,21 +170,15 @@ namespace ChessKing
                 if (j < Constants.firstColOfTable) break;
                 if (Common.IsEmptyChessSquare(board, i, j))
                 {
-                    Common.CanMove.Add(board[i, j]);
+                    Common.CanBeMoveTemp.Add(board[i, j]);
 
                 }
                 else
                 {
                     //square is not empty, check color ,if diffirence about color, change back color
                     if (this.Team != board[i, j].Chess.Team)
-                    {
-                        Common.CanEat.Add(board[i, j]);
+                        Common.CanBeEat.Add(board[i, j]);
                         break;
-                    }
-                    else
-                    {
-                        break;
-                    }
                 }
                 j--;
             }
@@ -245,25 +194,97 @@ namespace ChessKing
 
                 if (Common.IsEmptyChessSquare(board, i, j))
                 {
-                    Common.CanMove.Add(board[i, j]);
-
+                    Common.CanBeMoveTemp.Add(board[i, j]);
                 }
                 else
                 {
                     //square is not empty, check color team ,if diffirence about team color, change back color
                     bool isDifferentTeam = this.Team != board[i, j].Chess.Team;
                     if (isDifferentTeam)
-                    {
-                        Common.CanEat.Add(board[i, j]);
+                        Common.CanBeEat.Add(board[i, j]);
                         break;
-                    }
-                    else
-                    {
-                        break;
-                    }
                 }
                 j--;
             }
         }
+        #endregion
+
+        #region  Tìm ô có thể bảo vệ được
+        public override void FindSquaresCanProtect(ChessSquare[,] board, int row, int col)
+        {
+            XetCheoPhaiXuongFindProtect(board, row, col);
+            XetCheoPhaiLenFindProtect(board, row, col);
+            XetCheoTraiLenProtect(board, row, col);
+            XetCheoTraiXuongProtect(board, row, col);
+        }
+
+        private void XetCheoPhaiXuongFindProtect(ChessSquare[,] board, int row, int col)
+        {
+            int j;
+            j = col + 1;
+            for (int i = row + 1; i <= Constants.lastRowOfTable; i++)
+            {
+                if (j > Constants.lastColOfTable) break;
+                if (!Common.IsEmptyChessSquare(board, i, j))
+                {
+                    if (this.Team == board[i, j].Chess.Team)
+                    {
+                        Common.CanBeProtect.Add(board[i, j]);
+                    }
+                        break;
+                }
+                j++;
+            }
+        }
+        private void XetCheoPhaiLenFindProtect(ChessSquare[,] board, int row, int col)
+        {
+            int j = col + 1;
+            for (int i = row - 1; i >= Constants.firstRowOfTable; i--)
+            {
+                if (j > Constants.lastColOfTable) break;
+                if (!Common.IsEmptyChessSquare(board, i, j))
+                {
+                    if (this.Team == board[i, j].Chess.Team)
+                        Common.CanBeProtect.Add(board[i, j]);
+
+                        break;
+                }
+                j++;
+            }
+        }
+        private void XetCheoTraiXuongProtect(ChessSquare[,] board, int row, int col)
+        {
+            int j = col - 1;
+            for (int i = row + 1; i <= Constants.lastRowOfTable; i++)
+            {
+                if (j < Constants.firstColOfTable) break;
+                if (!Common.IsEmptyChessSquare(board, i, j))
+                {
+                    if (this.Team == board[i, j].Chess.Team)
+                        Common.CanBeProtect.Add(board[i, j]);
+                        break;
+                }
+                j--;
+            }
+        }
+        private void XetCheoTraiLenProtect(ChessSquare[,] board, int row, int col)
+        {
+            // Khởi đầu bỏ qua vị trí bishop hiện tại, xét ô trái trên đầu tiên
+            int j = col - 1;
+            for (int i = row - 1; i >= Constants.firstRowOfTable; i--)
+            {
+                // Kiểm tra điều kiện, nếu ngoài bàn cờ ( col <0) thì xong việc xét chéo trái lên
+                if (j < Constants.firstColOfTable) break;
+
+                if (!Common.IsEmptyChessSquare(board, i, j))
+                {
+                    if (this.Team==board[i,j].Chess.Team)
+                        Common.CanBeProtect.Add(board[i, j]);
+                        break;
+                }
+                j--;
+            }
+        }
+        #endregion
     }
 }

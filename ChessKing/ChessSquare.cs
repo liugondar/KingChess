@@ -52,8 +52,6 @@ namespace ChessKing
             if (Common.Close) return;
             //Không làm gì hết nếu ô clicked không có quân cờ
             if (this.Chess == null && !Common.IsSelectedSquare) return;
-            // Set lại vua không bị checked ở nước đi mới
-
 
             moveSound.URL = "Sounds/Move.wav";
             moveSound.settings.autoStart = true;
@@ -161,20 +159,20 @@ namespace ChessKing
         {
             Common.IsSelectedSquare = false;//gan lai bang false de lan sau con thuc hien
 
-            if (Common.CanMove.Contains(this))//inside list Can Move
+            if (Common.CanBeMove.Contains(this))//inside list Can Move
             {
                 Common.RowProQueen = this.Row;
                 Common.ColProQueen = this.Col;
-                for (int i = 0; i < Common.CanMove.Count; i++)
+                for (int i = 0; i < Common.CanBeMove.Count; i++)
                 {
-                    if (Common.CanMove[i].Chess == null)
-                        Common.CanMove[i].Image = null;
+                    if (Common.CanBeMove[i].Chess == null)
+                        Common.CanBeMove[i].Image = null;
                 }
                 KiemTraNhapThanh(colorTeam: (int)ColorTeam.White);
                 KiemTraNhapThanh(colorTeam: (int)ColorTeam.Black);
                 ThayDoiHinhAnh();
                 Common.IsTurn++; //change turn
-                Common.CanMove.Clear();
+                Common.CanBeMove.Clear();
                 KiemTraPhongHau();
                 KiemTraQuanVuaConTrenBanCoKhong();
                 XuLiKhiDanhVoiAI();
@@ -429,12 +427,12 @@ namespace ChessKing
         private void HuyBoChonQuan()
         {
             Common.Board[Common.RowSelected, Common.ColSelected].BackColor = Common.OldBackGround;
-            for (int i = 0; i < Common.CanMove.Count; i++)
+            for (int i = 0; i < Common.CanBeMove.Count; i++)
             {
-                if (Common.CanMove[i].Chess == null) Common.CanMove[i].Image = null;
+                if (Common.CanBeMove[i].Chess == null) Common.CanBeMove[i].Image = null;
             }
             Common.BackChessBoard();
-            Common.CanMove.Clear();
+            Common.CanBeMove.Clear();
         }
 
         private void KiemTraChieuVua()
@@ -445,12 +443,12 @@ namespace ChessKing
             this.Check(ref isCheck, ref Kingtemp);
             if (isCheck)
             {
-                Common.CanMove.Clear();
+                Common.CanBeMove.Clear();
                 Checkmate(Kingtemp);
             }
 
-            Common.CanEat.Clear();
-            Common.CanMove.Clear();
+            Common.CanBeEat.Clear();
+            Common.CanBeMove.Clear();
 
             Common.BackChessBoard();
             if (Kingtemp.Chess != null && Kingtemp.Chess.IsKing == true)
@@ -467,15 +465,15 @@ namespace ChessKing
                     if (Common.Board[i, j].Chess != null)
                     {
                         Common.Board[i, j].Chess.FindWayAndAutoChangeSquareIfNeeded(Common.Board, Common.Board[i, j].Row, Common.Board[i, j].Col);
-                        for (int k = 0; k < Common.CanMove.Count; k++)
+                        for (int k = 0; k < Common.CanBeMove.Count; k++)
                         {
-                            if (Common.CanMove[k].Chess == null) Common.CanMove[k].Image = null;
+                            if (Common.CanBeMove[k].Chess == null) Common.CanBeMove[k].Image = null;
                             else
                             {
-                                if (Common.CanMove[k].Chess.IsKing)
+                                if (Common.CanBeMove[k].Chess.IsKing)
                                 {
                                     isCheck = true;
-                                    KingTemp = new ChessSquare(Common.CanMove[k]);
+                                    KingTemp = new ChessSquare(Common.CanBeMove[k]);
                                     if (isCheck)
                                     {
                                         // Set trạng thái đang bị check khiến không thể nhập thành
@@ -488,7 +486,7 @@ namespace ChessKing
                             }
                         }
                     }
-                    Common.CanMove.Clear();
+                    Common.CanBeMove.Clear();
                 }
         }
 
@@ -497,7 +495,7 @@ namespace ChessKing
             this.Check(ref isCheck, ref Kingtemp);
             if (isCheck)
             {
-                Common.CanMove.Clear();
+                Common.CanBeMove.Clear();
                 Checkmate(Kingtemp);
             }
         }
@@ -514,33 +512,33 @@ namespace ChessKing
                         if (Common.Board[i, j].Chess.Team != temp.Chess.Team)
                         {
                             Common.Board[i, j].Chess.FindWayAndAutoChangeSquareIfNeeded(Common.Board, Common.Board[i, j].Row, Common.Board[i, j].Col);
-                            for (int k = 0; k < Common.CanMove.Count; k++)
+                            for (int k = 0; k < Common.CanBeMove.Count; k++)
                             {
-                                if (Common.CanMove[k].Chess == null)
+                                if (Common.CanBeMove[k].Chess == null)
                                 {
-                                    Common.CanMove[k].Image = null;
+                                    Common.CanBeMove[k].Image = null;
                                 }
-                                Common.CanEat.Add(Common.CanMove[k]);
+                                Common.CanBeEat.Add(Common.CanBeMove[k]);
                             }
-                            Common.CanMove.Clear();
+                            Common.CanBeMove.Clear();
                         }
                     }
                 }
-            Common.CanMove.Clear();
+            Common.CanBeMove.Clear();
 
             temp.Chess.FindWayAndAutoChangeSquareIfNeeded(Common.Board, temp.Row, temp.Col);
 
-            for (int i = 0; i < Common.CanMove.Count; i++)
+            for (int i = 0; i < Common.CanBeMove.Count; i++)
             {
-                if (Common.CanMove[i].Chess == null) Common.CanMove[i].Image = null;
+                if (Common.CanBeMove[i].Chess == null) Common.CanBeMove[i].Image = null;
             }
 
-            if (Common.CanMove.Count == 1)
+            if (Common.CanBeMove.Count == 1)
             {
-                if (Common.CanEat.Contains(Common.CanMove[Common.CanMove.Count - 1]))
+                if (Common.CanBeEat.Contains(Common.CanBeMove[Common.CanBeMove.Count - 1]))
                 {
-                    ChessSquare temp2 = new ChessSquare(Common.CanMove[Common.CanMove.Count - 1]);
-                    Common.CanMove.Clear();
+                    ChessSquare temp2 = new ChessSquare(Common.CanBeMove[Common.CanBeMove.Count - 1]);
+                    Common.CanBeMove.Clear();
 
                     for (int i = 0; i < 8; i++)
                         for (int j = 0; j < 8; j++)
@@ -550,19 +548,19 @@ namespace ChessKing
                                 if (Common.Board[i, j].Chess.Team == temp.Chess.Team)
                                 {
                                     Common.Board[i, j].Chess.FindWayAndAutoChangeSquareIfNeeded(Common.Board, Common.Board[i, j].Row, Common.Board[i, j].Col);
-                                    for (int k = 0; k < Common.CanMove.Count; k++)
+                                    for (int k = 0; k < Common.CanBeMove.Count; k++)
                                     {
-                                        if (Common.CanMove[k].Chess == null)
+                                        if (Common.CanBeMove[k].Chess == null)
                                         {
-                                            Common.CanMove[k].Image = null;
+                                            Common.CanBeMove[k].Image = null;
                                         }
-                                        if (Common.CanMove[k].Col == temp2.Col && Common.CanMove[k].Row == temp2.Row)
+                                        if (Common.CanBeMove[k].Col == temp2.Col && Common.CanBeMove[k].Row == temp2.Row)
                                         {
                                             isCheckmate = false;
                                             break;
                                         }
                                     }
-                                    Common.CanMove.Clear();
+                                    Common.CanBeMove.Clear();
                                 }
                             }
                         }
@@ -570,10 +568,10 @@ namespace ChessKing
             }
             else
             {
-                while (Common.CanMove.Count > 0)
+                while (Common.CanBeMove.Count > 0)
                 {
-                    if (!Common.CanEat.Contains(Common.CanMove[Common.CanMove.Count - 1])) isCheckmate = false;
-                    Common.CanMove.Remove(Common.CanMove[Common.CanMove.Count - 1]);
+                    if (!Common.CanBeEat.Contains(Common.CanBeMove[Common.CanBeMove.Count - 1])) isCheckmate = false;
+                    Common.CanBeMove.Remove(Common.CanBeMove[Common.CanBeMove.Count - 1]);
                 }
             }
 
@@ -680,11 +678,11 @@ namespace ChessKing
                         int befCol = j;
                         board[befRow, befCol].Chess.FindWayAndAutoChangeSquareIfNeeded(board, befRow, befCol);
 
-                        for (int k = 0; k < Common.CanMove.Count; k++)
+                        for (int k = 0; k < Common.CanBeMove.Count; k++)
                         {
-                            RootTemp.Add(Common.CanMove[k]);
+                            RootTemp.Add(Common.CanBeMove[k]);
                         }
-                        Common.CanMove.Clear();
+                        Common.CanBeMove.Clear();
 
                         Chess tempChess = new Chess();
                         Image tempImage = null;
@@ -836,11 +834,11 @@ namespace ChessKing
 
                         root[befRow, befCol].Chess.FindWayAndAutoChangeSquareIfNeeded(root, befRow, befCol);
 
-                        for (int k = 0; k < Common.CanMove.Count; k++)
+                        for (int k = 0; k < Common.CanBeMove.Count; k++)
                         {
-                            RootTemp.Add(Common.CanMove[k]);
+                            RootTemp.Add(Common.CanBeMove[k]);
                         }
-                        Common.CanMove.Clear();
+                        Common.CanBeMove.Clear();
 
                         Chess tempChess = new Chess();
                         Image tempImage = null;

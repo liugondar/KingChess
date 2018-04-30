@@ -16,12 +16,12 @@ namespace ChessKing
         }
         public override void FindWayAndAutoChangeSquareIfNeeded(ChessSquare[,] board, int row, int col)
         {
-            CheckRightToLeft(board, row, col);
-            CheckLeftToRight(board, row, col);
-            CheckUpToDown(board, row, col);
-            CheckDownToUp(board, row, col);
+            CheckLeft(board, row, col);
+            CheckRight(board, row, col);
+            CheckBottom(board, row, col);
+            CheckTop(board, row, col);
         }
-        private void CheckDownToUp(ChessSquare[,] board, int row, int col)
+        private void CheckTop(ChessSquare[,] board, int row, int col)
         {
             for (int i = row - 1; i >= 0; i--)
             {
@@ -38,8 +38,7 @@ namespace ChessKing
             }
 
         }
-
-        private void CheckUpToDown(ChessSquare[,] board, int row, int col)
+        private void CheckBottom(ChessSquare[,] board, int row, int col)
         {
             for (int i = row + 1; i < 8; i++)
             {
@@ -55,8 +54,7 @@ namespace ChessKing
                 }
             }
         }
-
-        private void CheckLeftToRight(ChessSquare[,] board, int row, int col)
+        private void CheckRight(ChessSquare[,] board, int row, int col)
         {
             for (int j = col + 1; j <= Constants.lastColOfTable; j++)
             {
@@ -73,8 +71,7 @@ namespace ChessKing
                 }
             }
         }
-
-        private void CheckRightToLeft(ChessSquare[,] board, int row, int col)
+        private void CheckLeft(ChessSquare[,] board, int row, int col)
         {
             for (int j = col - 1; j >= Constants.firstColOfTable; j--)
             {
@@ -96,84 +93,141 @@ namespace ChessKing
         #region Clone find way without change background
         public override void FindWay(ChessSquare[,] board, int row, int col)
         {
-            CheckRightToLeftNoChangeBackground(board, row, col);
-            CheckLeftToRightNoChangeBackground(board, row, col);
-            CheckUpToDownNoChangeBackground(board, row, col);
-            CheckDownToUpNoChangeBackground(board, row, col);
+            CheckLeftToFindProjectObject(board, row, col);
+            CheckRightNoChangeBackground(board, row, col);
+            CheckBottomNoChangeBackground(board, row, col);
+            CheckTopNoChangeBackground(board, row, col);
         }
-        private void CheckDownToUpNoChangeBackground(ChessSquare[,] board, int row, int col)
+        private void CheckTopNoChangeBackground(ChessSquare[,] board, int row, int col)
         {
             for (int i = row - 1; i >= 0; i--)
             {
                 if (Common.IsEmptyChessSquare(board, i, col))
                 {
-                    Common.CanMove.Add(board[i, col]);
+                    Common.CanBeMoveTemp.Add(board[i, col]);
                 }
                 else
                 {
                     if (this.Team != board[i, col].Chess.Team)
-                        Common.CanEat.Add(board[i, col]);
+                        Common.CanBeEat.Add(board[i, col]);
                     break;
                 }
             }
 
         }
-
-        private void CheckUpToDownNoChangeBackground(ChessSquare[,] board, int row, int col)
+        private void CheckBottomNoChangeBackground(ChessSquare[,] board, int row, int col)
         {
             for (int i = row + 1; i < 8; i++)
             {
                 if (Common.IsEmptyChessSquare(board, i, col))
                 {
-                    Common.CanMove.Add(board[i, col]);
+                    Common.CanBeMoveTemp.Add(board[i, col]);
 
                 }
                 else
                 {
                     if (this.Team != board[i, col].Chess.Team)
-                        Common.CanEat.Add(board[i, col]);
+                        Common.CanBeEat.Add(board[i, col]);
                     break;
                 }
             }
         }
-
-        private void CheckLeftToRightNoChangeBackground(ChessSquare[,] board, int row, int col)
+        private void CheckRightNoChangeBackground(ChessSquare[,] board, int row, int col)
         {
             for (int j = col + 1; j <= Constants.lastColOfTable; j++)
             {
                 if (Common.IsEmptyChessSquare(board, row, j))
                 {
-                    Common.CanMove.Add(board[row, j]);
+                    Common.CanBeMoveTemp.Add(board[row, j]);
                 }
                 else
                 {
                     if (this.Team != board[row, j].Chess.Team)
-                        Common.CanEat.Add(board[row, j]);
+                        Common.CanBeEat.Add(board[row, j]);
 
                     break;
                 }
             }
         }
-
-        private void CheckRightToLeftNoChangeBackground(ChessSquare[,] board, int row, int col)
+        private void CheckLeftNoChangeBackground(ChessSquare[,] board, int row, int col)
         {
             for (int j = col - 1; j >= Constants.firstColOfTable; j--)
             {
                 if (Common.IsEmptyChessSquare(board, row, j))
                     //load blue poin on button, in the way of piece
-                    Common.CanMove.Add(board[row, j]);
+                    Common.CanBeMoveTemp.Add(board[row, j]);
                 else
                 {
                     //square is not empty, check color ,if diffirence about color, change back color
                     if (this.Team != board[row, j].Chess.Team)
                     {
-                        Common.CanEat.Add(board[row, j]);
+                        Common.CanBeEat.Add(board[row, j]);
                     }
                     break;
                 }
             }
         }
 
+        #endregion
+
+        #region  Tìm ô có thể bảo vệ được
+        public override void FindSquaresCanProtect(ChessSquare[,] board, int row, int col)
+        {
+            CheckLeftToFindProjectObject(board, row, col);
+            CheckRightToFindProtectObject(board, row, col);
+            CheckBottomToFindProtectObject(board, row, col);
+            CheckTopToFindProtectObject(board, row, col);
+        }
+        private void CheckTopToFindProtectObject(ChessSquare[,] board, int row, int col)
+        {
+            for (int i = row - 1; i >= 0; i--)
+            {
+                if (!Common.IsEmptyChessSquare(board, i, col))
+                {
+                    if (this.Team == board[i, col].Chess.Team)
+                        Common.CanBeProtect.Add(board[i, col]);
+                    break;
+                }
+            }
+
+        }
+        private void CheckBottomToFindProtectObject(ChessSquare[,] board, int row, int col)
+        {
+            for (int i = row + 1; i < 8; i++)
+            {
+                if (!Common.IsEmptyChessSquare(board, i, col))
+                {
+                    if (this.Team == board[i, col].Chess.Team)
+                        Common.CanBeProtect.Add(board[i, col]);
+                    break;
+                }
+            }
+        }
+        private void CheckRightToFindProtectObject(ChessSquare[,] board, int row, int col)
+        {
+            for (int j = col + 1; j <= Constants.lastColOfTable; j++)
+            {
+                if (!Common.IsEmptyChessSquare(board, row, j))
+                {
+                    if (this.Team == board[row, j].Chess.Team)
+                        Common.CanBeProtect.Add(board[row, j]);
+                    break;
+                }
+            }
+        }
+        private void CheckLeftToFindProjectObject(ChessSquare[,] board, int row, int col)
+        {
+            for (int j = col - 1; j >= Constants.firstColOfTable; j--)
+            {
+                if (!Common.IsEmptyChessSquare(board, row, j))
+                {
+                    if (this.Team == board[row, j].Chess.Team)
+                        Common.CanBeProtect.Add(board[row, j]);
+                    break;
+                }
+
+            }
+        }
         #endregion
     }
 }

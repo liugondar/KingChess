@@ -41,8 +41,8 @@ namespace ChessKing
                 Common.isWhiteQueenSideCastleAvailable =
                     !Common.IsEmptyChessSquare(board, 7, 0)
                     && !Common.isLeftWhiteCastleMoved
-                    && CheckAvailableQueenPath(board,row:7,KnightCol:1,BishopCol: 2,
-                    QueenCol: 3,team:(int)ColorTeam.White);
+                    && CheckAvailableQueenPath(board, row: 7, KnightCol: 1, BishopCol: 2,
+                    QueenCol: 3, team: (int)ColorTeam.White);
 
                 Common.isWhiteKingSideCastleAvailable =
                     !Common.IsEmptyChessSquare(board, 7, 7)
@@ -68,12 +68,12 @@ namespace ChessKing
                     !Common.IsEmptyChessSquare(board, 0, 0)
                     && !Common.isLeftBlackCastleMoved
                     && CheckAvailableQueenPath(board, row: 0, KnightCol: 1, BishopCol: 2, QueenCol: 3,
-                    team:(int)ColorTeam.Black);
+                    team: (int)ColorTeam.Black);
 
                 Common.isBlackKingSideCastleAvailable =
                     !Common.IsEmptyChessSquare(board, 0, 7)
-                    &&!Common.isRightBlackCastleMoved
-                    && CheckAvailableKingPath(board, row: 0, KnightCol: 6, BishopCol: 5, 
+                    && !Common.isRightBlackCastleMoved
+                    && CheckAvailableKingPath(board, row: 0, KnightCol: 6, BishopCol: 5,
                     team: (int)ColorTeam.Black);
 
                 if (Common.isBlackQueenSideCastleAvailable)
@@ -84,15 +84,15 @@ namespace ChessKing
             }
         }
 
-        private bool CheckAvailableQueenPath(ChessSquare[,] board, int row, int KnightCol, int BishopCol, int QueenCol,int team)
+        private bool CheckAvailableQueenPath(ChessSquare[,] board, int row, int KnightCol, int BishopCol, int QueenCol, int team)
         {
-            if (!Common.IsEmptyChessSquare(board,row,QueenCol)) return false;
-            if (!Common.IsEmptyChessSquare(board,row,KnightCol)) return false;
-            if (!Common.IsEmptyChessSquare(board,row,BishopCol)) return false;
+            if (!Common.IsEmptyChessSquare(board, row, QueenCol)) return false;
+            if (!Common.IsEmptyChessSquare(board, row, KnightCol)) return false;
+            if (!Common.IsEmptyChessSquare(board, row, BishopCol)) return false;
 
-            if (Common.IsDangerSquare(board, row, QueenCol, team)) return false;
-            if (Common.IsDangerSquare(board, row, KnightCol, team)) return false;
-            if (Common.IsDangerSquare(board, row, BishopCol, team)) return false;
+            if (Common.IsDangerSquareToMove(board, row, QueenCol, team)) return false;
+            if (Common.IsDangerSquareToMove(board, row, KnightCol, team)) return false;
+            if (Common.IsDangerSquareToMove(board, row, BishopCol, team)) return false;
 
             return true;
         }
@@ -102,8 +102,8 @@ namespace ChessKing
             if (!Common.IsEmptyChessSquare(board, row, KnightCol)) return false;
             if (!Common.IsEmptyChessSquare(board, row, BishopCol)) return false;
 
-            if (Common.IsDangerSquare(board, row, KnightCol, team)) return false;
-            if (Common.IsDangerSquare(board, row, BishopCol, team)) return false;
+            if (Common.IsDangerSquareToMove(board, row, KnightCol, team)) return false;
+            if (Common.IsDangerSquareToMove(board, row, BishopCol, team)) return false;
 
             return true;
         }
@@ -113,15 +113,7 @@ namespace ChessKing
             if (col < Constants.lastColOfTable)
             {
                 // Kiểm tra ô bên phải nếu không ở cột đầu tiên
-                if (Common.IsEmptyChessSquare(board, row, col + 1))
-                {
-                    Common.ChangeBackgroundColorToCanMove(board, row, col + 1);
-                }
-                else
-                {
-                    if (this.Team != board[row, col + 1].Chess.Team)
-                        Common.ChangeBackgroundColorToCanEat(board, row, col + 1);
-                }
+                ThayDoiONeuCanThiet(board, row, col + 1);
             }
         }
 
@@ -130,16 +122,7 @@ namespace ChessKing
             if (col > Constants.firstColOfTable)
             {
                 // Kiểm tra cột bên trái nếu không ở cột đầu tiên
-
-                if (Common.IsEmptyChessSquare(board, row, col - 1))
-                {
-                    Common.ChangeBackgroundColorToCanMove(board, row, col - 1);
-                }
-                else
-                {
-                    if (this.Team != board[row, col - 1].Chess.Team)
-                        Common.ChangeBackgroundColorToCanEat(board, row, col - 1);
-                }
+                ThayDoiONeuCanThiet(board, row, col - 1);
             }
         }
 
@@ -178,12 +161,18 @@ namespace ChessKing
         {
             if (Common.IsEmptyChessSquare(board, row, col))
             {
-                Common.ChangeBackgroundColorToCanMove(board, row, col);
+                if (!Common.IsDangerSquareToMove(board, row, col, this.Team))
+                {
+                    Common.ChangeBackgroundColorToCanMove(board, row, col);
+                }
             }
             else
             {
                 if (this.Team != board[row, col].Chess.Team)
+                {
+                    if (Common.IsProtected(board, row, col, board[row, col].Chess.Team)) return;
                     Common.ChangeBackgroundColorToCanEat(board, row, col);
+                }
             }
         }
     }

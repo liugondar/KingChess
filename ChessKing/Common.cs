@@ -20,9 +20,11 @@ namespace ChessKing
 
         static public bool Close = false;
         static public ChessSquare[,] Board;
-        static public List<ChessSquare> CanMove = new List<ChessSquare>(); // create list, save position of piece can move
-        static public List<ChessSquare> CanEat = new List<ChessSquare>();
+        static public List<ChessSquare> CanBeMove = new List<ChessSquare>(); // create list, save position of piece can move
+        static public List<ChessSquare> CanBeEat = new List<ChessSquare>();
+        static public List<ChessSquare> CanBeProtect = new List<ChessSquare>();
 
+        static public List<ChessSquare> CanBeMoveTemp = new List<ChessSquare>(); // Dùng cho việc xem thử các nước đi quân cờ
         static public int RowSelected = -1; //set value =-1, not in chessboard
         static public int ColSelected = -1; //set value =-1, not in chessboard
 
@@ -72,6 +74,11 @@ namespace ChessKing
             isWhiteKingChecked = false;
             isBlackKingChecked = false;
 
+            CanBeMove.Clear();
+            CanBeMoveTemp.Clear();
+            CanBeEat.Clear();
+            CanBeProtect.Clear();
+
         }
         static public bool IsEmptyChessSquare(ChessSquare[,] board, int row, int col)
         {
@@ -81,16 +88,16 @@ namespace ChessKing
         {
             if (IsTurn % 2 == Constants.WhiteTurn || Is2PlayerMode == true)
                 board[row, col].BackColor = Color.Red;
-            CanMove.Add(board[row, col]);
+            CanBeMove.Add(board[row, col]);
         }
         static public void ChangeBackgroundColorToCanMove(ChessSquare[,] board, int row, int col)
         {
             if (IsTurn % 2 == Constants.WhiteTurn || Is2PlayerMode == true)
                 board[row, col].Image = Image.FromFile(linkPoint);
-            CanMove.Add(board[row, col]);
+            CanBeMove.Add(board[row, col]);
         }
 
-        static public bool IsDangerSquare(ChessSquare[,] board, int rowCheck, int colCheck, int teamCheck)
+        static public bool IsDangerSquareToMove(ChessSquare[,] board, int rowCheck, int colCheck, int teamCheck)
         {
             for (int i = 0; i < 8; i++)
                 for (int j = 0; j < 8; j++)
@@ -98,19 +105,41 @@ namespace ChessKing
                     if (Board[i, j].Chess != null && Board[i, j].Chess.Team != teamCheck)
                     {
                         Board[i, j].Chess.FindWay(Board, Board[i, j].Row, Board[i, j].Col);
-                        for (int k = 0; k < CanMove.Count; k++)
+                        for (int k = 0; k < CanBeMoveTemp.Count; k++)
                         {
-                            if (CanMove[k].Chess == null) CanMove[k].Image = null;
-                            if (CanMove[k].Row == rowCheck && CanMove[k].Col == colCheck)
+                            if (CanBeMoveTemp[k].Chess == null) CanBeMoveTemp[k].Image = null;
+                            if (CanBeMoveTemp[k].Row == rowCheck && CanBeMoveTemp[k].Col == colCheck)
                             {
                                 BackChessBoard();
-                                CanMove.Clear();
+                                CanBeMoveTemp.Clear();
                                 return true;
                             }
                         }
                     }
                     BackChessBoard();
-                    CanMove.Clear();
+                    CanBeMoveTemp.Clear();
+                }
+            return false;
+        }
+        static public bool IsProtected(ChessSquare[,] board, int rowCheck, int colCheck, int teamCheck)
+        {
+            for (int i = 0; i < 8; i++)
+                for (int j = 0; j < 8; j++)
+                {
+                    if (Board[i, j].Chess != null && Board[i, j].Chess.Team == teamCheck)
+                    {
+                        Board[i, j].Chess.FindSquaresCanProtect(Board, Board[i, j].Row, Board[i, j].Col);
+                        for (int k = 0; k < CanBeProtect.Count; k++)
+                        {
+                            if (CanBeProtect[k].Row == rowCheck && CanBeProtect[k].Col == colCheck)
+                            {
+                                CanBeProtect.Clear();
+                                return true;
+                            }
+                        }
+                    }
+                    CanBeProtect.Clear();
+                    BackChessBoard();
                 }
             return false;
         }
