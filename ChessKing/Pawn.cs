@@ -16,6 +16,17 @@ namespace ChessKing
             this.IsPawn = true;
         }
 
+        public override void FindWayAndAutoChangeSquareIfNeeded(ChessSquare[,] board, int row, int col)
+        {
+            if (board[row, col].Chess.Team == (int)ColorTeam.White)
+            {
+                XetCoTrangDiTuDuoiLen(board, row, col);
+            }
+            else
+            {
+                XetCoDenDiTuTrenXuong(board, row, col);
+            }
+        }
         public override void FindWay(ChessSquare[,] board, int row, int col)
         {
             if (board[row, col].Chess.Team == (int)ColorTeam.White)
@@ -27,7 +38,6 @@ namespace ChessKing
                 XetCoDenDiTuTrenXuong(board, row, col);
             }
         }
-
         #region Xét tốt cờ trắng
         private void XetCoTrangDiTuDuoiLen(ChessSquare[,] board, int row, int col)
         {

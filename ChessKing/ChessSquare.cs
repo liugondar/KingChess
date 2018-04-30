@@ -44,27 +44,7 @@ namespace ChessKing
         /// <summary>
         /// Tạo bàng cờ 8x8 Trống
         /// </summary>
-        public void BackChessBoard()
-        {
-            for (int row = 0; row < 8; row++)
-                for (int col = 0; col < 8; col++)
-                {
-                    if (row % 2 == 0)
-                    {
-                        if (col % 2 == 0)
-                            Common.Board[row, col].BackColor = Color.LavenderBlush;
-                        else
-                            Common.Board[row, col].BackColor = Color.DarkSlateGray;
-                    }
-                    else
-                    {
-                        if (col % 2 == 0)
-                            Common.Board[row, col].BackColor = Color.DarkSlateGray;
-                        else
-                            Common.Board[row, col].BackColor = Color.LavenderBlush;
-                    }
-                }
-        }
+       
 
         protected override void OnClick(EventArgs e)
         {
@@ -166,7 +146,7 @@ namespace ChessKing
             {
                 Common.IsSelectedSquare = true;
                 Common.OldBackGround = Common.Board[this.Row, this.Col].BackColor; //keep background color of chess square 
-                this.Chess.FindWay(Common.Board, this.Row, this.Col); //findway can move and eat
+                this.Chess.FindWayAndAutoChangeSquareIfNeeded(Common.Board, this.Row, this.Col); //findway can move and eat
                 this.findWayAction();
                 this.BackColor = System.Drawing.Color.Violet; //change background to violet
                 Common.RowSelected = this.Row; //keep the row
@@ -368,7 +348,7 @@ namespace ChessKing
                 Common.Board[rowLeftCastle, colLeftCastle].Image = null;
                 //tra ve background cu
                 Common.Board[rowLeftCastle, colLeftCastle].BackColor = Common.OldBackGround;
-                this.BackChessBoard();
+                Common.BackChessBoard();
                 //thay doi quan co
                 Common.Board[rowQueen, colQueen].Chess = Common.Board[rowLeftCastle, colLeftCastle].Chess;
                 Common.Board[rowLeftCastle, colLeftCastle].Chess = null;
@@ -395,7 +375,7 @@ namespace ChessKing
                 Common.Board[rowRightCastle, colRightCastle].Image = null;
                 //tra ve background cu
                 Common.Board[rowRightCastle, colRightCastle].BackColor = Common.OldBackGround;
-                this.BackChessBoard();
+                Common.BackChessBoard();
                 //thay doi quan co
                 Common.Board[rowRightBishop, colRightBishop].Chess = Common.Board[rowRightCastle, colRightCastle].Chess;
                 Common.Board[rowRightCastle, colRightCastle].Chess = null;
@@ -453,7 +433,7 @@ namespace ChessKing
             {
                 if (Common.CanMove[i].Chess == null) Common.CanMove[i].Image = null;
             }
-            this.BackChessBoard();
+            Common.BackChessBoard();
             Common.CanMove.Clear();
         }
 
@@ -472,7 +452,7 @@ namespace ChessKing
             Common.CanEat.Clear();
             Common.CanMove.Clear();
 
-            BackChessBoard();
+            Common.BackChessBoard();
             if (Kingtemp.Chess != null && Kingtemp.Chess.IsKing == true)
                 Common.Board[Kingtemp.Row, Kingtemp.Col].BackColor = Color.BlueViolet;
         }
@@ -486,7 +466,7 @@ namespace ChessKing
                 {
                     if (Common.Board[i, j].Chess != null)
                     {
-                        Common.Board[i, j].Chess.FindWay(Common.Board, Common.Board[i, j].Row, Common.Board[i, j].Col);
+                        Common.Board[i, j].Chess.FindWayAndAutoChangeSquareIfNeeded(Common.Board, Common.Board[i, j].Row, Common.Board[i, j].Col);
                         for (int k = 0; k < Common.CanMove.Count; k++)
                         {
                             if (Common.CanMove[k].Chess == null) Common.CanMove[k].Image = null;
@@ -533,7 +513,7 @@ namespace ChessKing
                         //Kiem tra chung team hay khong
                         if (Common.Board[i, j].Chess.Team != temp.Chess.Team)
                         {
-                            Common.Board[i, j].Chess.FindWay(Common.Board, Common.Board[i, j].Row, Common.Board[i, j].Col);
+                            Common.Board[i, j].Chess.FindWayAndAutoChangeSquareIfNeeded(Common.Board, Common.Board[i, j].Row, Common.Board[i, j].Col);
                             for (int k = 0; k < Common.CanMove.Count; k++)
                             {
                                 if (Common.CanMove[k].Chess == null)
@@ -548,7 +528,7 @@ namespace ChessKing
                 }
             Common.CanMove.Clear();
 
-            temp.Chess.FindWay(Common.Board, temp.Row, temp.Col);
+            temp.Chess.FindWayAndAutoChangeSquareIfNeeded(Common.Board, temp.Row, temp.Col);
 
             for (int i = 0; i < Common.CanMove.Count; i++)
             {
@@ -569,7 +549,7 @@ namespace ChessKing
                             {
                                 if (Common.Board[i, j].Chess.Team == temp.Chess.Team)
                                 {
-                                    Common.Board[i, j].Chess.FindWay(Common.Board, Common.Board[i, j].Row, Common.Board[i, j].Col);
+                                    Common.Board[i, j].Chess.FindWayAndAutoChangeSquareIfNeeded(Common.Board, Common.Board[i, j].Row, Common.Board[i, j].Col);
                                     for (int k = 0; k < Common.CanMove.Count; k++)
                                     {
                                         if (Common.CanMove[k].Chess == null)
@@ -653,7 +633,7 @@ namespace ChessKing
             Common.Board[Common.RowSelected, Common.ColSelected].Image = null;
             //tra ve background cu
             Common.Board[Common.RowSelected, Common.ColSelected].BackColor = Common.OldBackGround;
-            this.BackChessBoard();
+            Common.BackChessBoard();
             //thay doi quan co
             this.Chess = Common.Board[Common.RowSelected, Common.ColSelected].Chess;
             Common.Board[Common.RowSelected, Common.ColSelected].Chess = null;
@@ -666,7 +646,7 @@ namespace ChessKing
             {
                 //TODO: add mini root de xu li ai
                 this.minimaxRoot();
-                this.BackChessBoard();
+                Common.BackChessBoard();
             }
         }
         protected void minimaxRoot()
@@ -698,7 +678,7 @@ namespace ChessKing
 
                         int befRow = i;
                         int befCol = j;
-                        board[befRow, befCol].Chess.FindWay(board, befRow, befCol);
+                        board[befRow, befCol].Chess.FindWayAndAutoChangeSquareIfNeeded(board, befRow, befCol);
 
                         for (int k = 0; k < Common.CanMove.Count; k++)
                         {
@@ -774,7 +754,7 @@ namespace ChessKing
                             Common.Board[0, colRightBishop].Image = Common.Board[0, colRightCastle].Image;
                             Common.Board[0, colRightCastle].Image = null;
                             Common.Board[0, colRightCastle].BackColor = Common.OldBackGround;
-                            this.BackChessBoard();
+                            Common.BackChessBoard();
                             Common.Board[0, colRightBishop].Chess = Common.Board[0, colRightCastle].Chess;
                             Common.Board[0, colRightCastle].Chess = null;
                             //Thêm trạng thái đã castle để không thể castle lần 2
@@ -793,7 +773,7 @@ namespace ChessKing
                             Common.Board[0, colQueen].Image = Common.Board[0, colLeftCastle].Image;
                             Common.Board[0, colLeftCastle].Image = null;
                             Common.Board[0, colLeftCastle].BackColor = Common.OldBackGround;
-                            this.BackChessBoard();
+                            Common.BackChessBoard();
                             Common.Board[0, colQueen].Chess = Common.Board[0, colLeftCastle].Chess;
                             Common.Board[0, colLeftCastle].Chess = null;
 
@@ -854,7 +834,7 @@ namespace ChessKing
                     {
                         List<ChessSquare> RootTemp = new List<ChessSquare>();
 
-                        root[befRow, befCol].Chess.FindWay(root, befRow, befCol);
+                        root[befRow, befCol].Chess.FindWayAndAutoChangeSquareIfNeeded(root, befRow, befCol);
 
                         for (int k = 0; k < Common.CanMove.Count; k++)
                         {

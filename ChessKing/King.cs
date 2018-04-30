@@ -17,7 +17,7 @@ namespace ChessKing
         /// <param name="board"></param>
         /// <param name="row"></param>
         /// <param name="col"></param>
-        public override void FindWay(ChessSquare[,] board, int row, int col)
+        public override void FindWayAndAutoChangeSquareIfNeeded(ChessSquare[,] board, int row, int col)
         {
 
             // Kiểm tra các ô phía trên 
@@ -40,16 +40,15 @@ namespace ChessKing
 
                 Common.isWhiteQueenSideCastleAvailable =
                     !Common.IsEmptyChessSquare(board, 7, 0)
-                    &&!Common.isLeftWhiteCastleMoved
-                    && Common.IsEmptyChessSquare(board, 7, 1)
-                    && Common.IsEmptyChessSquare(board, 7, 2)
-                    && Common.IsEmptyChessSquare(board, 7, 3);
+                    && !Common.isLeftWhiteCastleMoved
+                    && CheckAvailableQueenPath(board,row:7,KnightCol:1,BishopCol: 2,
+                    QueenCol: 3,team:(int)ColorTeam.White);
 
                 Common.isWhiteKingSideCastleAvailable =
                     !Common.IsEmptyChessSquare(board, 7, 7)
-                    &&!Common.isRightWhiteCastleMoved
-                    && Common.IsEmptyChessSquare(board, 7, 6)
-                    && Common.IsEmptyChessSquare(board, 7, 5);
+                    && !Common.isRightWhiteCastleMoved
+                    && CheckAvailableKingPath(board, row: 7, KnightCol: 6, BishopCol: 5,
+                    team: (int)ColorTeam.White);
 
                 if (Common.isWhiteQueenSideCastleAvailable)
                     Common.ChangeBackgroundColorToCanMove(board, 7, 2);
@@ -67,16 +66,15 @@ namespace ChessKing
 
                 Common.isBlackQueenSideCastleAvailable =
                     !Common.IsEmptyChessSquare(board, 0, 0)
-                    &&!Common.isLeftBlackCastleMoved
-                    && Common.IsEmptyChessSquare(board, 0, 1)
-                    && Common.IsEmptyChessSquare(board, 0, 2)
-                    && Common.IsEmptyChessSquare(board, 0, 3);
+                    && !Common.isLeftBlackCastleMoved
+                    && CheckAvailableQueenPath(board, row: 0, KnightCol: 1, BishopCol: 2, QueenCol: 3,
+                    team:(int)ColorTeam.Black);
 
                 Common.isBlackKingSideCastleAvailable =
                     !Common.IsEmptyChessSquare(board, 0, 7)
                     &&!Common.isRightBlackCastleMoved
-                    && Common.IsEmptyChessSquare(board, 0, 6)
-                    && Common.IsEmptyChessSquare(board, 0, 5);
+                    && CheckAvailableKingPath(board, row: 0, KnightCol: 6, BishopCol: 5, 
+                    team: (int)ColorTeam.Black);
 
                 if (Common.isBlackQueenSideCastleAvailable)
                     Common.ChangeBackgroundColorToCanMove(board, 0, 2);
@@ -84,6 +82,30 @@ namespace ChessKing
                 if (Common.isBlackKingSideCastleAvailable)
                     Common.ChangeBackgroundColorToCanMove(board, 0, 6);
             }
+        }
+
+        private bool CheckAvailableQueenPath(ChessSquare[,] board, int row, int KnightCol, int BishopCol, int QueenCol,int team)
+        {
+            if (!Common.IsEmptyChessSquare(board,row,QueenCol)) return false;
+            if (!Common.IsEmptyChessSquare(board,row,KnightCol)) return false;
+            if (!Common.IsEmptyChessSquare(board,row,BishopCol)) return false;
+
+            if (Common.IsDangerSquare(board, row, QueenCol, team)) return false;
+            if (Common.IsDangerSquare(board, row, KnightCol, team)) return false;
+            if (Common.IsDangerSquare(board, row, BishopCol, team)) return false;
+
+            return true;
+        }
+
+        private bool CheckAvailableKingPath(ChessSquare[,] board, int row, int KnightCol, int BishopCol, int team)
+        {
+            if (!Common.IsEmptyChessSquare(board, row, KnightCol)) return false;
+            if (!Common.IsEmptyChessSquare(board, row, BishopCol)) return false;
+
+            if (Common.IsDangerSquare(board, row, KnightCol, team)) return false;
+            if (Common.IsDangerSquare(board, row, BishopCol, team)) return false;
+
+            return true;
         }
 
         private void KiemTraOBenPhai(ChessSquare[,] board, int row, int col)

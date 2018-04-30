@@ -17,8 +17,22 @@ namespace ChessKing
         static public bool IsSelectedSquare = false; //selected yet
         static public bool IsPlaying = false;
         static public int IsTurn = 0;
-       
 
+        static public bool Close = false;
+        static public ChessSquare[,] Board;
+        static public List<ChessSquare> CanMove = new List<ChessSquare>(); // create list, save position of piece can move
+        static public List<ChessSquare> CanEat = new List<ChessSquare>();
+
+        static public int RowSelected = -1; //set value =-1, not in chessboard
+        static public int ColSelected = -1; //set value =-1, not in chessboard
+
+        static public Color OldBackGround;//keep back ground before change to violet
+
+        static public bool CheckPromote = false; //phong hau
+        static public int RowProQueen = -1;
+        static public int ColProQueen = -1;
+
+        static public int Depth = 2;
         // Biến phục vụ mục đích nhập thành
         static public bool isBlackKingSideCastleAvailable = false;
         static public bool isBlackQueenSideCastleAvailable = false;
@@ -35,17 +49,17 @@ namespace ChessKing
         static public bool isRightWhiteCastleMoved = false;
         static public bool isLeftBlackCastleMoved = false;
         static public bool isRightBlackCastleMoved = false;
-        
+
         static public bool isWhiteKingChecked = false;
         static public bool isBlackKingChecked = false;
 
-       
+
         static public void ResetPropToDefault()
         {
             IsSelectedSquare = false;
             IsTurn = 0;
             IsPlaying = false;
-             RowSelected = -1; //set value =-1, not in chessboard
+            RowSelected = -1; //set value =-1, not in chessboard
             ColSelected = -1;
 
             isBlackKingMoved = false;
@@ -53,7 +67,7 @@ namespace ChessKing
             isLeftWhiteCastleMoved = false;
             isRightWhiteCastleMoved = false;
             isLeftBlackCastleMoved = false;
-            isRightBlackCastleMoved= false;
+            isRightBlackCastleMoved = false;
 
             isWhiteKingChecked = false;
             isBlackKingChecked = false;
@@ -76,22 +90,53 @@ namespace ChessKing
             CanMove.Add(board[row, col]);
         }
 
+        static public bool IsDangerSquare(ChessSquare[,] board, int rowCheck, int colCheck, int teamCheck)
+        {
+            for (int i = 0; i < 8; i++)
+                for (int j = 0; j < 8; j++)
+                {
+                    if (Board[i, j].Chess != null && Board[i, j].Chess.Team != teamCheck)
+                    {
+                        Board[i, j].Chess.FindWay(Board, Board[i, j].Row, Board[i, j].Col);
+                        for (int k = 0; k < CanMove.Count; k++)
+                        {
+                            if (CanMove[k].Chess == null) CanMove[k].Image = null;
+                            if (CanMove[k].Row == rowCheck && CanMove[k].Col == colCheck)
+                            {
+                                BackChessBoard();
+                                CanMove.Clear();
+                                return true;
+                            }
+                        }
+                    }
+                    BackChessBoard();
+                    CanMove.Clear();
+                }
+            return false;
+        }
 
-        static public bool Close = false;
-        static public ChessSquare[,] Board;
-        static public List<ChessSquare> CanMove = new List<ChessSquare>(); // create list, save position of piece can move
-        static public List<ChessSquare> CanEat = new List<ChessSquare>();
+        static public void BackChessBoard()
+        {
+            for (int row = 0; row < 8; row++)
+                for (int col = 0; col < 8; col++)
+                {
+                    if (row % 2 == 0)
+                    {
+                        if (col % 2 == 0)
+                            Board[row, col].BackColor = Color.LavenderBlush;
+                        else
+                            Board[row, col].BackColor = Color.DarkSlateGray;
+                    }
+                    else
+                    {
+                        if (col % 2 == 0)
+                            Board[row, col].BackColor = Color.DarkSlateGray;
+                        else
+                            Board[row, col].BackColor = Color.LavenderBlush;
+                    }
+                }
+        }
 
-        static public int RowSelected = -1; //set value =-1, not in chessboard
-        static public int ColSelected = -1; //set value =-1, not in chessboard
-
-        static public Color OldBackGround;//keep back ground before change to violet
-
-        static public bool CheckPromote = false; //phong hau
-        static public int RowProQueen = -1;
-        static public int ColProQueen = -1;
-
-        static public int Depth = 2;
 
         // Ma trận Piece-Square Table phục vụ cho AI tìm được value tốt nhất
         static public double[,] PawnWhite =
