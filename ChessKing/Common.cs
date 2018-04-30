@@ -31,6 +31,10 @@ namespace ChessKing
         // Chỉ có thể nhập thành  nếu chưa đi
         static public bool isWhiteKingMoved = false;
         static public bool isBlackKingMoved = false;
+        static public bool isLeftWhiteCastleMoved = false;
+        static public bool isRightWhiteCastleMoved = false;
+        static public bool isLeftBlackCastleMoved = false;
+        static public bool isRightBlackCastleMoved = false;
 
 
 
@@ -45,6 +49,11 @@ namespace ChessKing
 
             isBlackKingMoved = false;
             isWhiteKingMoved = false;
+            isLeftWhiteCastleMoved = false;
+            isRightWhiteCastleMoved = false;
+            isLeftBlackCastleMoved = false;
+            isRightBlackCastleMoved= false;
+
 
         }
         static public bool IsEmptyChessSquare(ChessSquare[,] board, int row, int col)

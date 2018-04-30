@@ -40,6 +40,7 @@ namespace ChessKing
                 Common.isWhiteQueenSideCastleAvailable =
                     !Common.IsEmptyChessSquare(board, 7, 0)
                     &&!Common.isWhiteKingMoved
+                    &&!Common.isLeftWhiteCastleMoved
                     && Common.IsEmptyChessSquare(board, 7, 1)
                     && Common.IsEmptyChessSquare(board, 7, 2)
                     && Common.IsEmptyChessSquare(board, 7, 3);
@@ -47,6 +48,7 @@ namespace ChessKing
                 Common.isWhiteKingSideCastleAvailable =
                     !Common.IsEmptyChessSquare(board, 7, 7)
                     &&!Common.isWhiteKingMoved
+                    &&!Common.isRightWhiteCastleMoved
                     && Common.IsEmptyChessSquare(board, 7, 6)
                     && Common.IsEmptyChessSquare(board, 7, 5);
 
@@ -66,6 +68,7 @@ namespace ChessKing
                 Common.isBlackQueenSideCastleAvailable =
                     !Common.IsEmptyChessSquare(board, 0, 0)
                     &&!Common.isBlackKingMoved
+                    &&!Common.isLeftBlackCastleMoved
                     && Common.IsEmptyChessSquare(board, 0, 1)
                     && Common.IsEmptyChessSquare(board, 0, 2)
                     && Common.IsEmptyChessSquare(board, 0, 3);
@@ -73,6 +76,7 @@ namespace ChessKing
                 Common.isBlackKingSideCastleAvailable =
                     !Common.IsEmptyChessSquare(board, 0, 7)
                     &&!Common.isBlackKingMoved
+                    &&!Common.isRightBlackCastleMoved
                     && Common.IsEmptyChessSquare(board, 0, 6)
                     && Common.IsEmptyChessSquare(board, 0, 5);
 
