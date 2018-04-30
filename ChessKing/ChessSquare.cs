@@ -147,135 +147,7 @@ namespace ChessKing
             }
         }
 
-        private void Check(ref bool isCheck, ref ChessSquare KingTemp)
-        {
-            // mặc định chưa bị chiếu tướng isCheck=false
-            isCheck = false;
-            //check if King is danger
-            for (int i = 0; i < 8; i++)
-                for (int j = 0; j < 8; j++)
-                {
-                    if (Common.Board[i, j].Chess != null)
-                    {
-                        Common.Board[i, j].Chess.FindWay(Common.Board, Common.Board[i, j].Row, Common.Board[i, j].Col);
-                        for (int k = 0; k < Common.CanMove.Count; k++)
-                        {
-                            if (Common.CanMove[k].Chess == null) Common.CanMove[k].Image = null;
-                            else
-                            {
-                                if (Common.CanMove[k].Chess.IsKing)
-                                {
-                                    isCheck = true;
-                                    KingTemp = new ChessSquare(Common.CanMove[k]);
-                                    if (isCheck)
-                                    {
-                                        // Set trạng thái đang bị check khiến không thể nhập thành
-                                        if (KingTemp.Chess.Team == (int)ColorTeam.White)
-                                            Common.isWhiteKingChecked = true;
-                                        if (KingTemp.Chess.Team == (int)ColorTeam.Black)
-                                            Common.isBlackKingChecked = true;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    Common.CanMove.Clear();
-                }
-
-
-        }
-
-        private void Checkmate(ChessSquare temp)
-        {
-            bool isCheckmate = true;
-
-            for (int i = 0; i < 8; i++)
-                for (int j = 0; j < 8; j++)
-                {
-                    if (Common.Board[i, j].Chess != null)
-                    {
-                        //Kiem tra chung team hay khong
-                        if (Common.Board[i, j].Chess.Team != temp.Chess.Team)
-                        {
-                            Common.Board[i, j].Chess.FindWay(Common.Board, Common.Board[i, j].Row, Common.Board[i, j].Col);
-                            for (int k = 0; k < Common.CanMove.Count; k++)
-                            {
-                                if (Common.CanMove[k].Chess == null)
-                                {
-                                    Common.CanMove[k].Image = null;
-                                }
-                                Common.CanEat.Add(Common.CanMove[k]);
-                            }
-                            Common.CanMove.Clear();
-                        }
-                    }
-                }
-            Common.CanMove.Clear();
-
-            temp.Chess.FindWay(Common.Board, temp.Row, temp.Col);
-
-            for (int i = 0; i < Common.CanMove.Count; i++)
-            {
-                if (Common.CanMove[i].Chess == null) Common.CanMove[i].Image = null;
-            }
-
-            if (Common.CanMove.Count == 1)
-            {
-                if (Common.CanEat.Contains(Common.CanMove[Common.CanMove.Count - 1]))
-                {
-                    ChessSquare temp2 = new ChessSquare(Common.CanMove[Common.CanMove.Count - 1]);
-                    Common.CanMove.Clear();
-
-                    for (int i = 0; i < 8; i++)
-                        for (int j = 0; j < 8; j++)
-                        {
-                            if (Common.Board[i, j].Chess != null)
-                            {
-                                if (Common.Board[i, j].Chess.Team == temp.Chess.Team)
-                                {
-                                    Common.Board[i, j].Chess.FindWay(Common.Board, Common.Board[i, j].Row, Common.Board[i, j].Col);
-                                    for (int k = 0; k < Common.CanMove.Count; k++)
-                                    {
-                                        if (Common.CanMove[k].Chess == null)
-                                        {
-                                            Common.CanMove[k].Image = null;
-                                        }
-                                        if (Common.CanMove[k].Col == temp2.Col && Common.CanMove[k].Row == temp2.Row)
-                                        {
-                                            isCheckmate = false;
-                                            break;
-                                        }
-                                    }
-                                    Common.CanMove.Clear();
-                                }
-                            }
-                        }
-                }
-            }
-            else
-            {
-                while (Common.CanMove.Count > 0)
-                {
-                    if (!Common.CanEat.Contains(Common.CanMove[Common.CanMove.Count - 1])) isCheckmate = false;
-                    Common.CanMove.Remove(Common.CanMove[Common.CanMove.Count - 1]);
-                }
-            }
-
-            if (isCheckmate)
-            {
-                if (temp.Chess.Team == (int)ColorTeam.White) MessageBox.Show("The Black Wins");
-                else MessageBox.Show("The White Wins");
-
-                Common.IsPlaying = false;
-                Common.Close = true;
-            }
-            else
-            {
-                checkSound.URL = "Sounds/Check.mp3";
-                checkSound.settings.autoStart = true;
-            }
-        }
-
+     
         private void ChangeTurn()
         {
             if (Common.IsSelectedSquare == false) RenderWhenNotSelectedYet();
@@ -604,14 +476,139 @@ namespace ChessKing
             if (Kingtemp.Chess != null && Kingtemp.Chess.IsKing == true)
                 Common.Board[Kingtemp.Row, Kingtemp.Col].BackColor = Color.BlueViolet;
         }
-
-        private void XuLiKhiDanhVoiAI()
+        private void Check(ref bool isCheck, ref ChessSquare KingTemp)
         {
-            if (Common.Is2PlayerMode == false && Common.IsTurn % 2 == 1)
+            // mặc định chưa bị chiếu tướng isCheck=false
+            isCheck = false;
+            //check if King is danger
+            for (int i = 0; i < 8; i++)
+                for (int j = 0; j < 8; j++)
+                {
+                    if (Common.Board[i, j].Chess != null)
+                    {
+                        Common.Board[i, j].Chess.FindWay(Common.Board, Common.Board[i, j].Row, Common.Board[i, j].Col);
+                        for (int k = 0; k < Common.CanMove.Count; k++)
+                        {
+                            if (Common.CanMove[k].Chess == null) Common.CanMove[k].Image = null;
+                            else
+                            {
+                                if (Common.CanMove[k].Chess.IsKing)
+                                {
+                                    isCheck = true;
+                                    KingTemp = new ChessSquare(Common.CanMove[k]);
+                                    if (isCheck)
+                                    {
+                                        // Set trạng thái đang bị check khiến không thể nhập thành
+                                        if (KingTemp.Chess.Team == (int)ColorTeam.White)
+                                            Common.isWhiteKingChecked = true;
+                                        if (KingTemp.Chess.Team == (int)ColorTeam.Black)
+                                            Common.isBlackKingChecked = true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    Common.CanMove.Clear();
+                }
+        }
+
+        private void KiemTraChieuBi(ref bool isCheck, ref ChessSquare Kingtemp)
+        {
+            this.Check(ref isCheck, ref Kingtemp);
+            if (isCheck)
             {
-                //TODO: add mini root de xu li ai
-                this.minimaxRoot();
-                this.BackChessBoard();
+                Common.CanMove.Clear();
+                Checkmate(Kingtemp);
+            }
+        }
+        private void Checkmate(ChessSquare temp)
+        {
+            bool isCheckmate = true;
+
+            for (int i = 0; i < 8; i++)
+                for (int j = 0; j < 8; j++)
+                {
+                    if (Common.Board[i, j].Chess != null)
+                    {
+                        //Kiem tra chung team hay khong
+                        if (Common.Board[i, j].Chess.Team != temp.Chess.Team)
+                        {
+                            Common.Board[i, j].Chess.FindWay(Common.Board, Common.Board[i, j].Row, Common.Board[i, j].Col);
+                            for (int k = 0; k < Common.CanMove.Count; k++)
+                            {
+                                if (Common.CanMove[k].Chess == null)
+                                {
+                                    Common.CanMove[k].Image = null;
+                                }
+                                Common.CanEat.Add(Common.CanMove[k]);
+                            }
+                            Common.CanMove.Clear();
+                        }
+                    }
+                }
+            Common.CanMove.Clear();
+
+            temp.Chess.FindWay(Common.Board, temp.Row, temp.Col);
+
+            for (int i = 0; i < Common.CanMove.Count; i++)
+            {
+                if (Common.CanMove[i].Chess == null) Common.CanMove[i].Image = null;
+            }
+
+            if (Common.CanMove.Count == 1)
+            {
+                if (Common.CanEat.Contains(Common.CanMove[Common.CanMove.Count - 1]))
+                {
+                    ChessSquare temp2 = new ChessSquare(Common.CanMove[Common.CanMove.Count - 1]);
+                    Common.CanMove.Clear();
+
+                    for (int i = 0; i < 8; i++)
+                        for (int j = 0; j < 8; j++)
+                        {
+                            if (Common.Board[i, j].Chess != null)
+                            {
+                                if (Common.Board[i, j].Chess.Team == temp.Chess.Team)
+                                {
+                                    Common.Board[i, j].Chess.FindWay(Common.Board, Common.Board[i, j].Row, Common.Board[i, j].Col);
+                                    for (int k = 0; k < Common.CanMove.Count; k++)
+                                    {
+                                        if (Common.CanMove[k].Chess == null)
+                                        {
+                                            Common.CanMove[k].Image = null;
+                                        }
+                                        if (Common.CanMove[k].Col == temp2.Col && Common.CanMove[k].Row == temp2.Row)
+                                        {
+                                            isCheckmate = false;
+                                            break;
+                                        }
+                                    }
+                                    Common.CanMove.Clear();
+                                }
+                            }
+                        }
+                }
+            }
+            else
+            {
+                while (Common.CanMove.Count > 0)
+                {
+                    if (!Common.CanEat.Contains(Common.CanMove[Common.CanMove.Count - 1])) isCheckmate = false;
+                    Common.CanMove.Remove(Common.CanMove[Common.CanMove.Count - 1]);
+                }
+            }
+
+            if (isCheckmate)
+            {
+                if (temp.Chess.Team == (int)ColorTeam.White) MessageBox.Show("The Black Wins");
+                else MessageBox.Show("The White Wins");
+
+                Common.IsPlaying = false;
+                Common.Close = true;
+            }
+            else
+            {
+                checkSound.URL = "Sounds/Check.mp3";
+                checkSound.settings.autoStart = true;
             }
         }
 
@@ -662,16 +659,16 @@ namespace ChessKing
             Common.Board[Common.RowSelected, Common.ColSelected].Chess = null;
         }
 
-        private void KiemTraChieuBi(ref bool isCheck, ref ChessSquare Kingtemp)
+        // AI part
+        private void XuLiKhiDanhVoiAI()
         {
-            this.Check(ref isCheck, ref Kingtemp);
-            if (isCheck)
+            if (Common.Is2PlayerMode == false && Common.IsTurn % 2 == 1)
             {
-                Common.CanMove.Clear();
-                Checkmate(Kingtemp);
+                //TODO: add mini root de xu li ai
+                this.minimaxRoot();
+                this.BackChessBoard();
             }
         }
-
         protected void minimaxRoot()
         {
             int depth = Common.Depth;
