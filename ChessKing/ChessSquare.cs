@@ -315,10 +315,41 @@ namespace ChessKing
                 XuLiKhiDanhVoiAI();
                 KiemTraChieuVua();
 
+                if (!Common.isWhiteKingMoved)
+                    IfKingMoved((int)ColorTeam.White);
+                if (!Common.isBlackKingMoved)
+                    IfKingMoved((int)ColorTeam.Black);
+
             }
             else //not inside can move list
             {
                 HuyBoChonQuan();
+            }
+        }
+
+        private void IfKingMoved(int colorTeam)
+        {
+            int colKing;
+            int rowKing;
+            if (colorTeam == (int)ColorTeam.White)
+            {
+                colKing = Constants.colWhiteKingDefault;
+                rowKing = Constants.rowWhiteKingDefault;
+                if (Common.Board[rowKing, colKing].Chess == null) Common.isWhiteKingMoved = true;
+                else
+                {
+                    if (!Common.Board[rowKing, colKing].Chess.IsKing) Common.isWhiteKingMoved = true;
+                }
+            }
+            else
+            {
+                colKing = Constants.colBlackKingDefault;
+                rowKing = Constants.rowBlackKingDefault;
+                if (Common.Board[rowKing, colKing].Chess == null) Common.isBlackKingMoved= true;
+                else
+                {
+                    if (!Common.Board[rowKing, colKing].Chess.IsKing) Common.isBlackKingMoved= true;
+                }
             }
         }
 
@@ -368,11 +399,11 @@ namespace ChessKing
                 if (colorTeam == (int)ColorTeam.White)
                 {
                     //Thêm trạng thái đã castle để không thể castle lần 2
-                    Common.isWhiteKingCastled = true;
+                    Common.isWhiteKingMoved = true;
                 }
                 else
                 {//Thêm trạng thái đã castle để không thể castle lần 2
-                    Common.isBlackKingCastled = true;
+                    Common.isBlackKingMoved= true;
                 }
             }
 
@@ -395,11 +426,11 @@ namespace ChessKing
                 if (colorTeam == (int)ColorTeam.White)
                 {
                     //Thêm trạng thái đã castle để không thể castle lần 2
-                    Common.isWhiteKingCastled = true;
+                    Common.isWhiteKingMoved= true;
                 }
                 else
                 {//Thêm trạng thái đã castle để không thể castle lần 2
-                    Common.isBlackKingCastled = true;
+                    Common.isBlackKingMoved= true;
                 }
             }
         }
@@ -645,12 +676,10 @@ namespace ChessKing
                             Common.Board[0, colRightBishop].Chess = Common.Board[0, colRightCastle].Chess;
                             Common.Board[0, colRightCastle].Chess = null;
                             //Thêm trạng thái đã castle để không thể castle lần 2
-                            Common.isBlackKingCastled = true;
+                            Common.isBlackKingMoved= true;
 
                         }
                     }
-
-
                     // Kiểm tra queen side castle
                     var colQueen = Constants.colBlackQueenDefault;
                     var colLeftBishop = Constants.colBlackLeftBishopDefault;
@@ -667,11 +696,17 @@ namespace ChessKing
                             Common.Board[0, colLeftCastle].Chess = null;
 
                             //Thêm trạng thái đã castle để không thể castle lần 2
-                            Common.isBlackKingCastled = true;
+                            Common.isBlackKingMoved= true;
                         }
                     }
                 }
             }
+
+            //Kiểm tra xem máy có di chuyển vua chưa, phục vụ cho mục đích xét nhập thành
+            if (!Common.isWhiteKingMoved)
+                IfKingMoved((int)ColorTeam.White);
+            if (!Common.isBlackKingMoved)
+                IfKingMoved((int)ColorTeam.Black);
 
             Common.IsTurn++;
         }

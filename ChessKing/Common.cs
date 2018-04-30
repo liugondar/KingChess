@@ -26,19 +26,13 @@ namespace ChessKing
         static public bool isWhiteKingSideCastleAvailable = false;
         static public bool isWhiteQueenSideCastleAvailable = false;
 
+
+        // Kiểm tra xem đã di chuyển lần nào chưa, nếu rồi trả về true
+        // Chỉ có thể nhập thành  nếu chưa đi
         static public bool isWhiteKingMoved = false;
         static public bool isBlackKingMoved = false;
 
-        static public bool isBlackKingSideCastleMoved= false;
-        static public bool isBlackQueenSideCastleMoved= false;
 
-        static public bool isWhiteKingSideCastleMoved= false;
-        static public bool isWhiteQueenSideCastleMoved= false;
-
-        // Kiểm tra xem đã nhập thành lần nào chưa, nếu rồi trả về false
-        // Chỉ có thể nhập thành 1 lần trong 1 game
-        static public bool isBlackKingCastled = false;
-        static public bool isWhiteKingCastled = false;
 
        
         static public void ResetPropToDefault()
@@ -46,23 +40,12 @@ namespace ChessKing
             IsSelectedSquare = false;
             IsTurn = 0;
             IsPlaying = false;
-            
-
-            isBlackKingSideCastleAvailable = false;
-            isBlackQueenSideCastleAvailable = false;
-            isWhiteKingSideCastleAvailable = false;
-            isWhiteQueenSideCastleAvailable = false;
+             RowSelected = -1; //set value =-1, not in chessboard
+            ColSelected = -1;
 
             isBlackKingMoved = false;
             isWhiteKingMoved = false;
 
-            isBlackKingSideCastleMoved= false;
-            isBlackQueenSideCastleMoved= false;
-            isWhiteKingSideCastleMoved= false;
-            isWhiteQueenSideCastleMoved= false;
-
-            isBlackKingCastled = false;
-            isWhiteKingCastled = false;
         }
         static public bool IsEmptyChessSquare(ChessSquare[,] board, int row, int col)
         {
