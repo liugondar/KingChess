@@ -35,8 +35,9 @@ namespace ChessKing
         static public bool isRightWhiteCastleMoved = false;
         static public bool isLeftBlackCastleMoved = false;
         static public bool isRightBlackCastleMoved = false;
-
-
+        
+        static public bool isWhiteKingChecked = false;
+        static public bool isBlackKingChecked = false;
 
        
         static public void ResetPropToDefault()
@@ -54,6 +55,8 @@ namespace ChessKing
             isLeftBlackCastleMoved = false;
             isRightBlackCastleMoved= false;
 
+            isWhiteKingChecked = false;
+            isBlackKingChecked = false;
 
         }
         static public bool IsEmptyChessSquare(ChessSquare[,] board, int row, int col)
