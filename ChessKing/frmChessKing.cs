@@ -417,7 +417,6 @@ namespace ChessKing
                 (ltoolStripMenuItem).Checked = false;
 
             // This line is optional, for show the mainMenu after click
-            selectedMenuItem.Owner.Show();
         }
 
     }
