@@ -34,7 +34,8 @@ namespace ChessKing
         private int evaluation;
 
         public virtual void FindWayAndAutoChangeSquareIfNeeded(ChessSquare[,] board, int row, int col){}
-        public virtual void FindWay(ChessSquare[,] board, int row, int col) { }
+        public virtual void FindSquareCanBeEat(ChessSquare[,] board, int row, int col) { }
         public virtual void FindSquaresCanProtect(ChessSquare[,] board,int row,int col) { }
+        public virtual void FindSquareCanBeMove(ChessSquare[,] board, int row, int col) { }
     }
 }

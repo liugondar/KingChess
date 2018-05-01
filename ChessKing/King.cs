@@ -173,7 +173,7 @@ namespace ChessKing
         /// <param name="row"></param>
         /// <param name="col"></param>
         /// <returns></returns>
-        public bool CheckSquareArroundCanBeAttackByTeamate(ChessSquare[,] board, int row, int col)
+        public bool IsSquareArroundProtected(ChessSquare[,] board, int row, int col)
         {
             int enemyTeam = this.Team == (int)ColorTeam.White ?
                 (int)ColorTeam.Black : (int)ColorTeam.White;
@@ -193,7 +193,7 @@ namespace ChessKing
                 if (col > Constants.firstColOfTable)
                     if (CheckSquareCanbeAttackByTeamate(board, row - 1, col - 1, enemyTeam)) return true;
                 if (col < Constants.lastColOfTable)
-                    if(CheckSquareCanbeAttackByTeamate(board, row - 1, col+1 , enemyTeam)) return true;
+                    if (CheckSquareCanbeAttackByTeamate(board, row - 1, col + 1, enemyTeam)) return true;
                 if (row > Constants.firstRowOfTable)
                     if (CheckSquareCanbeAttackByTeamate(board, row - 1, col, enemyTeam)) return true;
             }
@@ -237,14 +237,142 @@ namespace ChessKing
         {
             bool result;
             if (board[row, col].Chess == null)
-                result=Common.IsDangerSquareToMove(board, row, col, enemyTeam);
+                result = Common.IsDangerSquareToMove(board, row, col, enemyTeam);
             else
 
-            result=Common.IsSquareCanBeEatByEnemy(board, row, col, enemyTeam);
+                result = Common.IsSquareCanBeEatByEnemy(board, row, col, enemyTeam);
 
             return result;
         }
 
         #endregion
+
+        #region Check square in checking path to make sure no teamate chess can protect king
+        /// <summary>
+        /// return true if checked team has a chess can be protect king
+        /// else return false
+        /// </summary>
+        /// <param name="board"></param>
+        /// <param name="kingCheckedSquare"></param>
+        /// <param name="chessCheckSquare"></param>
+        /// <returns></returns>
+        public bool IsKingCanBeProtect(ChessSquare[,] board, ChessSquare kingCheckedSquare, ChessSquare chessCheckSquare)
+        {
+            if (kingCheckedSquare.Chess == null) return true;
+            if (chessCheckSquare.Chess == null) return true;
+            Chess chessCheck = chessCheckSquare.Chess;
+
+            if (chessCheck.IsKnight) return false;
+            if (chessCheck.IsBishop) return IsKingCanBeProtectWithCheckByBishop(board, kingCheckedSquare, chessCheckSquare);
+            if (chessCheck.IsQueen) return IsKingCanBeProtectWithCheckByQueen(board, kingCheckedSquare, chessCheckSquare);
+            if (chessCheck.IsCastle) return IsKingCanBeProtectWithCheckByCastle(board, kingCheckedSquare, chessCheckSquare);
+            if (chessCheck.IsPawn) return IsKingCanBeProtectWithCheckByPawn(board, kingCheckedSquare, chessCheckSquare);
+
+            return false;
+        }
+
+        private bool IsKingCanBeProtectWithCheckByPawn(ChessSquare[,] board, ChessSquare kingCheckedSquare, ChessSquare chessCheckSquare)
+        {
+            throw new NotImplementedException();
+        }
+
+        private bool IsKingCanBeProtectWithCheckByCastle(ChessSquare[,] board, ChessSquare kingCheckedSquare, ChessSquare chessCheckSquare)
+        {
+            throw new NotImplementedException();
+        }
+
+        private bool IsKingCanBeProtectWithCheckByQueen(ChessSquare[,] board, ChessSquare kingCheckedSquare, ChessSquare chessCheckSquare)
+        {
+            throw new NotImplementedException();
+        }
+
+        private bool IsKingCanBeProtectWithCheckByBishop(ChessSquare[,] board, ChessSquare kingCheckedSquare, ChessSquare chessCheckSquare)
+        {
+            // Bishop in south east king
+            if (kingCheckedSquare.Row < chessCheckSquare.Row
+                && kingCheckedSquare.Col < chessCheckSquare.Col)
+            {
+                // Get squares in check path to king
+                int j = chessCheckSquare.Col - 1;
+                for (int i = chessCheckSquare.Row - 1; i >= Constants.firstRowOfTable; i--)
+                {
+                    // Kiểm tra điều kiện, nếu ngoài bàn cờ ( col <0) thì xong việc xét chéo trái lên
+                    if (j < Constants.firstColOfTable) break;
+
+                    if (Common.IsEmptyChessSquare(board, i, j))
+                    {
+                        Common.SquaresCheckingPath.Add(board[i, j]);
+                    }
+                    j--;
+                }
+                return  IsSquareInPathCanBeProtect(board);
+            }
+            
+            //Bishop in south west king
+            if (kingCheckedSquare.Row < chessCheckSquare.Row
+              && kingCheckedSquare.Col > chessCheckSquare.Col)
+            {
+                int j = chessCheckSquare.Col + 1;
+                for (int i = chessCheckSquare.Row - 1; i >= Constants.firstRowOfTable; i--)
+                {
+                    if (Common.IsEmptyChessSquare(board, i, j))
+                    {
+                        Common.SquaresCheckingPath.Add(board[i, j]);
+                    }
+                    j++;
+                }
+                return IsSquareInPathCanBeProtect(board);
+            }
+
+            //Bishop in north east king
+            if (kingCheckedSquare.Row > chessCheckSquare.Row
+              && kingCheckedSquare.Col < chessCheckSquare.Col)
+            {
+                int j = chessCheckSquare.Col + 1;
+                for (int i = chessCheckSquare.Row + 1; i >= Constants.firstRowOfTable; i--)
+                {
+                    if (Common.IsEmptyChessSquare(board, i, j))
+                    {
+                        Common.SquaresCheckingPath.Add(board[i, j]);
+                    }
+                    j++;
+                }
+                return IsSquareInPathCanBeProtect(board);
+            }
+
+            //Bishop in north west king
+            if (kingCheckedSquare.Row > chessCheckSquare.Row
+              && kingCheckedSquare.Col > chessCheckSquare.Col)
+            {
+                int j = chessCheckSquare.Col - 1;
+                for (int i = chessCheckSquare.Row +1; i >= Constants.firstRowOfTable; i--)
+                {
+                    if (Common.IsEmptyChessSquare(board, i, j))
+                    {
+                        Common.SquaresCheckingPath.Add(board[i, j]);
+                    }
+                    j++;
+                }
+                return IsSquareInPathCanBeProtect(board);
+            }
+            return false;
+        }
+
+        private  bool IsSquareInPathCanBeProtect(ChessSquare[,] board)
+        {
+            for (int i = 0; i < Common.CanBeMoveTemp.Count; i++)
+            {
+                if (Common.IsSquareCanBeProtectByTeamate(board,
+                    Common.SquaresCheckingPath[i].Row, Common.SquaresCheckingPath[i].Col,
+                    this.Team))
+                {
+                    Common.SquaresCheckingPath.Clear();
+                    return true;
+                }
+            }
+            return false;
+        }
+        #endregion
     }
+
 }

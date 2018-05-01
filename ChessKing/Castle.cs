@@ -91,8 +91,22 @@ namespace ChessKing
             }
         }
         #endregion
-        #region Clone find way without change background
-        public override void FindWay(ChessSquare[,] board, int row, int col)
+
+        #region find way can be eat and move without change background
+        /// <summary>
+        /// in castle is find way can be move is find way can be eat
+        /// </summary>
+        /// <param name="board"></param>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        public override void FindSquareCanBeEat(ChessSquare[,] board, int row, int col)
+        {
+            CheckLeftToFindProjectObject(board, row, col);
+            CheckRightNoChangeBackground(board, row, col);
+            CheckBottomNoChangeBackground(board, row, col);
+            CheckTopNoChangeBackground(board, row, col);
+        }
+        public override void FindSquareCanBeMove(ChessSquare[,] board, int row, int col)
         {
             CheckLeftToFindProjectObject(board, row, col);
             CheckRightNoChangeBackground(board, row, col);
@@ -230,5 +244,7 @@ namespace ChessKing
             }
         }
         #endregion
+
+      
     }
 }

@@ -26,6 +26,7 @@ namespace ChessKing
         static public List<ChessSquare> CanBeProtect = new List<ChessSquare>();
         static public List<ChessSquare> CanBeMoveTemp = new List<ChessSquare>(); // Dùng cho việc xem thử các nước đi quân cờ
         static public List<ChessSquare> SquareArroudking = new List<ChessSquare>();
+        static public List<ChessSquare> SquaresCheckingPath= new List<ChessSquare>();
         static public int RowSelected = -1; //set value =-1, not in chessboard
         static public int ColSelected = -1; //set value =-1, not in chessboard
 
@@ -98,7 +99,35 @@ namespace ChessKing
                 {
                     if (Board[i, j].Chess != null && Board[i, j].Chess.Team != teamCheck)
                     {
-                        Board[i, j].Chess.FindWay(Board, Board[i, j].Row, Board[i, j].Col);
+                        Board[i, j].Chess.FindSquareCanBeEat(Board, Board[i, j].Row, Board[i, j].Col);
+                        for (int k = 0; k < CanBeMoveTemp.Count; k++)
+                        {
+                            if (CanBeMoveTemp[k].Chess == null) CanBeMoveTemp[k].Image = null;
+                            if (CanBeMoveTemp[k].Row == rowCheck && CanBeMoveTemp[k].Col == colCheck)
+                            {
+                                BackChessBoard();
+                                CanBeEat.Clear();
+                                CanBeMove.Clear();
+                                CanBeMoveTemp.Clear();
+                                return true;
+                            }
+                        }
+                    }
+                    BackChessBoard();
+                    CanBeEat.Clear();
+                    CanBeMove.Clear();
+                    CanBeMoveTemp.Clear();
+                }
+            return false;
+        }
+        static public bool IsSquareCanBeProtectByTeamate(ChessSquare[,] board, int rowCheck, int colCheck, int teamCheck)
+        {
+            for (int i = 0; i < 8; i++)
+                for (int j = 0; j < 8; j++)
+                {
+                    if (Board[i, j].Chess != null && Board[i, j].Chess.Team == teamCheck)
+                    {
+                        Board[i, j].Chess.FindSquareCanBeMove(Board, Board[i, j].Row, Board[i, j].Col);
                         for (int k = 0; k < CanBeMoveTemp.Count; k++)
                         {
                             if (CanBeMoveTemp[k].Chess == null) CanBeMoveTemp[k].Image = null;
@@ -156,7 +185,7 @@ namespace ChessKing
                 {
                     if (board[i, j].Chess != null && board[i, j].Chess.Team != teamCheck)
                     {
-                        board[i, j].Chess.FindWay(board, board[i, j].Row, board[i, j].Col);
+                        board[i, j].Chess.FindSquareCanBeEat(board, board[i, j].Row, board[i, j].Col);
                         for (int k = 0; k < CanBeEat.Count; k++)
                         {
                             if (CanBeEat[k].Row == rowCheck && CanBeEat[k].Col == colCheck)

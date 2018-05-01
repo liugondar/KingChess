@@ -162,8 +162,16 @@ namespace ChessKing
             }
         }
         #endregion
-        #region find way without display or change background
-        public override void FindWay(ChessSquare[,] board, int row, int col)
+
+        #region find way can be eat and move
+        public override void FindSquareCanBeEat(ChessSquare[,] board, int row, int col)
+        {
+            Xet2OBenTrenDiThangNoChangeBackground(board, row, col);
+            Xet2OBenTrenDiNgangNoChangeBackground(board, row, col);
+            Xet2OBenDuoiDiThangNoChangeBackground(board, row, col);
+            Xet2OBenDuoiDiNgangNoChangeBackground(board, row, col);
+        }
+        public override void FindSquareCanBeMove(ChessSquare[,] board, int row, int col)
         {
             Xet2OBenTrenDiThangNoChangeBackground(board, row, col);
             Xet2OBenTrenDiNgangNoChangeBackground(board, row, col);

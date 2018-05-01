@@ -218,7 +218,7 @@ namespace ChessKing
         #endregion
 
         #region tìm nước ăn và không hiển thị
-        public override void FindWay(ChessSquare[,] board, int row, int col)
+        public override void FindSquareCanBeEat(ChessSquare[,] board, int row, int col)
         {
             if (board[row, col].Chess.Team == (int)ColorTeam.White)
             {
@@ -299,6 +299,101 @@ namespace ChessKing
             if (board[row + 1, col - 1].Chess == null)
             {
                     Common.CanBeMoveTemp.Add(board[row + 1, col - 1]);
+            }
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Tìm nước đi được và không hiển thị
+        public override void FindSquareCanBeMove(ChessSquare[,] board, int row, int col)
+        {
+            if (board[row, col].Chess.Team == (int)ColorTeam.White)
+            {
+                FindSquareCanBeMoveFromBottom(board, row, col);
+            }
+            else
+            {
+                FindSquareCanBeMoveFromTop(board, row, col);
+            }
+        }
+
+
+        #region Xét tốt cờ trắng
+        private void FindSquareCanBeMoveFromBottom(ChessSquare[,] board, int row, int col)
+        {
+                if (row == Constants.whitePawnDefaultRow)
+                    CheckIfWhitePawnCanJump2Step(board, row, col);
+                else
+                    CheckIfWhitePawnCanJump1Step(board, row, col);
+        }
+
+        private void CheckIfWhitePawnCanJump1Step(ChessSquare[,] board, int row, int col)
+        {
+            if (Common.IsEmptyChessSquare(board, row - 1, col))
+            {
+                if (Common.IsTurn % 2 == 0 || Common.Is2PlayerMode == true)
+                    board[row - 1, col].Image = Image.FromFile(linkPoint);
+                if (row - 1 == 0 && board[row, col].Chess.Team == 1)
+                {
+                    Common.CheckPromote = true;
+                }
+                Common.CanBeMove.Add(board[row - 1, col]);
+            }
+        }
+        private void CheckIfWhitePawnCanJump2Step(ChessSquare[,] board, int row, int col)
+        {
+            // Vòng lặp chạy từ vị trí default=6 tới 2 vị trí tiếp theo 
+            //Kiểm tra 2 ô cờ tiếp theo còn trống không
+            for (int i = row - 1; i >= 4; i--)
+            {
+                if (Common.IsEmptyChessSquare(board, i, col))
+                {
+                    if (Common.IsTurn % 2 == Constants.WhiteTurn || Common.Is2PlayerMode == true)
+                        board[i, col].Image = Image.FromFile(linkPoint);
+                    Common.CanBeMove.Add(board[i, col]);
+                }
+                else break;
+            }
+        }
+        #endregion
+
+        #region Xét tốt cờ đen
+        private void FindSquareCanBeMoveFromTop(ChessSquare[,] board, int row, int col)
+        {
+                if (row == Constants.blackPawnDefaultRow)
+                    CheckIfBlackPawnCanJump2Step(board, row, col);
+                else
+                    CheckIfBlackPawnCanJump1Step(board, row, col);
+        }
+        private void CheckIfBlackPawnCanJump1Step(ChessSquare[,] board, int row, int col)
+        {
+            if (Common.IsEmptyChessSquare(board, row + 1, col))
+            {
+                if (Common.IsTurn % 2 == 0 || Common.Is2PlayerMode == true)
+                    board[row + 1, col].Image = Image.FromFile(linkPoint);
+                if (row + 1 == 7 && board[row, col].Chess.Team == 2)
+                {
+                    Common.CheckPromote = true;
+                }
+                Common.CanBeMove.Add(board[row + 1, col]);
+                //dk phong hau
+
+            }
+        }
+        private void CheckIfBlackPawnCanJump2Step(ChessSquare[,] board, int row, int col)
+        {
+            for (int i = row + 1; i <= 3; i++)
+            {
+                if (Common.IsEmptyChessSquare(board, i, col))
+                {
+                    if (Common.IsTurn % 2 == 0 || Common.Is2PlayerMode == true)
+                        board[i, col].Image = Image.FromFile(linkPoint);
+                    Common.CanBeMove.Add(board[i, col]);
+                }
+                else
+                    break;
             }
         }
 

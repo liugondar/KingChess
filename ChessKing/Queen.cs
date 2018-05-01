@@ -182,7 +182,19 @@ namespace ChessKing
         }
         #endregion
 
-        public override void FindWay(ChessSquare[,] board, int row, int col)
+        #region Find way can be eat and move
+        public override void FindSquareCanBeEat(ChessSquare[,] board, int row, int col)
+        {
+            XetCheoTraiLenNoChangeBackground(board, row, col);
+            XetCheoTraiXuongNoChangeBackground(board, row, col);
+            XetCheoPhaiLenNoChangeBackground(board, row, col);
+            XetCheoPhaiXuongNoChangeBackground(board, row, col);
+            CheckTopNoChangeBackground(board, row, col);
+            CheckBottomNoChangeBackground(board, row, col);
+            CheckRightNoChangeBackground(board, row, col);
+            CheckLeftNoChangeBackground(board, row, col);
+        }
+        public override void FindSquareCanBeMove(ChessSquare[,] board, int row, int col)
         {
             XetCheoTraiLenNoChangeBackground(board, row, col);
             XetCheoTraiXuongNoChangeBackground(board, row, col);
@@ -351,6 +363,7 @@ namespace ChessKing
                 j--;
             }
         }
+        #endregion
 
         #region Find square can protect 
         public override void FindSquaresCanProtect(ChessSquare[,] board, int row, int col)

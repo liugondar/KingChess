@@ -504,7 +504,13 @@ namespace ChessKing
                     Common.CanBeMove.Clear();
                 }
         }
-
+        /// <summary>
+        /// - Check if king is available to move => check mate is false
+        /// - Check if king is available to eat the attacker=> check mate is false
+        /// - If king not avalable to move or eat-> check if teamate can eat the checker
+        /// - Finally check if teamate can protect the checking path
+        /// </summary>
+        /// <param name="temp"></param>
         private void Checkmate(ChessSquare temp)
         {
             Common.CanBeEat.Clear();
@@ -520,8 +526,15 @@ namespace ChessKing
             if (isCheckmate)
             {
                 isCheckmate = !(temp.Chess as King).
-                    CheckSquareArroundCanBeAttackByTeamate(Common.Board,
+                    IsSquareArroundProtected(Common.Board,
                     temp.Row, temp.Col);
+            }
+
+            if (isCheckmate)
+            {
+                isCheckmate = !(temp.Chess as King).
+                    IsKingCanBeProtect(Common.Board, temp,
+                    Common.Board[this.Row,this.Col]);
             }
 
             if (isCheckmate)
