@@ -10,7 +10,6 @@ namespace ChessKing
 {
     class Knight : Chess
     {
-        string linkPoint = "Image\\circle.png";
         public Knight()
         {
             this.IsKnight = true;

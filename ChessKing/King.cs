@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ChessKing
 {
@@ -8,18 +9,9 @@ namespace ChessKing
         {
             this.IsKing = true;
         }
-        /// <summary>
-        /// Check Các ô xung quanh vị trí quân vua:
-        /// -Nếu trống hiển thị di chuyển
-        /// - Quân địch có thể ăn
-        /// - Quân mình để nguyên
-        /// </summary>
-        /// <param name="board"></param>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
+        #region Find enable chess square to move or eat and display
         public override void FindWayAndAutoChangeSquareIfNeeded(ChessSquare[,] board, int row, int col)
         {
-
             // Kiểm tra các ô phía trên 
             KiemTraONhapThanh(board, row, col);
             KiemTraCacOPhiaTren(board, row, col);
@@ -38,22 +30,22 @@ namespace ChessKing
                 if (Common.isWhiteKingMoved) return;
                 if (Common.isWhiteKingChecked) return;
 
-                Common.isWhiteQueenSideCastleAvailable =
+                bool isWhiteQueenSideCastleAvailable =
                     !Common.IsEmptyChessSquare(board, 7, 0)
                     && !Common.isLeftWhiteCastleMoved
                     && CheckAvailableQueenPath(board, row: 7, KnightCol: 1, BishopCol: 2,
                     QueenCol: 3, team: (int)ColorTeam.White);
 
-                Common.isWhiteKingSideCastleAvailable =
+                bool isWhiteKingSideCastleAvailable =
                     !Common.IsEmptyChessSquare(board, 7, 7)
                     && !Common.isRightWhiteCastleMoved
                     && CheckAvailableKingPath(board, row: 7, KnightCol: 6, BishopCol: 5,
                     team: (int)ColorTeam.White);
 
-                if (Common.isWhiteQueenSideCastleAvailable)
+                if (isWhiteQueenSideCastleAvailable)
                     Common.ChangeBackgroundColorToCanMove(board, 7, 2);
 
-                if (Common.isWhiteKingSideCastleAvailable)
+                if (isWhiteKingSideCastleAvailable)
                     Common.ChangeBackgroundColorToCanMove(board, 7, 6);
             }
             // row= 0 col=4 is default location black king
@@ -64,26 +56,25 @@ namespace ChessKing
                 if (Common.isBlackKingMoved) return;
                 if (Common.isBlackKingChecked) return;
 
-                Common.isBlackQueenSideCastleAvailable =
-                    !Common.IsEmptyChessSquare(board, 0, 0)
-                    && !Common.isLeftBlackCastleMoved
-                    && CheckAvailableQueenPath(board, row: 0, KnightCol: 1, BishopCol: 2, QueenCol: 3,
-                    team: (int)ColorTeam.Black);
+                bool isBlackQueenSideCastleAvailable =
+                     !Common.IsEmptyChessSquare(board, 0, 0)
+                     && !Common.isLeftBlackCastleMoved
+                     && CheckAvailableQueenPath(board, row: 0, KnightCol: 1, BishopCol: 2, QueenCol: 3,
+                     team: (int)ColorTeam.Black);
 
-                Common.isBlackKingSideCastleAvailable =
+                bool isBlackKingSideCastleAvailable =
                     !Common.IsEmptyChessSquare(board, 0, 7)
                     && !Common.isRightBlackCastleMoved
                     && CheckAvailableKingPath(board, row: 0, KnightCol: 6, BishopCol: 5,
                     team: (int)ColorTeam.Black);
 
-                if (Common.isBlackQueenSideCastleAvailable)
+                if (isBlackQueenSideCastleAvailable)
                     Common.ChangeBackgroundColorToCanMove(board, 0, 2);
 
-                if (Common.isBlackKingSideCastleAvailable)
+                if (isBlackKingSideCastleAvailable)
                     Common.ChangeBackgroundColorToCanMove(board, 0, 6);
             }
         }
-
         private bool CheckAvailableQueenPath(ChessSquare[,] board, int row, int KnightCol, int BishopCol, int QueenCol, int team)
         {
             if (!Common.IsEmptyChessSquare(board, row, QueenCol)) return false;
@@ -96,7 +87,6 @@ namespace ChessKing
 
             return true;
         }
-
         private bool CheckAvailableKingPath(ChessSquare[,] board, int row, int KnightCol, int BishopCol, int team)
         {
             if (!Common.IsEmptyChessSquare(board, row, KnightCol)) return false;
@@ -116,7 +106,6 @@ namespace ChessKing
                 ThayDoiONeuCanThiet(board, row, col + 1);
             }
         }
-
         private void KiemTraOBenTrai(ChessSquare[,] board, int row, int col)
         {
             if (col > Constants.firstColOfTable)
@@ -125,7 +114,6 @@ namespace ChessKing
                 ThayDoiONeuCanThiet(board, row, col - 1);
             }
         }
-
         private void KiemTraCacOPhiaDuoi(ChessSquare[,] board, int row, int col)
         {
             if (row < Constants.lastRowOfTable)
@@ -175,5 +163,88 @@ namespace ChessKing
                 }
             }
         }
+        #endregion
+
+        #region Check chess square arround king
+        /// <summary>
+        /// return true if one  square arround king can be attack or move by teamate
+        /// </summary>
+        /// <param name="board"></param>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <returns></returns>
+        public bool CheckSquareArroundCanBeAttackByTeamate(ChessSquare[,] board, int row, int col)
+        {
+            int enemyTeam = this.Team == (int)ColorTeam.White ?
+                (int)ColorTeam.Black : (int)ColorTeam.White;
+
+            bool result = CheckRightSquareCanBeAttackByTeamate(board, row, col, enemyTeam)
+                || CheckLeftSquareCanbeAttackByTeamate(board, row, col, enemyTeam)
+                || CheckBottomSquaresCanbeAttackByTeamate(board, row, col, enemyTeam)
+                || CheckTopSquaresCanbeAttackByTeamate(board, row, col, enemyTeam);
+            return result;
+        }
+
+        private bool CheckTopSquaresCanbeAttackByTeamate(ChessSquare[,] board, int row, int col, int enemyTeam)
+        {
+            if (row > Constants.firstRowOfTable)
+            {
+                // Square that Teamate can move=> dangerous for enemy to move
+                if (col > Constants.firstColOfTable)
+                    if (CheckSquareCanbeAttackByTeamate(board, row - 1, col - 1, enemyTeam)) return true;
+                if (col < Constants.lastColOfTable)
+                    if(CheckSquareCanbeAttackByTeamate(board, row - 1, col+1 , enemyTeam)) return true;
+                if (row > Constants.firstRowOfTable)
+                    if (CheckSquareCanbeAttackByTeamate(board, row - 1, col, enemyTeam)) return true;
+            }
+            return false;
+        }
+        private bool CheckBottomSquaresCanbeAttackByTeamate(ChessSquare[,] board, int row, int col, int enemyTeam)
+        {
+            if (row < Constants.lastRowOfTable)
+            {
+                // Square that Teamate can move=> dangerous for enemy to move
+
+                if (col > Constants.firstColOfTable)
+                    if (CheckSquareCanbeAttackByTeamate(board, row + 1, col - 1, enemyTeam)) return true;
+
+                if (col < Constants.lastColOfTable)
+                    if (CheckSquareCanbeAttackByTeamate(board, row + 1, col + 1, enemyTeam)) return true;
+
+                if (row < Constants.lastColOfTable)
+                    if (CheckSquareCanbeAttackByTeamate(board, row + 1, col, enemyTeam)) return true;
+            }
+            return false;
+        }
+        private bool CheckLeftSquareCanbeAttackByTeamate(ChessSquare[,] board, int row, int col, int enemyTeam)
+        {
+            if (col > Constants.firstColOfTable)
+                // Square that Teamate can move=> dangerous for enemy to move
+                if (CheckSquareCanbeAttackByTeamate(board, row, col - 1, enemyTeam)) return true;
+
+            return false;
+        }
+        private bool CheckRightSquareCanBeAttackByTeamate(ChessSquare[,] board, int row, int col, int enemyTeam)
+        {
+            if (col < Constants.lastColOfTable)
+                // Square that Teamate can move=> dangerous for enemy to move
+                if (CheckSquareCanbeAttackByTeamate(board, row, col + 1, enemyTeam)) return true;
+
+            return false;
+        }
+
+        private bool CheckSquareCanbeAttackByTeamate(ChessSquare[,] board, int row, int col, int enemyTeam)
+        {
+            bool result;
+            if (board[row, col].Chess == null)
+                result=Common.IsDangerSquareToMove(board, row, col, enemyTeam);
+            else
+
+            result=Common.IsSquareCanBeEatByEnemy(board, row, col, enemyTeam);
+
+            return result;
+        }
+
+        #endregion
     }
 }

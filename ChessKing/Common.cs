@@ -20,12 +20,12 @@ namespace ChessKing
 
         static public bool Close = false;
         static public ChessSquare[,] Board;
-        static public ChessSquare [,] VirtualBoard=new ChessSquare[8,8]; // Hiển thị bàn cờ cũ trong thời gian tính toán nước đi cho AI
+        static public ChessSquare[,] VirtualBoard = new ChessSquare[8, 8]; // Hiển thị bàn cờ cũ trong thời gian tính toán nước đi cho AI
         static public List<ChessSquare> CanBeMove = new List<ChessSquare>(); // create list, save position of piece can move
         static public List<ChessSquare> CanBeEat = new List<ChessSquare>();
         static public List<ChessSquare> CanBeProtect = new List<ChessSquare>();
-
         static public List<ChessSquare> CanBeMoveTemp = new List<ChessSquare>(); // Dùng cho việc xem thử các nước đi quân cờ
+        static public List<ChessSquare> SquareArroudking = new List<ChessSquare>();
         static public int RowSelected = -1; //set value =-1, not in chessboard
         static public int ColSelected = -1; //set value =-1, not in chessboard
 
@@ -36,13 +36,6 @@ namespace ChessKing
         static public int ColProQueen = -1;
 
         static public int Depth = 2;
-        // Biến phục vụ mục đích nhập thành
-        static public bool isBlackKingSideCastleAvailable = false;
-        static public bool isBlackQueenSideCastleAvailable = false;
-
-        static public bool isWhiteKingSideCastleAvailable = false;
-        static public bool isWhiteQueenSideCastleAvailable = false;
-
 
         // Kiểm tra xem đã di chuyển lần nào chưa, nếu rồi trả về true
         // Chỉ có thể nhập thành  nếu chưa đi
@@ -112,12 +105,16 @@ namespace ChessKing
                             if (CanBeMoveTemp[k].Row == rowCheck && CanBeMoveTemp[k].Col == colCheck)
                             {
                                 BackChessBoard();
+                                CanBeEat.Clear();
+                                CanBeMove.Clear();
                                 CanBeMoveTemp.Clear();
                                 return true;
                             }
                         }
                     }
                     BackChessBoard();
+                    CanBeEat.Clear();
+                    CanBeMove.Clear();
                     CanBeMoveTemp.Clear();
                 }
             return false;
@@ -135,16 +132,54 @@ namespace ChessKing
                             if (CanBeProtect[k].Row == rowCheck && CanBeProtect[k].Col == colCheck)
                             {
                                 CanBeProtect.Clear();
+                                BackChessBoard();
+                                CanBeEat.Clear();
+                                CanBeMove.Clear();
+                                CanBeMoveTemp.Clear();
                                 return true;
                             }
                         }
                     }
                     CanBeProtect.Clear();
                     BackChessBoard();
+                    CanBeEat.Clear();
+                    CanBeMove.Clear();
+                    CanBeMoveTemp.Clear();
                 }
             return false;
         }
+        static public bool IsSquareCanBeEatByEnemy(ChessSquare[,]board,int rowCheck,int colCheck,int teamCheck)
+        {
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    if (board[i, j].Chess != null && board[i, j].Chess.Team != teamCheck)
+                    {
+                        board[i, j].Chess.FindWay(board, board[i, j].Row, board[i, j].Col);
+                        for (int k = 0; k < CanBeEat.Count; k++)
+                        {
+                            if (CanBeEat[k].Row == rowCheck && CanBeEat[k].Col == colCheck)
+                            {
+                                CanBeProtect.Clear();
+                                CanBeEat.Clear();
+                                CanBeMove.Clear();
+                                CanBeMoveTemp.Clear();
+                                BackChessBoard();
+                                return true;
+                            }
+                        }
+                    }
+                    CanBeProtect.Clear();
+                    CanBeEat.Clear();
+                    CanBeMove.Clear();
+                    CanBeMoveTemp.Clear();
+                    BackChessBoard();
+                }
+            }
 
+            return false;
+        }
         static public void BackChessBoard()
         {
             for (int row = 0; row < 8; row++)
@@ -165,7 +200,7 @@ namespace ChessKing
                             Board[row, col].BackColor = Color.LavenderBlush;
                     }
                 }
-        }
+        } //Khởi tạo lại hình ảnh bàn cờ
         static public void BackChessVirtualBoard()
         {
             for (int row = 0; row < 8; row++)
@@ -186,8 +221,7 @@ namespace ChessKing
                             VirtualBoard[row, col].BackColor = Color.LavenderBlush;
                     }
                 }
-        }
-
+        } // Khởi tạo bàn trống cho việc AI tính toán nước cờ
 
         // Ma trận Piece-Square Table phục vụ cho AI tìm được value tốt nhất
         static public double[,] PawnWhite =

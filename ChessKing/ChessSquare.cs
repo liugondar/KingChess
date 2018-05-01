@@ -172,6 +172,8 @@ namespace ChessKing
                 ThayDoiHinhAnh();
                 Common.IsTurn++; //change turn
                 Common.CanBeMove.Clear();
+                Common.CanBeMoveTemp.Clear();
+                
                 KiemTraPhongHau();
                 KiemTraQuanVuaConTrenBanCoKhong();
                 KiemTraChieuVua();
@@ -445,6 +447,7 @@ namespace ChessKing
             }
             Common.BackChessBoard();
             Common.CanBeMove.Clear();
+            Common.CanBeMoveTemp.Clear();
         }
 
         private void KiemTraChieuVua()
@@ -502,97 +505,23 @@ namespace ChessKing
                 }
         }
 
-        private void KiemTraChieuBi(ref bool isCheck, ref ChessSquare Kingtemp)
-        {
-            this.Check(ref isCheck, ref Kingtemp);
-            if (isCheck)
-            {
-                Common.CanBeMove.Clear();
-                Checkmate(Kingtemp);
-            }
-        }
         private void Checkmate(ChessSquare temp)
         {
+            Common.CanBeEat.Clear();
+            Common.CanBeMove.Clear();
+            temp.Chess.FindWayAndAutoChangeSquareIfNeeded(Common.Board,temp.Row,temp.Col);
             bool isCheckmate = true;
 
-            //for (int i = 0; i < 8; i++)
-            //    for (int j = 0; j < 8; j++)
-            //    {
-            //        if (Common.Board[i, j].Chess != null)
-            //        {
-            //            //Kiem tra chung team hay khong
-            //            if (Common.Board[i, j].Chess.Team != temp.Chess.Team)
-            //            {
-            //                Common.Board[i, j].Chess.FindWayAndAutoChangeSquareIfNeeded(Common.Board, Common.Board[i, j].Row, Common.Board[i, j].Col);
-            //                for (int k = 0; k < Common.CanBeMove.Count; k++)
-            //                {
-            //                    if (Common.CanBeMove[k].Chess == null)
-            //                    {
-            //                        Common.CanBeMove[k].Image = null;
-            //                    }
-            //                    Common.CanBeEat.Add(Common.CanBeMove[k]);
-            //                }
-            //                Common.CanBeMove.Clear();
-            //            }
-            //        }
-            //    }
-            //Common.CanBeMove.Clear();
-
-            //temp.Chess.FindWayAndAutoChangeSquareIfNeeded(Common.Board, temp.Row, temp.Col);
-
-            //for (int i = 0; i < Common.CanBeMove.Count; i++)
-            //{
-            //    if (Common.CanBeMove[i].Chess == null) Common.CanBeMove[i].Image = null;
-            //}
-
-            //if (Common.CanBeMove.Count == 1)
-            //{
-            //    if (Common.CanBeEat.Contains(Common.CanBeMove[Common.CanBeMove.Count - 1]))
-            //    {
-            //        ChessSquare temp2 = new ChessSquare(Common.CanBeMove[Common.CanBeMove.Count - 1]);
-            //        Common.CanBeMove.Clear();
-
-            //        for (int i = 0; i < 8; i++)
-            //            for (int j = 0; j < 8; j++)
-            //            {
-            //                if (Common.Board[i, j].Chess != null)
-            //                {
-            //                    if (Common.Board[i, j].Chess.Team == temp.Chess.Team)
-            //                    {
-            //                        Common.Board[i, j].Chess.FindWayAndAutoChangeSquareIfNeeded(Common.Board, Common.Board[i, j].Row, Common.Board[i, j].Col);
-            //                        for (int k = 0; k < Common.CanBeMove.Count; k++)
-            //                        {
-            //                            if (Common.CanBeMove[k].Chess == null)
-            //                            {
-            //                                Common.CanBeMove[k].Image = null;
-            //                            }
-            //                            if (Common.CanBeMove[k].Col == temp2.Col && Common.CanBeMove[k].Row == temp2.Row)
-            //                            {
-            //                                isCheckmate = false;
-            //                                break;
-            //                            }
-            //                        }
-            //                        Common.CanBeMove.Clear();
-            //                    }
-            //                }
-            //            }
-            //    }
-            //}
-            //else
-            //{
-            //    while (Common.CanBeMove.Count > 0)
-            //    {
-            //        if (!Common.CanBeEat.Contains(Common.CanBeMove[Common.CanBeMove.Count - 1])) isCheckmate = false;
-            //        Common.CanBeMove.Remove(Common.CanBeMove[Common.CanBeMove.Count - 1]);
-            //    }
-            //}
-
-            if (Common.CanBeMove.Count>0) {
+            if (Common.CanBeMove.Count>0) 
                 isCheckmate = false;
-            }
             if (Common.CanBeEat.Count > 0)
-            {
                 isCheckmate = false;
+
+            if (isCheckmate)
+            {
+                isCheckmate = !(temp.Chess as King).
+                    CheckSquareArroundCanBeAttackByTeamate(Common.Board,
+                    temp.Row, temp.Col);
             }
 
             if (isCheckmate)
