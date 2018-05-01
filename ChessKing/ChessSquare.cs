@@ -174,7 +174,6 @@ namespace ChessKing
                 Common.CanBeMove.Clear();
                 KiemTraPhongHau();
                 KiemTraQuanVuaConTrenBanCoKhong();
-                XuLiKhiDanhVoiAI();
                 KiemTraChieuVua();
 
                 KiemTraVuaDaDiChuyen();
@@ -184,6 +183,20 @@ namespace ChessKing
                 if (this.Chess.Team == (int)ColorTeam.Black)
                     Common.isBlackKingChecked = false;
 
+                // Khi đánh với AI 
+                // Đợi 100 mili s
+                // Để xử lí hình ảnh xong rồi thực hiện AI tính toán
+                if (!Common.Is2PlayerMode)
+                {
+                    Task.Run(() =>
+                    {
+                        Thread.Sleep(100); // delay
+                        this.BeginInvoke((MethodInvoker)delegate
+                        {
+                            XuLiKhiDanhVoiAI();
+                        });
+                    });
+                }
             }
             else //not inside can move list
             {
