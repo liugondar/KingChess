@@ -48,17 +48,13 @@ namespace ChessKing
                 {
                     if (board[row + 1, col + 2].Chess == null)
                     {
-                        if (Common.IsTurn % 2 == 0 || Common.Is2PlayerMode == true)
-                            board[row + 1, col + 2].Image = Image.FromFile(linkPoint);
-                        Common.CanBeMoveTemp.Add(board[row + 1, col + 2]);
+                        Common.ChangeBackgroundColorToCanMove(board, row + 1, col + 2);
                     }
                     else
                     {
                         if (this.Team != board[row + 1, col + 2].Chess.Team)
                         {
-                            if (Common.IsTurn % 2 == 0 || Common.Is2PlayerMode == true)
-                                board[row + 1, col + 2].BackColor = Color.Red;
-                            Common.CanBeEat.Add(board[row + 1, col + 2]);
+                            Common.ChangeBackgroundColorToCanEat(board, row + 1, col + 2);
                         }
                     }
                 }

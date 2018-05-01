@@ -656,6 +656,16 @@ namespace ChessKing
         }
         protected void minimaxRoot()
         {
+            Common.BackChessVirtualBoard();
+            //Clone Bàn cờ
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                       Common.VirtualBoard[i, j].Chess = Common.Board[i, j].Chess;
+                       Common.VirtualBoard[i, j].Image= Common.Board[i, j].Image;
+                }
+            }
             int depth = Common.Depth;
             double bestValue = -9999;
             double value = 0;
@@ -663,15 +673,14 @@ namespace ChessKing
             bool isMax = true;
             ChessSquare[,] board = new ChessSquare[8, 8];
             ChessSquare[,] bestMove = new ChessSquare[8, 8];
-            board = Common.Board;
+            board = Common.VirtualBoard;
 
-            var colBlackKing = Constants.colBlackKingDefault;
             bool isBlackKingInDefault = false;
             // Kiểm tra xem ô vua đen mặc định lúc thực hiện thuật toán có vua đen không?
-            if (board[0, colBlackKing].Chess != null)
+            if (board[0, 4].Chess != null)
             {
-                isBlackKingInDefault = board[0, colBlackKing].Chess.IsKing
-                    && board[0, colBlackKing].Chess.Team == (int)ColorTeam.Black;
+                isBlackKingInDefault = board[0, 4].Chess.IsKing
+                    && board[0, 4].Chess.Team == (int)ColorTeam.Black;
             }
             for (int i = 0; i < 8; i++)
             {
@@ -733,54 +742,55 @@ namespace ChessKing
             {
                 for (int l = 0; l < 8; l++)
                 {
-                    Common.Board[k, l].Row = bestMove[k, l].Row;
-                    Common.Board[k, l].Col = bestMove[k, l].Col;
-                    Common.Board[k, l].Chess = bestMove[k, l].Chess;
-                    Common.Board[k, l].Image = bestMove[k, l].Image;
+                    Common.VirtualBoard[k, l].Row = bestMove[k, l].Row;
+                    Common.VirtualBoard[k, l].Col = bestMove[k, l].Col;
+                    Common.VirtualBoard[k, l].Chess = bestMove[k, l].Chess;
+                    Common.VirtualBoard[k, l].Image = bestMove[k, l].Image;
                 }
             }
+
 
             // Nếu ban đầu vị trí mặc định có vua đen, Kiểm tra xem 
             // Vua đen có đi vào 2 vị trí nhập thành ngắn và dài không
             if (isBlackKingInDefault)
             {
                 // Vua đã đi khỏi vị trí default => vị trí default không có cờ
-                if (board[0, colBlackKing].Chess == null)
+                if (board[0, 4].Chess == null)
                 {
-                    var colRightBishop = Constants.colBlackRightBishopDefault;
-                    var colRightKnight = Constants.colBlackRightKnightDefault;
-                    var colRightCastle = Constants.colWhiteRightCastleDefault;
+                    //colRightBishop =5
+                    //colRightKnight =6 
+                    //colRightCastle = 7
 
                     // Kiểm tra king side castle
-                    if (board[0, colRightKnight].Chess != null)
+                    if (board[0, 6].Chess != null)
                     {
-                        if (board[0, colRightKnight].Chess.IsKing)
+                        if (board[0, 6].Chess.IsKing)
                         {
-                            Common.Board[0, colRightBishop].Image = Common.Board[0, colRightCastle].Image;
-                            Common.Board[0, colRightCastle].Image = null;
-                            Common.Board[0, colRightCastle].BackColor = Common.OldBackGround;
-                            Common.BackChessBoard();
-                            Common.Board[0, colRightBishop].Chess = Common.Board[0, colRightCastle].Chess;
-                            Common.Board[0, colRightCastle].Chess = null;
+                            Common.VirtualBoard[0, 5].Image = Common.VirtualBoard[0, 7].Image;
+                            Common.VirtualBoard[0, 7].Image = null;
+                            Common.VirtualBoard[0, 7].BackColor = Common.OldBackGround;
+                            Common.BackChessVirtualBoard();
+                            Common.VirtualBoard[0, 5].Chess = Common.VirtualBoard[0, 7].Chess;
+                            Common.VirtualBoard[0, 7].Chess = null;
                             //Thêm trạng thái đã castle để không thể castle lần 2
                             Common.isBlackKingMoved = true;
 
                         }
                     }
                     // Kiểm tra queen side castle
-                    var colQueen = Constants.colBlackQueenDefault;
-                    var colLeftBishop = Constants.colBlackLeftBishopDefault;
-                    var colLeftCastle = Constants.colBlackLeftCastleDefault;
-                    if (board[0, colLeftBishop].Chess != null)
+                    //colQueen = 3;
+                    //colLeftBishop = 2;
+                    //colLeftCastle = 0;
+                    if (board[0, 2].Chess != null)
                     {
-                        if (board[0, colLeftBishop].Chess.IsKing)
+                        if (board[0, 2].Chess.IsKing)
                         {
-                            Common.Board[0, colQueen].Image = Common.Board[0, colLeftCastle].Image;
-                            Common.Board[0, colLeftCastle].Image = null;
-                            Common.Board[0, colLeftCastle].BackColor = Common.OldBackGround;
+                            Common.VirtualBoard[0, 3].Image = Common.VirtualBoard[0, 0].Image;
+                            Common.VirtualBoard[0, 0].Image = null;
+                            Common.VirtualBoard[0, 0].BackColor = Common.OldBackGround;
                             Common.BackChessBoard();
-                            Common.Board[0, colQueen].Chess = Common.Board[0, colLeftCastle].Chess;
-                            Common.Board[0, colLeftCastle].Chess = null;
+                            Common.VirtualBoard[0, 3].Chess = Common.VirtualBoard[0, 0].Chess;
+                            Common.VirtualBoard[0, 0].Chess = null;
 
                             //Thêm trạng thái đã castle để không thể castle lần 2
                             Common.isBlackKingMoved = true;
@@ -793,6 +803,16 @@ namespace ChessKing
             KiemTraVuaDaDiChuyen();
             KiemTraCastleDaDiChuyen();
 
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                        Common.Board[i, j].Chess = Common.VirtualBoard[i, j].Chess;
+                        Common.Board[i, j].Image = Common.VirtualBoard[i, j].Image;
+                    Common.VirtualBoard[i, j].Chess = null;
+                    Common.VirtualBoard[i, j].Image = null;
+                }
+            }
             Common.IsTurn++;
         }
 

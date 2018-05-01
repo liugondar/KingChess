@@ -20,6 +20,7 @@ namespace ChessKing
 
         static public bool Close = false;
         static public ChessSquare[,] Board;
+        static public ChessSquare [,] VirtualBoard=new ChessSquare[8,8]; // Hiển thị bàn cờ cũ trong thời gian tính toán nước đi cho AI
         static public List<ChessSquare> CanBeMove = new List<ChessSquare>(); // create list, save position of piece can move
         static public List<ChessSquare> CanBeEat = new List<ChessSquare>();
         static public List<ChessSquare> CanBeProtect = new List<ChessSquare>();
@@ -162,6 +163,27 @@ namespace ChessKing
                             Board[row, col].BackColor = Color.DarkSlateGray;
                         else
                             Board[row, col].BackColor = Color.LavenderBlush;
+                    }
+                }
+        }
+        static public void BackChessVirtualBoard()
+        {
+            for (int row = 0; row < 8; row++)
+                for (int col = 0; col < 8; col++)
+                {
+                    if (row % 2 == 0)
+                    {
+                        if (col % 2 == 0)
+                            VirtualBoard[row, col].BackColor = Color.LavenderBlush;
+                        else
+                            VirtualBoard[row, col].BackColor = Color.DarkSlateGray;
+                    }
+                    else
+                    {
+                        if (col % 2 == 0)
+                            VirtualBoard[row, col].BackColor = Color.DarkSlateGray;
+                        else
+                            VirtualBoard[row, col].BackColor = Color.LavenderBlush;
                     }
                 }
         }
