@@ -229,8 +229,6 @@ namespace ChessKing
                 XetCoDenDiTuTrenXuongTimNuocAn(board, row, col);
             }
         }
-
-
         #region Xét tốt cờ trắng
         private void XetCoTrangDiTuDuoiLenTimNuocAn(ChessSquare[,] board, int row, int col)
         {

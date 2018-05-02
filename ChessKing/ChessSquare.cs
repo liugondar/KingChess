@@ -172,14 +172,19 @@ namespace ChessKing
                 ThayDoiHinhAnh();
                 Common.IsTurn++; //change turn
                 Common.CanBeMove.Clear();
+                Common.CanBeEat.Clear();
                 Common.CanBeMoveTemp.Clear();
-                
+
                 KiemTraPhongHau();
                 KiemTraQuanVuaConTrenBanCoKhong();
                 KiemTraChieuVua();
 
                 KiemTraVuaDaDiChuyen();
                 KiemTraCastleDaDiChuyen();
+                Common.CanBeMove.Clear();
+                Common.CanBeEat.Clear();
+                Common.CanBeMoveTemp.Clear();
+                Common.ClearMoveSuggestion();
                 if (this.Chess.Team == (int)ColorTeam.White)
                     Common.isWhiteKingChecked = false;
                 if (this.Chess.Team == (int)ColorTeam.Black)
@@ -199,6 +204,8 @@ namespace ChessKing
                         });
                     });
                 }
+               
+                
             }
             else //not inside can move list
             {
@@ -597,6 +604,7 @@ namespace ChessKing
             //thay doi quan co
             this.Chess = Common.Board[Common.RowSelected, Common.ColSelected].Chess;
             Common.Board[Common.RowSelected, Common.ColSelected].Chess = null;
+            Common.ClearMoveSuggestion();
         }
 
         // AI part

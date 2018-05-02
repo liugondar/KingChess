@@ -189,6 +189,7 @@ namespace ChessKing
             XetCheoTraiXuongNoChangeBackground(board, row, col);
             XetCheoPhaiLenNoChangeBackground(board, row, col);
             XetCheoPhaiXuongNoChangeBackground(board, row, col);
+
             CheckTopNoChangeBackground(board, row, col);
             CheckBottomNoChangeBackground(board, row, col);
             CheckRightNoChangeBackground(board, row, col);

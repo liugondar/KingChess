@@ -19,7 +19,6 @@ namespace ChessKing
             KiemTraOBenTrai(board, row, col);
             KiemTraOBenPhai(board, row, col);
         }
-
         private void KiemTraONhapThanh(ChessSquare[,] board, int row, int col)
         {
             // row= 7 col=4 is default location white king
@@ -262,7 +261,7 @@ namespace ChessKing
             if (chessCheckSquare.Chess == null) return true;
             Chess chessCheck = chessCheckSquare.Chess;
 
-            if (chessCheck.IsKnight) return false;
+            if (chessCheck.IsKnight) return IsKingCanBeProtectWithCheckByKnight(board, kingCheckedSquare, chessCheckSquare);
             if (chessCheck.IsBishop) return IsKingCanBeProtectWithCheckByBishop(board, kingCheckedSquare, chessCheckSquare);
             if (chessCheck.IsQueen) return IsKingCanBeProtectWithCheckByQueen(board, kingCheckedSquare, chessCheckSquare);
             if (chessCheck.IsCastle) return IsKingCanBeProtectWithCheckByCastle(board, kingCheckedSquare, chessCheckSquare);
@@ -271,50 +270,100 @@ namespace ChessKing
             return false;
         }
 
+        private bool IsKingCanBeProtectWithCheckByKnight(ChessSquare[,] board, ChessSquare kingCheckedSquare, ChessSquare chessCheckSquare)
+        {
+            // Knight can be cancel attack just by kill him
+            // so don't need to check checking path
+            Common.SquaresCheckingPath.Add(board[chessCheckSquare.Row, chessCheckSquare.Col]);
+            return IsSquareInPathCanBeProtect(board);
+        }
+
         private bool IsKingCanBeProtectWithCheckByPawn(ChessSquare[,] board, ChessSquare kingCheckedSquare, ChessSquare chessCheckSquare)
         {
-            throw new NotImplementedException();
+            // Pawn can be cancel attack just by kill him
+            // so don't need to check checking path
+            Common.SquaresCheckingPath.Add(board[chessCheckSquare.Row, chessCheckSquare.Col]);
+            return IsSquareInPathCanBeProtect(board);
         }
 
         private bool IsKingCanBeProtectWithCheckByCastle(ChessSquare[,] board, ChessSquare kingCheckedSquare, ChessSquare chessCheckSquare)
         {
-            throw new NotImplementedException();
+            Common.SquaresCheckingPath.Add(board[chessCheckSquare.Row, chessCheckSquare.Col]);
+            //Castle is in bottom side ofking
+            if (kingCheckedSquare.Row < chessCheckSquare.Row)
+            {
+                for (int i = chessCheckSquare.Row + 1; i < kingCheckedSquare.Row; i++)
+                {
+                    if (Common.IsEmptyChessSquare(board, i, chessCheckSquare.Col))
+                    {
+                        Common.SquaresCheckingPath.Add(board[i, chessCheckSquare.Col]);
+                    }
+                    else
+                        break;
+                }
+                return IsSquareInPathCanBeProtect(board);
+            }
+
+            //Castle is in the top side of the king
+            if (kingCheckedSquare.Row > chessCheckSquare.Row)
+            {
+                for (int i = chessCheckSquare.Row - 1; i > kingCheckedSquare.Row; i--)
+                {
+                    if (Common.IsEmptyChessSquare(board, i, chessCheckSquare.Col))
+                    {
+                        Common.SquaresCheckingPath.Add(board[i, chessCheckSquare.Col]);
+                    }
+                    else
+                        break;
+                }
+                return IsSquareInPathCanBeProtect(board);
+            }
+
+            //Castle is in the left side of theking
+            if (kingCheckedSquare.Col < chessCheckSquare.Col)
+            {
+                for (int i = chessCheckSquare.Col - 1; i > kingCheckedSquare.Col; i--)
+                {
+                    if (Common.IsEmptyChessSquare(board, chessCheckSquare.Row,i))
+                    {
+                        Common.SquaresCheckingPath.Add(board[chessCheckSquare.Row,i]);
+                    }
+                    else
+                        break;
+                }
+                return IsSquareInPathCanBeProtect(board);
+            }
+
+            //Castle is in right side of the king
+            if (kingCheckedSquare.Col > chessCheckSquare.Col)
+            {
+
+                for (int i = chessCheckSquare.Col + 1; i < kingCheckedSquare.Col; i++)
+                {
+                    if (Common.IsEmptyChessSquare(board, chessCheckSquare.Row, i))
+                    {
+                        Common.SquaresCheckingPath.Add(board[chessCheckSquare.Row, i]);
+                    }
+                    else
+                        break;
+                }
+            }
+            return false;
         }
 
         private bool IsKingCanBeProtectWithCheckByQueen(ChessSquare[,] board, ChessSquare kingCheckedSquare, ChessSquare chessCheckSquare)
         {
-            throw new NotImplementedException();
-        }
-
-        private bool IsKingCanBeProtectWithCheckByBishop(ChessSquare[,] board, ChessSquare kingCheckedSquare, ChessSquare chessCheckSquare)
-        {
-            // Bishop in south east king
+            Common.SquaresCheckingPath.Add(board[chessCheckSquare.Row, chessCheckSquare.Col]);
+            // Queen is in the south east king
             if (kingCheckedSquare.Row < chessCheckSquare.Row
                 && kingCheckedSquare.Col < chessCheckSquare.Col)
             {
                 // Get squares in check path to king
-                int j = chessCheckSquare.Col - 1;
-                for (int i = chessCheckSquare.Row - 1; i >= Constants.firstRowOfTable; i--)
+                int j = kingCheckedSquare.Col + 1;
+                for (int i = kingCheckedSquare.Row + 1; i < chessCheckSquare.Row; i++)
                 {
-                    // Kiểm tra điều kiện, nếu ngoài bàn cờ ( col <0) thì xong việc xét chéo trái lên
-                    if (j < Constants.firstColOfTable) break;
+                    if (j >= chessCheckSquare.Col) break;
 
-                    if (Common.IsEmptyChessSquare(board, i, j))
-                    {
-                        Common.SquaresCheckingPath.Add(board[i, j]);
-                    }
-                    j--;
-                }
-                return  IsSquareInPathCanBeProtect(board);
-            }
-            
-            //Bishop in south west king
-            if (kingCheckedSquare.Row < chessCheckSquare.Row
-              && kingCheckedSquare.Col > chessCheckSquare.Col)
-            {
-                int j = chessCheckSquare.Col + 1;
-                for (int i = chessCheckSquare.Row - 1; i >= Constants.firstRowOfTable; i--)
-                {
                     if (Common.IsEmptyChessSquare(board, i, j))
                     {
                         Common.SquaresCheckingPath.Add(board[i, j]);
@@ -324,13 +373,168 @@ namespace ChessKing
                 return IsSquareInPathCanBeProtect(board);
             }
 
+            //Queen is in the south west of king
+            if (kingCheckedSquare.Row < chessCheckSquare.Row
+              && kingCheckedSquare.Col > chessCheckSquare.Col)
+            {
+                int j = kingCheckedSquare.Col - 1;
+                for (int i = kingCheckedSquare.Row + 1; i < chessCheckSquare.Row; i++)
+                {
+                    if (j <= chessCheckSquare.Col) break;
+                    if (Common.IsEmptyChessSquare(board, i, j))
+                    {
+                        Common.SquaresCheckingPath.Add(board[i, j]);
+                    }
+                    j--;
+                }
+                return IsSquareInPathCanBeProtect(board);
+            }
+
+            //Queen is in the north east of the king
+            if (kingCheckedSquare.Row > chessCheckSquare.Row
+              && kingCheckedSquare.Col < chessCheckSquare.Col)
+            {
+                int j = kingCheckedSquare.Col + 1;
+                for (int i = kingCheckedSquare.Row - 1; i > chessCheckSquare.Row; i--)
+                {
+                    if (j >= chessCheckSquare.Col) break;
+                    if (Common.IsEmptyChessSquare(board, i, j))
+                    {
+                        Common.SquaresCheckingPath.Add(board[i, j]);
+                    }
+                    j++;
+                }
+                return IsSquareInPathCanBeProtect(board);
+            }
+
+            //Queen is in the north west of the king
+            if (kingCheckedSquare.Row > chessCheckSquare.Row
+              && kingCheckedSquare.Col > chessCheckSquare.Col)
+            {
+                int j = kingCheckedSquare.Col - 1;
+                for (int i = kingCheckedSquare.Row - 1; i > chessCheckSquare.Row; i--)
+                {
+                    if (j <= chessCheckSquare.Col) break;
+                    if (Common.IsEmptyChessSquare(board, i, j))
+                    {
+                        Common.SquaresCheckingPath.Add(board[i, j]);
+                    }
+                    j--;
+                }
+                return IsSquareInPathCanBeProtect(board);
+            }
+
+
+            //Queen is in the bottom side of the king
+            if (kingCheckedSquare.Row < chessCheckSquare.Row)
+            {
+                for (int i = chessCheckSquare.Row + 1; i < kingCheckedSquare.Row; i++)
+                {
+                    if (Common.IsEmptyChessSquare(board, i, chessCheckSquare.Col))
+                    {
+                        Common.SquaresCheckingPath.Add(board[i, chessCheckSquare.Col]);
+                    }
+                    else
+                        break;
+                }
+                return IsSquareInPathCanBeProtect(board);
+            }
+
+            //Queen is in the top side of the king
+            if (kingCheckedSquare.Row > chessCheckSquare.Row)
+            {
+                for (int i = chessCheckSquare.Row - 1; i > kingCheckedSquare.Row; i--)
+                {
+                    if (Common.IsEmptyChessSquare(board, i, chessCheckSquare.Col))
+                    {
+                        Common.SquaresCheckingPath.Add(board[i, chessCheckSquare.Col]);
+                    }
+                    else
+                        break;
+                }
+                return IsSquareInPathCanBeProtect(board);
+            }
+
+            //Queen is in the right side of the king
+            if (kingCheckedSquare.Col < chessCheckSquare.Col)
+            {
+                for (int i = chessCheckSquare.Col - 1; i > kingCheckedSquare.Col; i--)
+                {
+                    if (Common.IsEmptyChessSquare(board, chessCheckSquare.Row, i))
+                    {
+                        Common.SquaresCheckingPath.Add(board[chessCheckSquare.Row, i]);
+                    }
+                    else
+                        break;
+                }
+                return IsSquareInPathCanBeProtect(board);
+            }
+
+            // Queen is in the left side of king
+            if (kingCheckedSquare.Col > chessCheckSquare.Col)
+            {
+
+                for (int i = chessCheckSquare.Col + 1; i < kingCheckedSquare.Col; i++)
+                {
+                    if (Common.IsEmptyChessSquare(board, chessCheckSquare.Row, i))
+                    {
+                        Common.SquaresCheckingPath.Add(board[chessCheckSquare.Row, i]);
+                    }
+                    else
+                        break;
+                }
+            }
+            return false;
+        }
+
+        private bool IsKingCanBeProtectWithCheckByBishop(ChessSquare[,] board, ChessSquare kingCheckedSquare, ChessSquare chessCheckSquare)
+        {
+            Common.SquaresCheckingPath.Add(board[chessCheckSquare.Row, chessCheckSquare.Col]);
+            // Bishop in south east king
+            if (kingCheckedSquare.Row < chessCheckSquare.Row
+                && kingCheckedSquare.Col < chessCheckSquare.Col)
+            {
+                // Get squares in check path to king
+                int j = kingCheckedSquare.Col + 1;
+                for (int i = kingCheckedSquare.Row + 1; i < chessCheckSquare.Row; i++)
+                {
+                    // Kiểm tra điều kiện, nếu tới vị tri quân bishop thì break;
+                    if (j >=chessCheckSquare.Col) break;
+
+                    if (Common.IsEmptyChessSquare(board, i, j))
+                    {
+                        Common.SquaresCheckingPath.Add(board[i, j]);
+                    }
+                    j++;
+                }
+                return IsSquareInPathCanBeProtect(board);
+            }
+
+            //Bishop in south west king
+            if (kingCheckedSquare.Row < chessCheckSquare.Row
+              && kingCheckedSquare.Col > chessCheckSquare.Col)
+            {
+                int j = kingCheckedSquare.Col - 1;
+                for (int i = kingCheckedSquare.Row + 1; i <chessCheckSquare.Row; i++)
+                {
+                    if (j <= chessCheckSquare.Col) break;
+                    if (Common.IsEmptyChessSquare(board, i, j))
+                    {
+                        Common.SquaresCheckingPath.Add(board[i, j]);
+                    }
+                    j--;
+                }
+                return IsSquareInPathCanBeProtect(board);
+            }
+
             //Bishop in north east king
             if (kingCheckedSquare.Row > chessCheckSquare.Row
               && kingCheckedSquare.Col < chessCheckSquare.Col)
             {
-                int j = chessCheckSquare.Col + 1;
-                for (int i = chessCheckSquare.Row + 1; i >= Constants.firstRowOfTable; i--)
+                int j = kingCheckedSquare.Col + 1;
+                for (int i = kingCheckedSquare.Row - 1; i >chessCheckSquare.Row; i--)
                 {
+                    if (j >= chessCheckSquare.Col) break;
                     if (Common.IsEmptyChessSquare(board, i, j))
                     {
                         Common.SquaresCheckingPath.Add(board[i, j]);
@@ -344,23 +548,24 @@ namespace ChessKing
             if (kingCheckedSquare.Row > chessCheckSquare.Row
               && kingCheckedSquare.Col > chessCheckSquare.Col)
             {
-                int j = chessCheckSquare.Col - 1;
-                for (int i = chessCheckSquare.Row +1; i >= Constants.firstRowOfTable; i--)
+                int j = kingCheckedSquare.Col - 1;
+                for (int i = kingCheckedSquare.Row - 1; i > chessCheckSquare.Row; i--)
                 {
+                    if (j <= chessCheckSquare.Col) break;
                     if (Common.IsEmptyChessSquare(board, i, j))
                     {
                         Common.SquaresCheckingPath.Add(board[i, j]);
                     }
-                    j++;
+                    j--;
                 }
                 return IsSquareInPathCanBeProtect(board);
             }
             return false;
         }
 
-        private  bool IsSquareInPathCanBeProtect(ChessSquare[,] board)
+        private bool IsSquareInPathCanBeProtect(ChessSquare[,] board)
         {
-            for (int i = 0; i < Common.CanBeMoveTemp.Count; i++)
+            for (int i = 0; i < Common.SquaresCheckingPath.Count; i++)
             {
                 if (Common.IsSquareCanBeProtectByTeamate(board,
                     Common.SquaresCheckingPath[i].Row, Common.SquaresCheckingPath[i].Col,
