@@ -124,7 +124,7 @@ namespace ChessKing
                 else
                 {
                     if (this.Team != board[i, col].Chess.Team)
-                        Common.CanBeEat.Add(board[i, col]);
+                        Common.CanBeEatTemp.Add(board[i, col]);
                     break;
                 }
             }
@@ -142,7 +142,7 @@ namespace ChessKing
                 else
                 {
                     if (this.Team != board[i, col].Chess.Team)
-                        Common.CanBeEat.Add(board[i, col]);
+                        Common.CanBeEatTemp.Add(board[i, col]);
                     break;
                 }
             }
@@ -158,7 +158,7 @@ namespace ChessKing
                 else
                 {
                     if (this.Team != board[row, j].Chess.Team)
-                        Common.CanBeEat.Add(board[row, j]);
+                        Common.CanBeEatTemp.Add(board[row, j]);
 
                     break;
                 }
@@ -176,7 +176,7 @@ namespace ChessKing
                     //square is not empty, check color ,if diffirence about color, change back color
                     if (this.Team != board[row, j].Chess.Team)
                     {
-                        Common.CanBeEat.Add(board[row, j]);
+                        Common.CanBeEatTemp.Add(board[row, j]);
                     }
                     break;
                 }

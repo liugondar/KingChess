@@ -44,7 +44,7 @@ namespace ChessKing
         /// <summary>
         /// Tạo bàng cờ 8x8 Trống
         /// </summary>
-       
+
 
         protected override void OnClick(EventArgs e)
         {
@@ -158,7 +158,7 @@ namespace ChessKing
         {
             Common.IsSelectedSquare = false;//gan lai bang false de lan sau con thuc hien
 
-            if (Common.CanBeMove.Contains(this))//inside list Can Move
+            if (Common.CanBeMove.Contains(this) || Common.CanBeEat.Contains(this))//inside list Can Move
             {
                 Common.RowProQueen = this.Row;
                 Common.ColProQueen = this.Col;
@@ -204,8 +204,8 @@ namespace ChessKing
                         });
                     });
                 }
-               
-                
+
+
             }
             else //not inside can move list
             {
@@ -250,7 +250,7 @@ namespace ChessKing
             if (!Common.isBlackKingMoved)
             {
                 if (IsKingMoved((int)ColorTeam.Black))
-                Common.isBlackKingMoved = true;
+                    Common.isBlackKingMoved = true;
             }
         }
 
@@ -486,29 +486,26 @@ namespace ChessKing
                 {
                     if (Common.Board[i, j].Chess != null)
                     {
-                        Common.Board[i, j].Chess.FindWayAndAutoChangeSquareIfNeeded(Common.Board, Common.Board[i, j].Row, Common.Board[i, j].Col);
-                        for (int k = 0; k < Common.CanBeMove.Count; k++)
+                        Common.Board[i, j].Chess.FindSquareCanBeEat(Common.Board, Common.Board[i, j].Row, Common.Board[i, j].Col);
+                        for (int k = 0; k < Common.CanBeEatTemp.Count; k++)
                         {
-                            if (Common.CanBeMove[k].Chess == null) Common.CanBeMove[k].Image = null;
-                            else
+                            if (Common.CanBeEatTemp[k].Chess.IsKing)
                             {
-                                if (Common.CanBeMove[k].Chess.IsKing)
+                                isCheck = true;
+                                KingTemp = new ChessSquare(Common.CanBeEatTemp[k]);
+                                if (isCheck)
                                 {
-                                    isCheck = true;
-                                    KingTemp = new ChessSquare(Common.CanBeMove[k]);
-                                    if (isCheck)
-                                    {
-                                        // Set trạng thái đang bị check khiến không thể nhập thành
-                                        if (KingTemp.Chess.Team == (int)ColorTeam.White)
-                                            Common.isWhiteKingChecked = true;
-                                        if (KingTemp.Chess.Team == (int)ColorTeam.Black)
-                                            Common.isBlackKingChecked = true;
-                                    }
+                                    // Set trạng thái đang bị check khiến không thể nhập thành
+                                    if (KingTemp.Chess.Team == (int)ColorTeam.White)
+                                        Common.isWhiteKingChecked = true;
+                                    if (KingTemp.Chess.Team == (int)ColorTeam.Black)
+                                        Common.isBlackKingChecked = true;
                                 }
                             }
                         }
                     }
-                    Common.CanBeMove.Clear();
+                    Common.CanBeEatTemp.Clear();
+                    Common.CanBeMoveTemp.Clear();
                 }
         }
         /// <summary>
@@ -522,10 +519,10 @@ namespace ChessKing
         {
             Common.CanBeEat.Clear();
             Common.CanBeMove.Clear();
-            temp.Chess.FindWayAndAutoChangeSquareIfNeeded(Common.Board,temp.Row,temp.Col);
+            temp.Chess.FindWayAndAutoChangeSquareIfNeeded(Common.Board, temp.Row, temp.Col);
             bool isCheckmate = true;
 
-            if (Common.CanBeMove.Count>0) 
+            if (Common.CanBeMove.Count > 0)
                 isCheckmate = false;
             if (Common.CanBeEat.Count > 0)
                 isCheckmate = false;
@@ -541,7 +538,7 @@ namespace ChessKing
             {
                 isCheckmate = !(temp.Chess as King).
                     IsKingCanBeProtect(Common.Board, temp,
-                    Common.Board[this.Row,this.Col]);
+                    Common.Board[this.Row, this.Col]);
             }
 
             if (isCheckmate)
@@ -625,8 +622,8 @@ namespace ChessKing
             {
                 for (int j = 0; j < 8; j++)
                 {
-                       Common.VirtualBoard[i, j].Chess = Common.Board[i, j].Chess;
-                       Common.VirtualBoard[i, j].Image= Common.Board[i, j].Image;
+                    Common.VirtualBoard[i, j].Chess = Common.Board[i, j].Chess;
+                    Common.VirtualBoard[i, j].Image = Common.Board[i, j].Image;
                 }
             }
             int depth = Common.Depth;
@@ -770,8 +767,8 @@ namespace ChessKing
             {
                 for (int j = 0; j < 8; j++)
                 {
-                        Common.Board[i, j].Chess = Common.VirtualBoard[i, j].Chess;
-                        Common.Board[i, j].Image = Common.VirtualBoard[i, j].Image;
+                    Common.Board[i, j].Chess = Common.VirtualBoard[i, j].Chess;
+                    Common.Board[i, j].Image = Common.VirtualBoard[i, j].Image;
                     Common.VirtualBoard[i, j].Chess = null;
                     Common.VirtualBoard[i, j].Image = null;
                 }
