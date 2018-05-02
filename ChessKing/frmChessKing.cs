@@ -359,6 +359,11 @@ namespace ChessKing
         #endregion
         private void btnNewGame_Click(object sender, EventArgs e)
         {
+            InitNewGame();
+        }
+
+        private void InitNewGame()
+        {
             ResetBanCo();
             Display();
             Common.IsPlaying = true;
@@ -374,6 +379,7 @@ namespace ChessKing
                 pictureBox1.Visible = false;
             }
         }
+
         private void ResetBanCo()
         {
             for (int row = 0; row < 8; row++)
@@ -391,15 +397,18 @@ namespace ChessKing
         private void oneplayerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             UncheckOtherToolStripMenuItems((ToolStripMenuItem)sender);
+            InitNewGame();
+
         }
         private void twoplayerToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             UncheckOtherToolStripMenuItems((ToolStripMenuItem)sender);
+            InitNewGame();
+
         }
 
         private void subietm2ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            UncheckOtherToolStripMenuItems((ToolStripMenuItem)sender);
         }
         public void UncheckOtherToolStripMenuItems(ToolStripMenuItem selectedMenuItem)
         {
