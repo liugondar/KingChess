@@ -40,6 +40,10 @@ namespace ChessKing
                     && !Common.isRightWhiteCastleMoved
                     && CheckAvailableKingPath(board, row: 7, KnightCol: 6, BishopCol: 5,
                     team: (int)ColorTeam.White);
+                Console.WriteLine(Common.isWhiteKingMoved);
+                Console.WriteLine("White king checked" + Common.isWhiteKingChecked);
+                Console.WriteLine("is white empty righ castle" + Common.IsEmptyChessSquare(board, 7, 7));
+                Console.WriteLine("is white right castle move"+ Common.isRightWhiteCastleMoved);
 
                 if (isWhiteQueenSideCastleAvailable)
                     Common.ChangeBackgroundColorToCanMove(board, 7, 2);

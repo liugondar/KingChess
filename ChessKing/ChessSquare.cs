@@ -229,13 +229,13 @@ namespace ChessKing
             }
             if (!Common.isRightWhiteCastleMoved)
             {
-                if (IsRightCastleMoved((int)ColorTeam.Black))
+                if (IsRightCastleMoved((int)ColorTeam.White))
                     Common.isRightWhiteCastleMoved = true;
             }
 
             if (!Common.isLeftWhiteCastleMoved)
             {
-                if (IsLeftCastleMoved((int)ColorTeam.Black))
+                if (IsLeftCastleMoved((int)ColorTeam.White))
                     Common.isLeftWhiteCastleMoved = true;
             }
         }
