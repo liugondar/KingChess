@@ -465,7 +465,6 @@ namespace ChessKing
             this.Check(ref isCheck, ref Kingtemp);
             if (isCheck)
             {
-                Common.CanBeMove.Clear();
                 Checkmate(Kingtemp);
             }
 
@@ -480,16 +479,18 @@ namespace ChessKing
         {
             // mặc định chưa bị chiếu tướng isCheck=false
             isCheck = false;
+            Common.CanBeEatTemp.Clear();
             //check if King is danger
             for (int i = 0; i < 8; i++)
                 for (int j = 0; j < 8; j++)
                 {
                     if (Common.Board[i, j].Chess != null)
                     {
-                        Common.Board[i, j].Chess.FindSquareCanBeEat(Common.Board, Common.Board[i, j].Row, Common.Board[i, j].Col);
+                        Common.Board[i, j].Chess.FindSquareCanBeEat(Common.Board,i,j);
                         for (int k = 0; k < Common.CanBeEatTemp.Count; k++)
                         {
-                            if (Common.CanBeEatTemp[k].Chess.IsKing)
+                            if (Common.CanBeEatTemp[k].Chess.IsKing
+                                &&Common.Board[i,j].Chess.Team!=Common.CanBeEatTemp[k].Chess.Team)
                             {
                                 isCheck = true;
                                 KingTemp = new ChessSquare(Common.CanBeEatTemp[k]);
@@ -522,17 +523,16 @@ namespace ChessKing
             temp.Chess.FindWayAndAutoChangeSquareIfNeeded(Common.Board, temp.Row, temp.Col);
             bool isCheckmate = true;
 
+            isCheckmate = !(temp.Chess as King).
+                  IsKingCanBeProtect(Common.Board, temp,
+                  Common.Board[this.Row, this.Col]);
+
             if (Common.CanBeMove.Count > 0)
                 isCheckmate = false;
             if (Common.CanBeEat.Count > 0)
                 isCheckmate = false;
 
-            if (isCheckmate)
-            {
-                isCheckmate = !(temp.Chess as King).
-                    IsKingCanBeProtect(Common.Board, temp,
-                    Common.Board[this.Row, this.Col]);
-            }
+              
 
             if (isCheckmate)
             {

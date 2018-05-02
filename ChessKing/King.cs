@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ChessKing
 {
@@ -43,7 +44,7 @@ namespace ChessKing
                 Console.WriteLine(Common.isWhiteKingMoved);
                 Console.WriteLine("White king checked" + Common.isWhiteKingChecked);
                 Console.WriteLine("is white empty righ castle" + Common.IsEmptyChessSquare(board, 7, 7));
-                Console.WriteLine("is white right castle move"+ Common.isRightWhiteCastleMoved);
+                Console.WriteLine("is white right castle move" + Common.isRightWhiteCastleMoved);
 
                 if (isWhiteQueenSideCastleAvailable)
                     Common.ChangeBackgroundColorToCanMove(board, 7, 2);
@@ -167,7 +168,7 @@ namespace ChessKing
             }
         }
         #endregion
-       
+
 
         #region Check square in checking path to make sure no teamate chess can protect king
         /// <summary>
@@ -218,11 +219,7 @@ namespace ChessKing
                 for (int i = chessCheckSquare.Row + 1; i < kingCheckedSquare.Row; i++)
                 {
                     if (Common.IsEmptyChessSquare(board, i, chessCheckSquare.Col))
-                    {
                         Common.SquaresCheckingPath.Add(board[i, chessCheckSquare.Col]);
-                    }
-                    else
-                        break;
                 }
                 return IsSquareInPathCanBeProtect(board);
             }
@@ -247,9 +244,9 @@ namespace ChessKing
             {
                 for (int i = chessCheckSquare.Col - 1; i > kingCheckedSquare.Col; i--)
                 {
-                    if (Common.IsEmptyChessSquare(board, chessCheckSquare.Row,i))
+                    if (Common.IsEmptyChessSquare(board, chessCheckSquare.Row, i))
                     {
-                        Common.SquaresCheckingPath.Add(board[chessCheckSquare.Row,i]);
+                        Common.SquaresCheckingPath.Add(board[chessCheckSquare.Row, i]);
                     }
                     else
                         break;
@@ -423,11 +420,19 @@ namespace ChessKing
                 {
                     // Kiểm tra điều kiện, nếu ngoài bàn cờ ( col <0) thì xong việc xét chéo trái lên
                     if (j < Constants.firstColOfTable) break;
-
-                    if (Common.IsEmptyChessSquare(board, i, j))
+                    // Ô trong checking path từ bishop tới king
+                    if (kingCheckedSquare.Row < i && kingCheckedSquare.Col < j)
                     {
-                        Common.SquaresCheckingPath.Add(board[i, j]);
+                        if (Common.IsEmptyChessSquare(board, i, j))
+                            Common.SquaresCheckingPath.Add(board[i, j]);
                     }
+                    // nếu có ô ngay sau king trên đường checking path, 
+                    // loại bỏ ô đó khỏi list can move hoac eat của king
+                    else if (kingCheckedSquare.Row - 1 == i && kingCheckedSquare.Col - 1 == j)
+                    {
+                        RemoveElementCanBeMoveOrEatAfterKingInCheckPath(board, j, i);
+                    }
+
                     j--;
                 }
                 return IsSquareInPathCanBeProtect(board);
@@ -441,9 +446,14 @@ namespace ChessKing
                 for (int i = chessCheckSquare.Row - 1; i >= Constants.firstRowOfTable; i--)
                 {
                     if (j > Constants.lastColOfTable) break;
-                    if (Common.IsEmptyChessSquare(board, i, j))
+                    if (kingCheckedSquare.Row < i && kingCheckedSquare.Col > j)
                     {
-                        Common.SquaresCheckingPath.Add(board[i, j]);
+                        if (Common.IsEmptyChessSquare(board, i, j))
+                            Common.SquaresCheckingPath.Add(board[i, j]);
+                    }
+                    else if (kingCheckedSquare.Row - 1 == i && kingCheckedSquare.Col + 1 == j)
+                    {
+                        RemoveElementCanBeMoveOrEatAfterKingInCheckPath(board, i, j);
                     }
                     j++;
                 }
@@ -458,10 +468,16 @@ namespace ChessKing
                 for (int i = chessCheckSquare.Row + 1; i <= Constants.lastRowOfTable; i++)
                 {
                     if (j < Constants.firstColOfTable) break;
-                    if (Common.IsEmptyChessSquare(board, i, j))
+                    if (kingCheckedSquare.Row > i && kingCheckedSquare.Col < j)
                     {
-                        Common.SquaresCheckingPath.Add(board[i, j]);
+                        if (Common.IsEmptyChessSquare(board, i, j))
+                            Common.SquaresCheckingPath.Add(board[i, j]);
                     }
+                    else if (i == kingCheckedSquare.Row + 1 && j == kingCheckedSquare.Col - 1)
+                    {
+                        RemoveElementCanBeMoveOrEatAfterKingInCheckPath(board, i, j);
+                    }
+
                     j--;
                 }
                 return IsSquareInPathCanBeProtect(board);
@@ -473,18 +489,35 @@ namespace ChessKing
             {
                 int j;
                 j = chessCheckSquare.Col + 1;
-                for (int i = chessCheckSquare.Row+ 1; i <= Constants.lastRowOfTable; i++)
+                for (int i = chessCheckSquare.Row + 1; i <= Constants.lastRowOfTable; i++)
                 {
                     if (j > Constants.lastColOfTable) break;
-                    if (Common.IsEmptyChessSquare(board, i, j))
+                    if (kingCheckedSquare.Row > i && kingCheckedSquare.Col > j)
                     {
-                        Common.SquaresCheckingPath.Add(board[i, j]);
+                        if (Common.IsEmptyChessSquare(board, i, j))
+                            Common.SquaresCheckingPath.Add(board[i, j]);
                     }
-                    j++;
+                    else if (i == kingCheckedSquare.Row + 1 && j == kingCheckedSquare.Col + 1)
+                    {
+                        RemoveElementCanBeMoveOrEatAfterKingInCheckPath(board, i, j);
+                    }
+                        j++;
                 }
                 return IsSquareInPathCanBeProtect(board);
             }
             return false;
+        }
+
+        private void RemoveElementCanBeMoveOrEatAfterKingInCheckPath(ChessSquare[,] board, int j, int i)
+        {
+            if (Common.IsEmptyChessSquare(board, i, j))
+            {
+                Common.CanBeMove.RemoveAll(r=>r.Col==j&&r.Row==i);
+            }
+            else
+            {
+                Common.CanBeEat.RemoveAll(r => r.Col == j && r.Row == 1);
+            }
         }
 
         private bool IsSquareInPathCanBeProtect(ChessSquare[,] board)

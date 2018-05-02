@@ -108,7 +108,7 @@ namespace ChessKing
         }
         public override void FindSquareCanBeMove(ChessSquare[,] board, int row, int col)
         {
-            CheckLeftToFindProjectObject(board, row, col);
+            CheckLeftNoChangeBackground(board, row, col);
             CheckRightNoChangeBackground(board, row, col);
             CheckBottomNoChangeBackground(board, row, col);
             CheckTopNoChangeBackground(board, row, col);

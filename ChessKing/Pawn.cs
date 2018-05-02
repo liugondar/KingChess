@@ -69,7 +69,7 @@ namespace ChessKing
                         Common.CheckPromote = true;
                     }
                     // Add ô chéo phải vào danh sách ô quân cờ có thể di chuyênr
-                    Common.CanBeMove.Add(board[row - 1, col + 1]);
+                    Common.CanBeEat.Add(board[row - 1, col + 1]);
                 }
             }
         }
@@ -94,7 +94,7 @@ namespace ChessKing
                         Common.CheckPromote = true;
                     }
                     // Add ô trái chéo vào danh sách ô quân cờ có thể di chuyênr
-                    Common.CanBeMove.Add(board[row - 1, col - 1]);
+                    Common.CanBeEat.Add(board[row - 1, col - 1]);
                 }
             }
         }
@@ -190,7 +190,7 @@ namespace ChessKing
                     {
                         Common.CheckPromote = true;
                     }
-                    Common.CanBeMove.Add(board[row + 1, col + 1]);
+                    Common.CanBeEat.Add(board[row + 1, col + 1]);
                 }
             }
         }
@@ -210,7 +210,7 @@ namespace ChessKing
                     {
                         Common.CheckPromote = true;
                     }
-                    Common.CanBeMove.Add(board[row + 1, col - 1]);
+                    Common.CanBeEat.Add(board[row + 1, col - 1]);
                 }
             }
         }
@@ -247,10 +247,17 @@ namespace ChessKing
             bool laConTotCuoiCung = col >= Constants.lastColOfTable;
             if (laConTotCuoiCung) return;
 
-            bool oCheoBenPhaiKhongCoQuanCo = board[row - 1, col + 1].Chess == null;
-            if (oCheoBenPhaiKhongCoQuanCo)
+            bool oCheoBenPhaiCoQuanCo = board[row - 1, col + 1].Chess == null;
+            if (oCheoBenPhaiCoQuanCo)
             {
                     Common.CanBeMoveTemp.Add(board[row - 1, col + 1]);
+            }
+            else
+            {
+                if (board[row - 1, col +1].Chess.Team != Team)
+                {
+                    Common.CanBeEatTemp.Add(board[row - 1, col - 1]);
+                }
             }
         }
         private void CoTrangKiemTraOCheoBenTraiTimNuocAn(ChessSquare[,] board, int row, int col)
@@ -259,10 +266,17 @@ namespace ChessKing
             bool laConTotDauTien = col <= Constants.firstColOfTable;
             if (laConTotDauTien) return;
             //check duong cheo
-            bool oCheoBenTraiKhongCoQuanCo = board[row - 1, col - 1].Chess == null;
-            if (oCheoBenTraiKhongCoQuanCo)
+            bool oCheoBenTraiCoQuanCo = board[row - 1, col - 1].Chess == null;
+            if (oCheoBenTraiCoQuanCo)
             {
                     Common.CanBeMoveTemp.Add(board[row - 1, col - 1]);
+            }
+            else
+            {
+                if (board[row - 1, col - 1].Chess.Team != Team)
+                {
+                    Common.CanBeEatTemp.Add(board[row - 1, col - 1]);
+                }
             }
         }
         #endregion
@@ -288,6 +302,13 @@ namespace ChessKing
             {
                     Common.CanBeMoveTemp.Add(board[row + 1, col + 1]);
             }
+            else
+            {
+                if (board[row + 1, col +1 ].Chess.Team != Team)
+                {
+                    Common.CanBeEatTemp.Add(board[row - 1, col - 1]);
+                }
+            }
         }
         private void CoDenKiemTraOCheoTraiTimNuocAn(ChessSquare[,] board, int row, int col)
         {
@@ -297,6 +318,13 @@ namespace ChessKing
             if (board[row + 1, col - 1].Chess == null)
             {
                     Common.CanBeMoveTemp.Add(board[row + 1, col - 1]);
+            }
+            else
+            {
+                if (board[row+ 1, col - 1].Chess.Team != Team)
+                {
+                    Common.CanBeEatTemp.Add(board[row - 1, col - 1]);
+                }
             }
         }
 
@@ -331,13 +359,7 @@ namespace ChessKing
         {
             if (Common.IsEmptyChessSquare(board, row - 1, col))
             {
-                if (Common.IsTurn % 2 == 0 || Common.Is2PlayerMode == true)
-                    board[row - 1, col].Image = Image.FromFile(linkPoint);
-                if (row - 1 == 0 && board[row, col].Chess.Team == 1)
-                {
-                    Common.CheckPromote = true;
-                }
-                Common.CanBeMove.Add(board[row - 1, col]);
+                Common.CanBeMoveTemp.Add(board[row - 1, col]);
             }
         }
         private void CheckIfWhitePawnCanJump2Step(ChessSquare[,] board, int row, int col)
@@ -348,9 +370,7 @@ namespace ChessKing
             {
                 if (Common.IsEmptyChessSquare(board, i, col))
                 {
-                    if (Common.IsTurn % 2 == Constants.WhiteTurn || Common.Is2PlayerMode == true)
-                        board[i, col].Image = Image.FromFile(linkPoint);
-                    Common.CanBeMove.Add(board[i, col]);
+                    Common.CanBeMoveTemp.Add(board[i, col]);
                 }
                 else break;
             }
@@ -369,15 +389,7 @@ namespace ChessKing
         {
             if (Common.IsEmptyChessSquare(board, row + 1, col))
             {
-                if (Common.IsTurn % 2 == 0 || Common.Is2PlayerMode == true)
-                    board[row + 1, col].Image = Image.FromFile(linkPoint);
-                if (row + 1 == 7 && board[row, col].Chess.Team == 2)
-                {
-                    Common.CheckPromote = true;
-                }
-                Common.CanBeMove.Add(board[row + 1, col]);
-                //dk phong hau
-
+                Common.CanBeMoveTemp.Add(board[row + 1, col]);
             }
         }
         private void CheckIfBlackPawnCanJump2Step(ChessSquare[,] board, int row, int col)
@@ -386,11 +398,8 @@ namespace ChessKing
             {
                 if (Common.IsEmptyChessSquare(board, i, col))
                 {
-                    if (Common.IsTurn % 2 == 0 || Common.Is2PlayerMode == true)
-                        board[i, col].Image = Image.FromFile(linkPoint);
-                    Common.CanBeMove.Add(board[i, col]);
+                    Common.CanBeMoveTemp.Add(board[i, col]);
                 }
-                else
                     break;
             }
         }
