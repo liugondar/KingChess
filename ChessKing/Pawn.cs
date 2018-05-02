@@ -256,7 +256,7 @@ namespace ChessKing
             {
                 if (board[row - 1, col +1].Chess.Team != Team)
                 {
-                    Common.CanBeEatTemp.Add(board[row - 1, col - 1]);
+                    Common.CanBeEatTemp.Add(board[row - 1, col + 1]);
                 }
             }
         }
@@ -306,7 +306,7 @@ namespace ChessKing
             {
                 if (board[row + 1, col +1 ].Chess.Team != Team)
                 {
-                    Common.CanBeEatTemp.Add(board[row - 1, col - 1]);
+                    Common.CanBeEatTemp.Add(board[row + 1, col + 1]);
                 }
             }
         }
@@ -323,7 +323,7 @@ namespace ChessKing
             {
                 if (board[row+ 1, col - 1].Chess.Team != Team)
                 {
-                    Common.CanBeEatTemp.Add(board[row - 1, col - 1]);
+                    Common.CanBeEatTemp.Add(board[row + 1, col - 1]);
                 }
             }
         }
