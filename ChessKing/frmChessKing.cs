@@ -261,17 +261,6 @@ namespace ChessKing
                 //Kết thúc lượt đổi vị trí kết thúc lượt
                 
             }
-            // Ket thuc van co
-            if (Common.Close)
-            {
-                for (int i = 0; i < 8; i++)
-                {
-                    for (int j = 0; j < 8; j++)
-                    {
-                        Board[i, j].Image = null;
-                    }
-                }
-            }
             Board = Common.Board;
         }
         #region Dùng chuột di chuyển form

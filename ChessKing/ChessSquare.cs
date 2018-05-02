@@ -530,13 +530,6 @@ namespace ChessKing
             if (isCheckmate)
             {
                 isCheckmate = !(temp.Chess as King).
-                    IsSquareArroundProtected(Common.Board,
-                    temp.Row, temp.Col);
-            }
-
-            if (isCheckmate)
-            {
-                isCheckmate = !(temp.Chess as King).
                     IsKingCanBeProtect(Common.Board, temp,
                     Common.Board[this.Row, this.Col]);
             }
@@ -546,6 +539,7 @@ namespace ChessKing
                 if (temp.Chess.Team == (int)ColorTeam.White) MessageBox.Show("The Black Wins");
                 else MessageBox.Show("The White Wins");
 
+                Common.ClearMoveSuggestion();
                 Common.IsPlaying = false;
                 Common.Close = true;
             }
