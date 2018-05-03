@@ -341,7 +341,7 @@ namespace ChessKing
         }
         private void gameToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string url = "https://github.com/thanhthinn1997/simple-chess-programming/wiki/Gi%E1%BB%9Bi-thi%E1%BB%87u-Game-C%E1%BB%9D-vua";
+            string url = "https://vi.wikipedia.org/wiki/C%E1%BB%9D_vua";
             System.Diagnostics.Process.Start(url);
         }
       
