@@ -24,6 +24,7 @@ namespace ChessKing
 
         WMPLib.WindowsMediaPlayer Player = new WMPLib.WindowsMediaPlayer();
         WMPLib.WindowsMediaPlayer announcerNewGameWelcome= new WMPLib.WindowsMediaPlayer();
+        SoundManager soundManager;
 
         private bool dangkeo;
         private Point diemkeo;
@@ -49,8 +50,8 @@ namespace ChessKing
             pictureBox1.BackColor = Color.Transparent;
             pictureBox2.BackColor = Color.Transparent;
             Common.Is2PlayerMode = true;
-            Player.URL = "Sounds/Sound.mp3";
-            Player.settings.autoStart = true;
+            soundManager = new SoundManager();
+            soundManager.InitMusic();
 
             FlashScreen FlashScr = new FlashScreen();
             FlashScr.ShowDialog();
@@ -326,12 +327,23 @@ namespace ChessKing
         }
         private void onToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Player.controls.play();
+            soundManager.SwapMusicState();
             UncheckOtherToolStripMenuItems((ToolStripMenuItem)sender);
         }
         private void offToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Player.controls.stop();
+            soundManager.SwapMusicState();
+            UncheckOtherToolStripMenuItems((ToolStripMenuItem)sender);
+        }
+        private void onToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            soundManager.SwapSoundState();
+            UncheckOtherToolStripMenuItems((ToolStripMenuItem)sender);
+        }
+
+        private void offToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            soundManager.SwapSoundState();
             UncheckOtherToolStripMenuItems((ToolStripMenuItem)sender);
         }
         private void teamToolStripMenuItem_Click(object sender, EventArgs e)
@@ -359,8 +371,9 @@ namespace ChessKing
             Common.Close = false;
             Common.Is2PlayerMode = twoplayerToolStripMenuItem1.Checked ?
                 true : false;
-            announcerNewGameWelcome.URL = "Sounds/announcer_welcome_05.mp3";
-            announcerNewGameWelcome.settings.autoStart = true;
+
+            soundManager.PlayAnnouncerWelcome();
+           
             if (Common.Is2PlayerMode)
             {
                 MessageBox.Show("White go first");
@@ -417,6 +430,7 @@ namespace ChessKing
             // This line is optional, for show the mainMenu after click
         }
 
+      
     }
 }
 

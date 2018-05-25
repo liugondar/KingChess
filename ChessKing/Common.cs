@@ -15,6 +15,8 @@ namespace ChessKing
         // Game mode
         static public bool Is2PlayerMode = false; //1 player
         static public bool IsSelectedSquare = false; //selected yet
+        static public bool IsMusicMuted=false;
+        static public bool IsSoundMuted=false;
         static public bool IsPlaying = false;
         static public int IsTurn = 0;
 

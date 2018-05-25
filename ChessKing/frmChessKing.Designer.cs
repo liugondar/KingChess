@@ -53,6 +53,9 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.btnNewGame = new System.Windows.Forms.Button();
             this.buttonMinimize = new System.Windows.Forms.Button();
+            this.soundToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.onToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.offToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -91,6 +94,7 @@
             this.optionToolStripMenuItem.BackColor = System.Drawing.Color.Transparent;
             this.optionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.depthToolStripMenuItem,
+            this.soundToolStripMenuItem1,
             this.soundToolStripMenuItem,
             this.gameTypeToolStripMenuItem});
             this.optionToolStripMenuItem.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -107,7 +111,7 @@
             this.toolStripMenuItem4,
             this.veryHardToolStripMenuItem});
             this.depthToolStripMenuItem.Name = "depthToolStripMenuItem";
-            this.depthToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.depthToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.depthToolStripMenuItem.Text = "Level";
             this.depthToolStripMenuItem.Click += new System.EventHandler(this.subietm2ToolStripMenuItem_Click);
             // 
@@ -151,7 +155,7 @@
             this.onToolStripMenuItem,
             this.offToolStripMenuItem});
             this.soundToolStripMenuItem.Name = "soundToolStripMenuItem";
-            this.soundToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.soundToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.soundToolStripMenuItem.Text = "Music";
             this.soundToolStripMenuItem.Click += new System.EventHandler(this.subietm2ToolStripMenuItem_Click);
             // 
@@ -161,14 +165,14 @@
             this.onToolStripMenuItem.CheckOnClick = true;
             this.onToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.onToolStripMenuItem.Name = "onToolStripMenuItem";
-            this.onToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
+            this.onToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.onToolStripMenuItem.Text = "On";
             this.onToolStripMenuItem.Click += new System.EventHandler(this.onToolStripMenuItem_Click);
             // 
             // offToolStripMenuItem
             // 
             this.offToolStripMenuItem.Name = "offToolStripMenuItem";
-            this.offToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
+            this.offToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.offToolStripMenuItem.Text = "Off";
             this.offToolStripMenuItem.Click += new System.EventHandler(this.offToolStripMenuItem_Click);
             // 
@@ -178,7 +182,7 @@
             this.oneplayerToolStripMenuItem,
             this.twoplayerToolStripMenuItem1});
             this.gameTypeToolStripMenuItem.Name = "gameTypeToolStripMenuItem";
-            this.gameTypeToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.gameTypeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.gameTypeToolStripMenuItem.Text = "Game Mode";
             this.gameTypeToolStripMenuItem.Click += new System.EventHandler(this.subietm2ToolStripMenuItem_Click);
             // 
@@ -302,6 +306,31 @@
             this.buttonMinimize.UseVisualStyleBackColor = false;
             this.buttonMinimize.Click += new System.EventHandler(this.buttonMinimize_Click);
             // 
+            // soundToolStripMenuItem1
+            // 
+            this.soundToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.onToolStripMenuItem1,
+            this.offToolStripMenuItem1});
+            this.soundToolStripMenuItem1.Name = "soundToolStripMenuItem1";
+            this.soundToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.soundToolStripMenuItem1.Text = "Sound";
+            // 
+            // onToolStripMenuItem1
+            // 
+            this.onToolStripMenuItem1.Checked = true;
+            this.onToolStripMenuItem1.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.onToolStripMenuItem1.Name = "onToolStripMenuItem1";
+            this.onToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.onToolStripMenuItem1.Text = "On";
+            this.onToolStripMenuItem1.Click += new System.EventHandler(this.onToolStripMenuItem1_Click);
+            // 
+            // offToolStripMenuItem1
+            // 
+            this.offToolStripMenuItem1.Name = "offToolStripMenuItem1";
+            this.offToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.offToolStripMenuItem1.Text = "Off";
+            this.offToolStripMenuItem1.Click += new System.EventHandler(this.offToolStripMenuItem1_Click);
+            // 
             // frmChessKing
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -364,6 +393,9 @@
         private System.Windows.Forms.ToolStripMenuItem gameTypeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem oneplayerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem twoplayerToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem soundToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem onToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem offToolStripMenuItem1;
     }
 }
 

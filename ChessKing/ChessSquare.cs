@@ -13,8 +13,7 @@ namespace ChessKing
     {
         string linkBlackQueen = "Image\\Chess_qdt60.png";
         string linkWhiteQueen = "Image\\Chess_qlt60.png";
-        WMPLib.WindowsMediaPlayer moveSound = new WMPLib.WindowsMediaPlayer();
-        WMPLib.WindowsMediaPlayer checkSound = new WMPLib.WindowsMediaPlayer();
+        SoundManager soundManager;
         #region init fields
         enum ColorTeam
         {
@@ -39,6 +38,7 @@ namespace ChessKing
             this.Size = new System.Drawing.Size(60, 60);
             this.FlatStyle = FlatStyle.Flat;
             this.FlatAppearance.BorderSize = 0;
+            soundManager = new SoundManager();
         }
         #endregion
         /// <summary>
@@ -53,8 +53,7 @@ namespace ChessKing
             //Không làm gì hết nếu ô clicked không có quân cờ
             if (this.Chess == null && !Common.IsSelectedSquare) return;
 
-            moveSound.URL = "Sounds/Move.wav";
-            moveSound.settings.autoStart = true;
+            soundManager.PlayMoveSound();
             ThayDoiOCoKhiClickVaoOCoQuanCo();
 
             if (Common.Is2PlayerMode)
@@ -536,6 +535,7 @@ namespace ChessKing
 
             if (isCheckmate)
             {
+                soundManager.PlayCheckMateSound();
                 if (temp.Chess.Team == (int)ColorTeam.White) MessageBox.Show("The Black Wins");
                 else MessageBox.Show("The White Wins");
 
@@ -545,8 +545,7 @@ namespace ChessKing
             }
             else
             {
-                checkSound.URL = "Sounds/Check.mp3";
-                checkSound.settings.autoStart = true;
+                soundManager.PlayCheckSound();
             }
         }
 
