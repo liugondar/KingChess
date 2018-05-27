@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace ChessKing
 {
@@ -13,14 +11,13 @@ namespace ChessKing
         #region Find enable chess square to move or eat and display
         public override void FindWayAndAutoChangeSquareIfNeeded(ChessSquare[,] board, int row, int col)
         {
-            // Kiểm tra các ô phía trên 
-            KiemTraONhapThanh(board, row, col);
-            KiemTraCacOPhiaTren(board, row, col);
-            KiemTraCacOPhiaDuoi(board, row, col);
-            KiemTraOBenTrai(board, row, col);
-            KiemTraOBenPhai(board, row, col);
+            CheckHasKingCanCastling(board, row, col);
+            CheckTopSquares(board, row, col);
+            CheckBottomSquares(board, row, col);
+            CheckLeftSquare(board, row, col);
+            CheckRightSquare(board, row, col);
         }
-        private void KiemTraONhapThanh(ChessSquare[,] board, int row, int col)
+        private void CheckHasKingCanCastling(ChessSquare[,] board, int row, int col)
         {
             // row= 7 col=4 is default location white king
             // row= 7 col=0 is default location white queen side castle
@@ -102,61 +99,59 @@ namespace ChessKing
             return true;
         }
 
-        private void KiemTraOBenPhai(ChessSquare[,] board, int row, int col)
+        private void CheckRightSquare(ChessSquare[,] board, int row, int col)
         {
             if (col < Constants.lastColOfTable)
             {
                 // Kiểm tra ô bên phải nếu không ở cột đầu tiên
-                ThayDoiONeuCanThiet(board, row, col + 1);
+                ChangeSquaresIfNeeded(board, row, col + 1);
             }
         }
-        private void KiemTraOBenTrai(ChessSquare[,] board, int row, int col)
+        private void CheckLeftSquare(ChessSquare[,] board, int row, int col)
         {
             if (col > Constants.firstColOfTable)
             {
                 // Kiểm tra cột bên trái nếu không ở cột đầu tiên
-                ThayDoiONeuCanThiet(board, row, col - 1);
+                ChangeSquaresIfNeeded(board, row, col - 1);
             }
         }
-        private void KiemTraCacOPhiaDuoi(ChessSquare[,] board, int row, int col)
+        private void CheckBottomSquares(ChessSquare[,] board, int row, int col)
         {
             if (row < Constants.lastRowOfTable)
             {
                 //Kiểm tra ô chéo bên trái phía dưới nếu không ở vị trí cột đầu tiên
                 if (col > Constants.firstColOfTable)
-                    ThayDoiONeuCanThiet(board, row + 1, col - 1);
+                    ChangeSquaresIfNeeded(board, row + 1, col - 1);
 
                 // Kiểm tra ô chéo bên phải phía dưới nếu không ở vị trí cột cuối cùng
                 if (col < Constants.lastColOfTable)
-                    ThayDoiONeuCanThiet(board, row + 1, col + 1);
+                    ChangeSquaresIfNeeded(board, row + 1, col + 1);
                 // Kiểm tra ô phía dưới nếu không phải ở vị trí hàng cuối cùng
                 if (row < Constants.lastColOfTable)
-                    ThayDoiONeuCanThiet(board, row + 1, col);
+                    ChangeSquaresIfNeeded(board, row + 1, col);
             }
         }
-        private void KiemTraCacOPhiaTren(ChessSquare[,] board, int row, int col)
+        private void CheckTopSquares(ChessSquare[,] board, int row, int col)
         {
             if (row > Constants.firstRowOfTable)
             {
                 //Kiểm tra ô chéo bên trái phía trên nếu vị trí không ở cột đầu tiên
                 if (col > Constants.firstColOfTable)
-                    ThayDoiONeuCanThiet(board, row - 1, col - 1);
+                    ChangeSquaresIfNeeded(board, row - 1, col - 1);
                 // Kiểm tra ô chéo bên phải phía trên nếu vị trí không ở cột cuối cùng
                 if (col < Constants.lastColOfTable)
-                    ThayDoiONeuCanThiet(board, row - 1, col + 1);
+                    ChangeSquaresIfNeeded(board, row - 1, col + 1);
                 //Kiểm tra ô phía bên trên nếu vị trí không ở hàng đầu tiên
                 if (row > Constants.firstRowOfTable)
-                    ThayDoiONeuCanThiet(board, row - 1, col);
+                    ChangeSquaresIfNeeded(board, row - 1, col);
             }
         }
-        private void ThayDoiONeuCanThiet(ChessSquare[,] board, int row, int col)
+        private void ChangeSquaresIfNeeded(ChessSquare[,] board, int row, int col)
         {
             if (Common.IsEmptyChessSquare(board, row, col))
             {
                 if (!Common.IsDangerSquareToMove(board, row, col, this.Team))
-                {
                     Common.ChangeBackgroundColorToCanMove(board, row, col);
-                }
             }
             else
             {

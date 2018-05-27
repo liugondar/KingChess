@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Drawing;
-using System.Windows.Forms;
-
-namespace ChessKing
+﻿namespace ChessKing
 {
     class Castle : Chess
     {
@@ -185,10 +177,10 @@ namespace ChessKing
 
         #endregion
 
-        #region  Tìm ô có thể bảo vệ được
+        #region find chess can be protected by castle 
         public override void FindSquaresCanProtect(ChessSquare[,] board, int row, int col)
         {
-            CheckLeftToFindProjectObject(board, row, col);
+            CheckLeftToFindProtectObject(board, row, col);
             CheckRightToFindProtectObject(board, row, col);
             CheckBottomToFindProtectObject(board, row, col);
             CheckTopToFindProtectObject(board, row, col);
@@ -230,7 +222,7 @@ namespace ChessKing
                 }
             }
         }
-        private void CheckLeftToFindProjectObject(ChessSquare[,] board, int row, int col)
+        private void CheckLeftToFindProtectObject(ChessSquare[,] board, int row, int col)
         {
             for (int j = col - 1; j >= Constants.firstColOfTable; j--)
             {

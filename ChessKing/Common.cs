@@ -1,35 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ChessKing
 {
     class Common
     {
-
-        //logic
-        static public string linkPoint = "Image\\circle.png";
+        //Music
+        static public bool IsMusicMuted = false;
+        static public bool IsSoundMuted = false;
         // Game mode
         static public bool Is2PlayerMode = false; //1 player
         static public bool IsSelectedSquare = false; //selected yet
-        static public bool IsMusicMuted=false;
-        static public bool IsSoundMuted=false;
         static public bool IsPlaying = false;
         static public int IsTurn = 0;
-
         static public bool Close = false;
-        static public ChessSquare[,] Board;
+        // for AI
         static public ChessSquare[,] VirtualBoard = new ChessSquare[8, 8]; // Hiển thị bàn cờ cũ trong thời gian tính toán nước đi cho AI
-        static public List<ChessSquare> CanBeMove = new List<ChessSquare>(); // create list, save position of piece can move
-        static public List<ChessSquare> CanBeEat = new List<ChessSquare>();
+        // For king services
         static public List<ChessSquare> CanBeProtect = new List<ChessSquare>();
         static public List<ChessSquare> CanBeMoveTemp = new List<ChessSquare>(); // Dùng cho việc xem thử các nước đi quân cờ
         static public List<ChessSquare> CanBeEatTemp = new List<ChessSquare>();
         static public List<ChessSquare> SquareArroudking = new List<ChessSquare>();
+            // Check has king moved yet? if not king can castling
+        static public bool isWhiteKingMoved = false;
+        static public bool isBlackKingMoved = false;
+            // Check has Castle moved yet? if not king can castling
+        static public bool isLeftWhiteCastleMoved = false;
+        static public bool isRightWhiteCastleMoved = false;
+        static public bool isLeftBlackCastleMoved = false;
+        static public bool isRightBlackCastleMoved = false;
+            // Check if king has been in danger
+        static public bool isWhiteKingChecked = false;
+        static public bool isBlackKingChecked = false;
         static public List<ChessSquare> SquaresCheckingPath = new List<ChessSquare>();
+        // Logic
+        static public ChessSquare[,] Board;
+        static public List<ChessSquare> CanBeMove = new List<ChessSquare>(); // create list, save position of piece can move
+        static public List<ChessSquare> CanBeEat = new List<ChessSquare>();
         static public int RowSelected = -1; //set value =-1, not in chessboard
         static public int ColSelected = -1; //set value =-1, not in chessboard
 
@@ -40,19 +47,6 @@ namespace ChessKing
         static public int ColProQueen = -1;
 
         static public int Depth = 2;
-
-        // Kiểm tra xem đã di chuyển lần nào chưa, nếu rồi trả về true
-        // Chỉ có thể nhập thành  nếu chưa đi
-        static public bool isWhiteKingMoved = false;
-        static public bool isBlackKingMoved = false;
-        static public bool isLeftWhiteCastleMoved = false;
-        static public bool isRightWhiteCastleMoved = false;
-        static public bool isLeftBlackCastleMoved = false;
-        static public bool isRightBlackCastleMoved = false;
-
-        static public bool isWhiteKingChecked = false;
-        static public bool isBlackKingChecked = false;
-
 
         static public void ResetPropToDefault()
         {
@@ -77,7 +71,6 @@ namespace ChessKing
             CanBeEat.Clear();
             CanBeEatTemp.Clear();
             CanBeProtect.Clear();
-
         }
         static public bool IsEmptyChessSquare(ChessSquare[,] board, int row, int col)
         {
@@ -92,7 +85,7 @@ namespace ChessKing
         static public void ChangeBackgroundColorToCanMove(ChessSquare[,] board, int row, int col)
         {
             if (IsTurn % 2 == Constants.WhiteTurn || Is2PlayerMode == true)
-                board[row, col].Image = Image.FromFile(linkPoint);
+                board[row, col].Image = Image.FromFile(Constants.linkPoint);
             CanBeMove.Add(board[row, col]);
         }
         static public bool IsDangerSquareToMove(ChessSquare[,] board, int rowCheck, int colCheck, int teamCheck)
@@ -105,7 +98,7 @@ namespace ChessKing
                         board[i, j].Chess.FindSquareCanBeEat(board, board[i, j].Row, board[i, j].Col);
                         for (int k = 0; k < CanBeMoveTemp.Count; k++)
                         {
-                            if (CanBeMoveTemp[k].Row == rowCheck && 
+                            if (CanBeMoveTemp[k].Row == rowCheck &&
                                 CanBeMoveTemp[k].Col == colCheck)
                             {
                                 CanBeEatTemp.Clear();
@@ -201,6 +194,7 @@ namespace ChessKing
 
             return false;
         }
+        // Create chess board image 
         static public void BackChessBoard()
         {
             for (int row = 0; row < 8; row++)
@@ -221,7 +215,8 @@ namespace ChessKing
                             Board[row, col].BackColor = Color.LavenderBlush;
                     }
                 }
-        } //Khởi tạo lại hình ảnh bàn cờ
+        } 
+
         static public void ClearMoveSuggestion()
         {
             for (int row = 0; row < 8; row++)
@@ -231,6 +226,7 @@ namespace ChessKing
                         Board[row, col].Image = null;
                 }
         }
+        // Create virtual board for AI 
         static public void BackChessVirtualBoard()
         {
             for (int row = 0; row < 8; row++)
@@ -251,7 +247,7 @@ namespace ChessKing
                             VirtualBoard[row, col].BackColor = Color.LavenderBlush;
                     }
                 }
-        } // Khởi tạo bàn trống cho việc AI tính toán nước cờ
+        } 
 
         // Ma trận Piece-Square Table phục vụ cho AI tìm được value tốt nhất
         static public double[,] PawnWhite =

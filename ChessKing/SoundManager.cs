@@ -1,9 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Media;
-using System.Windows.Forms;
-
-namespace ChessKing
+﻿namespace ChessKing
 {
     public class SoundManager
     {
@@ -12,7 +7,6 @@ namespace ChessKing
         WMPLib.WindowsMediaPlayer CheckSound;
         WMPLib.WindowsMediaPlayer CheckMateSound;
         WMPLib.WindowsMediaPlayer AnnouncerWelcome;
-        WMPLib.WindowsMediaPlayer announcerNewGameWelcome = new WMPLib.WindowsMediaPlayer();
 
         public SoundManager()
         {

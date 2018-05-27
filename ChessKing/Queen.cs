@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ChessKing
+﻿namespace ChessKing
 {
     class Queen : Chess
     {
@@ -20,10 +14,10 @@ namespace ChessKing
             CheckRight(board, row, col);
             CheckLeft(board, row, col);
 
-            XetCheoTraiLen(board, row, col);
-            XetCheoTraiXuong(board, row, col);
-            XetCheoPhaiLen(board, row, col);
-            XetCheoPhaiXuong(board, row, col);
+            CheckNorthWest(board, row, col);
+            CheckSouthWest(board, row, col);
+            CheckNorthEast(board, row, col);
+            CheckNorthSouth(board, row, col);
         }
         private void CheckTop(ChessSquare[,] board, int row, int col)
         {
@@ -93,7 +87,7 @@ namespace ChessKing
                 }
             }
         }
-        private void XetCheoPhaiXuong(ChessSquare[,] board, int row, int col)
+        private void CheckNorthSouth(ChessSquare[,] board, int row, int col)
         {
             int j;
             j = col + 1;
@@ -115,7 +109,7 @@ namespace ChessKing
                 j++;
             }
         }
-        private void XetCheoPhaiLen(ChessSquare[,] board, int row, int col)
+        private void CheckNorthEast(ChessSquare[,] board, int row, int col)
         {
             int j = col + 1;
             for (int i = row - 1; i >= Constants.firstRowOfTable; i--)
@@ -134,7 +128,7 @@ namespace ChessKing
                 j++;
             }
         }
-        private void XetCheoTraiXuong(ChessSquare[,] board, int row, int col)
+        private void CheckSouthWest(ChessSquare[,] board, int row, int col)
         {
             int j = col - 1;
             for (int i = row + 1; i <= Constants.lastRowOfTable; i++)
@@ -155,7 +149,7 @@ namespace ChessKing
                 j--;
             }
         }
-        private void XetCheoTraiLen(ChessSquare[,] board, int row, int col)
+        private void CheckNorthWest(ChessSquare[,] board, int row, int col)
         {
             // Khởi đầu bỏ qua vị trí bishop hiện tại, xét ô trái trên đầu tiên
             int j = col - 1;
@@ -185,10 +179,10 @@ namespace ChessKing
         #region Find way can be eat and move
         public override void FindSquareCanBeEat(ChessSquare[,] board, int row, int col)
         {
-            XetCheoTraiLenNoChangeBackground(board, row, col);
-            XetCheoTraiXuongNoChangeBackground(board, row, col);
-            XetCheoPhaiLenNoChangeBackground(board, row, col);
-            XetCheoPhaiXuongNoChangeBackground(board, row, col);
+            CheckNorthWestNoChangeBackground(board, row, col);
+            CheckSouthWestNoChangeBackground(board, row, col);
+            CheckNorthEastNoChangeBackground(board, row, col);
+            CheckSouthEastNoChangeBackground(board, row, col);
 
             CheckTopNoChangeBackground(board, row, col);
             CheckBottomNoChangeBackground(board, row, col);
@@ -197,10 +191,10 @@ namespace ChessKing
         }
         public override void FindSquareCanBeMove(ChessSquare[,] board, int row, int col)
         {
-            XetCheoTraiLenNoChangeBackground(board, row, col);
-            XetCheoTraiXuongNoChangeBackground(board, row, col);
-            XetCheoPhaiLenNoChangeBackground(board, row, col);
-            XetCheoPhaiXuongNoChangeBackground(board, row, col);
+            CheckNorthWestNoChangeBackground(board, row, col);
+            CheckSouthWestNoChangeBackground(board, row, col);
+            CheckNorthEastNoChangeBackground(board, row, col);
+            CheckSouthEastNoChangeBackground(board, row, col);
             CheckTopNoChangeBackground(board, row, col);
             CheckBottomNoChangeBackground(board, row, col);
             CheckRightNoChangeBackground(board, row, col);
@@ -277,7 +271,7 @@ namespace ChessKing
             }
         }
 
-        private void XetCheoPhaiXuongNoChangeBackground(ChessSquare[,] board, int row, int col)
+        private void CheckSouthEastNoChangeBackground(ChessSquare[,] board, int row, int col)
         {
             int j;
             j = col + 1;
@@ -298,7 +292,7 @@ namespace ChessKing
                 j++;
             }
         }
-        private void XetCheoPhaiLenNoChangeBackground(ChessSquare[,] board, int row, int col)
+        private void CheckNorthEastNoChangeBackground(ChessSquare[,] board, int row, int col)
         {
             int j = col + 1;
             for (int i = row - 1; i >= Constants.firstRowOfTable; i--)
@@ -319,7 +313,7 @@ namespace ChessKing
                 j++;
             }
         }
-        private void XetCheoTraiXuongNoChangeBackground(ChessSquare[,] board, int row, int col)
+        private void CheckSouthWestNoChangeBackground(ChessSquare[,] board, int row, int col)
         {
             int j = col - 1;
             for (int i = row + 1; i <= Constants.lastRowOfTable; i++)
@@ -340,7 +334,7 @@ namespace ChessKing
                 j--;
             }
         }
-        private void XetCheoTraiLenNoChangeBackground(ChessSquare[,] board, int row, int col)
+        private void CheckNorthWestNoChangeBackground(ChessSquare[,] board, int row, int col)
         {
             // Khởi đầu bỏ qua vị trí bishop hiện tại, xét ô trái trên đầu tiên
             int j = col - 1;
@@ -369,12 +363,12 @@ namespace ChessKing
         #region Find square can protect 
         public override void FindSquaresCanProtect(ChessSquare[,] board, int row, int col)
         {
-            XetCheoPhaiXuongFindProtect(board, row, col);
-            XetCheoPhaiLenFindProtect(board, row, col);
-            XetCheoTraiLenProtect(board, row, col);
-            XetCheoTraiXuongProtect(board, row, col);
+            CheckSouthEastToFindProtectChess(board, row, col);
+            CheckNorthEastToFindProtectChess(board, row, col);
+            CheckNorthWestToFindProtectChess(board, row, col);
+            CheckSouthWestToFindProtectChess(board, row, col);
 
-            CheckLeftToFindProjectObject(board, row, col);
+            CheckLeftToFindProtectObject(board, row, col);
             CheckRightToFindProtectObject(board, row, col);
             CheckBottomToFindProtectObject(board, row, col);
             CheckTopToFindProtectObject(board, row, col);
@@ -417,7 +411,7 @@ namespace ChessKing
                 }
             }
         }
-        private void CheckLeftToFindProjectObject(ChessSquare[,] board, int row, int col)
+        private void CheckLeftToFindProtectObject(ChessSquare[,] board, int row, int col)
         {
             for (int j = col - 1; j >= Constants.firstColOfTable; j--)
             {
@@ -431,7 +425,7 @@ namespace ChessKing
             }
         }
 
-        private void XetCheoPhaiXuongFindProtect(ChessSquare[,] board, int row, int col)
+        private void CheckSouthEastToFindProtectChess(ChessSquare[,] board, int row, int col)
         {
             int j;
             j = col + 1;
@@ -449,7 +443,7 @@ namespace ChessKing
                 j++;
             }
         }
-        private void XetCheoPhaiLenFindProtect(ChessSquare[,] board, int row, int col)
+        private void CheckNorthEastToFindProtectChess(ChessSquare[,] board, int row, int col)
         {
             int j = col + 1;
             for (int i = row - 1; i >= Constants.firstRowOfTable; i--)
@@ -465,7 +459,7 @@ namespace ChessKing
                 j++;
             }
         }
-        private void XetCheoTraiXuongProtect(ChessSquare[,] board, int row, int col)
+        private void CheckSouthWestToFindProtectChess(ChessSquare[,] board, int row, int col)
         {
             int j = col - 1;
             for (int i = row + 1; i <= Constants.lastRowOfTable; i++)
@@ -480,7 +474,7 @@ namespace ChessKing
                 j--;
             }
         }
-        private void XetCheoTraiLenProtect(ChessSquare[,] board, int row, int col)
+        private void CheckNorthWestToFindProtectChess(ChessSquare[,] board, int row, int col)
         {
             // Khởi đầu bỏ qua vị trí bishop hiện tại, xét ô trái trên đầu tiên
             int j = col - 1;

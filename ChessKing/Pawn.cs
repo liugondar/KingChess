@@ -1,22 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Drawing;
+﻿using System.Drawing;
 
 namespace ChessKing
 {
     class Pawn : Chess
     {
-        string linkPoint = "Image\\circle.png";
-
         public Pawn()
         {
             this.IsPawn = true;
         }
 
-        #region Tìm nước đi và hiển thị 
+        #region Find ways and display in chess board
         public override void FindWayAndAutoChangeSquareIfNeeded(ChessSquare[,] board, int row, int col)
         {
             if (board[row, col].Chess.Team == (int)ColorTeam.White)
@@ -103,7 +96,7 @@ namespace ChessKing
             if (Common.IsEmptyChessSquare(board, row - 1, col))
             {
                 if (Common.IsTurn % 2 == 0 || Common.Is2PlayerMode == true)
-                    board[row - 1, col].Image = Image.FromFile(linkPoint);
+                    board[row - 1, col].Image = Image.FromFile(Constants.linkPoint);
                 if (row - 1 == 0 && board[row, col].Chess.Team == 1)
                 {
                     Common.CheckPromote = true;
@@ -120,7 +113,7 @@ namespace ChessKing
                 if (Common.IsEmptyChessSquare(board, i, col))
                 {
                     if (Common.IsTurn % 2 == Constants.WhiteTurn || Common.Is2PlayerMode == true)
-                        board[i, col].Image = Image.FromFile(linkPoint);
+                        board[i, col].Image = Image.FromFile(Constants.linkPoint);
                     Common.CanBeMove.Add(board[i, col]);
                 }
                 else break;
@@ -151,7 +144,7 @@ namespace ChessKing
             if (Common.IsEmptyChessSquare(board, row + 1, col))
             {
                 if (Common.IsTurn % 2 == 0 || Common.Is2PlayerMode == true)
-                    board[row + 1, col].Image = Image.FromFile(linkPoint);
+                    board[row + 1, col].Image = Image.FromFile(Constants.linkPoint);
                 if (row + 1 == 7 && board[row, col].Chess.Team == 2)
                 {
                     Common.CheckPromote = true;
@@ -168,7 +161,7 @@ namespace ChessKing
                 if (Common.IsEmptyChessSquare(board, i, col))
                 {
                     if (Common.IsTurn % 2 == 0 || Common.Is2PlayerMode == true)
-                        board[i, col].Image = Image.FromFile(linkPoint);
+                        board[i, col].Image = Image.FromFile(Constants.linkPoint);
                     Common.CanBeMove.Add(board[i, col]);
                 }
                 else

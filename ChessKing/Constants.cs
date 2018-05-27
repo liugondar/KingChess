@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ChessKing
+﻿namespace ChessKing
 {
     public static class Constants
     {
@@ -65,5 +59,19 @@ namespace ChessKing
 
         static public int rowBlackLeftCastleDefault = 0;
         static public int colBlackLeftCastleDefault = 0;
+        //Link image
+        static public string linkWhiteCastle = "Image\\Chess_rlt60.png";
+        static public string linkWhiteBishop = "Image\\Chess_blt60.png";
+        static public string linkWhiteKnight = "Image\\Chess_nlt60.png";
+        static public string linkWhiteQueen = "Image\\Chess_qlt60.png";
+        static public string linkWhiteKing = "Image\\Chess_klt60.png";
+        static public string linkWhitePawn = "Image\\Chess_plt60.png";
+        static public string linkBlackCastle = "Image\\Chess_rdt60.png";
+        static public string linkBlackBishop = "Image\\Chess_bdt60.png";
+        static public string linkBlackKnight = "Image\\Chess_ndt60.png";
+        static public string linkBlackQueen = "Image\\Chess_qdt60.png";
+        static public string linkBlackKing = "Image\\Chess_kdt60.png";
+        static public string linkBlackPawn = "Image\\Chess_pdt60.png";
+        static public string linkPoint = "Image\\circle.png";
     }
 }
