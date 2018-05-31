@@ -20,7 +20,6 @@ namespace ChessKing
         static public List<ChessSquare> CanBeProtect = new List<ChessSquare>();
         static public List<ChessSquare> CanBeMoveTemp = new List<ChessSquare>(); // Dùng cho việc xem thử các nước đi quân cờ
         static public List<ChessSquare> CanBeEatTemp = new List<ChessSquare>();
-        static public List<ChessSquare> SquareArroudking = new List<ChessSquare>();
             // Check has king moved yet? if not king can castling
         static public bool isWhiteKingMoved = false;
         static public bool isBlackKingMoved = false;
@@ -43,8 +42,7 @@ namespace ChessKing
         static public Color OldBackGround;//keep back ground before change to violet
 
         static public bool CheckPromote = false; //phong hau
-        static public int RowProQueen = -1;
-        static public int ColProQueen = -1;
+   
 
         static public int Depth = 2;
 
@@ -119,21 +117,10 @@ namespace ChessKing
                 {
                     if (board[i, j].Chess != null && board[i, j].Chess.Team == teamCheck)
                     {
-                        board[i, j].Chess.FindSquareCanBeMove(board, board[i, j].Row, board[i, j].Col);
-                        for (int k = 0; k < CanBeMoveTemp.Count; k++)
-                        {
-                            if (CanBeMoveTemp[k].Chess == null) CanBeMoveTemp[k].Image = null;
-                            if (CanBeMoveTemp[k].Row == rowCheck && CanBeMoveTemp[k].Col == colCheck)
-                            {
-                                CanBeEatTemp.Clear();
-                                CanBeMoveTemp.Clear();
-                                return true;
-                            }
-                        }
                         board[i, j].Chess.FindSquareCanBeEat(board, board[i, j].Row, board[i, j].Col);
                         for (int k = 0; k < CanBeEatTemp.Count; k++)
                         {
-                            if (CanBeEatTemp[k].Chess == null) CanBeEatTemp[k].Image = null;
+                            
                             if (CanBeEatTemp[k].Row == rowCheck && CanBeEatTemp[k].Col == colCheck)
                             {
                                 CanBeEatTemp.Clear();
@@ -166,32 +153,6 @@ namespace ChessKing
                     }
                     CanBeProtect.Clear();
                 }
-            return false;
-        }
-        static public bool IsSquareCanBeEatByEnemy(ChessSquare[,] board, int rowCheck, int colCheck, int teamCheck)
-        {
-            for (int i = 0; i < 8; i++)
-            {
-                for (int j = 0; j < 8; j++)
-                {
-                    if (board[i, j].Chess != null && board[i, j].Chess.Team != teamCheck)
-                    {
-                        board[i, j].Chess.FindSquareCanBeEat(board, board[i, j].Row, board[i, j].Col);
-                        for (int k = 0; k < CanBeEatTemp.Count; k++)
-                        {
-                            if (CanBeEatTemp[k].Row == rowCheck && CanBeEatTemp[k].Col == colCheck)
-                            {
-                                CanBeEatTemp.Clear();
-                                CanBeMoveTemp.Clear();
-                                return true;
-                            }
-                        }
-                    }
-                    CanBeEatTemp.Clear();
-                    CanBeMoveTemp.Clear();
-                }
-            }
-
             return false;
         }
         // Create chess board image 

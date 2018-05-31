@@ -11,8 +11,6 @@ namespace ChessKing
 {
     class ChessSquare : Button
     {
-        string linkBlackQueen = "Image\\Chess_qdt60.png";
-        string linkWhiteQueen = "Image\\Chess_qlt60.png";
         SoundManager soundManager;
         #region init fields
         enum ColorTeam
@@ -24,7 +22,7 @@ namespace ChessKing
         public Chess Chess { get; set; }
         public int Row { get; set; }
         public int Col { get; set; }
-        public FindWayAction findWayAction;
+        public FindWayDisplayAction findWayDisplayAction;
         public ChessSquare(ChessSquare a)
         {
             Chess = a.Chess;
@@ -63,7 +61,7 @@ namespace ChessKing
                     Thread.Sleep(200); // delay
                     this.BeginInvoke((MethodInvoker)delegate
                     {
-                        this.findWayAction();
+                        this.findWayDisplayAction();
                     });
                 });
             }
@@ -112,14 +110,14 @@ namespace ChessKing
             {
                 newQueen.Team = (int)ColorTeam.White;
                 temp.Chess = newQueen;
-                temp.Image = Image.FromFile(linkWhiteQueen);
+                temp.Image = Image.FromFile(Constants.linkWhiteQueen);
                 temp.Chess.Evaluation = 90;
             }
             else //black
             {
                 newQueen.Team = (int)ColorTeam.Black;
                 temp.Chess = newQueen;
-                temp.Image = Image.FromFile(linkBlackQueen);
+                temp.Image = Image.FromFile(Constants.linkBlackQueen);
                 temp.Chess.Evaluation = -90;
             }
         }
@@ -143,7 +141,7 @@ namespace ChessKing
                 Common.IsSelectedSquare = true;
                 Common.OldBackGround = Common.Board[this.Row, this.Col].BackColor; //keep background color of chess square 
                 this.Chess.FindWayAndAutoChangeSquareIfNeeded(Common.Board, this.Row, this.Col); //findway can move and eat
-                this.findWayAction();
+                this.findWayDisplayAction();
                 this.BackColor = System.Drawing.Color.Violet; //change background to violet
                 Common.RowSelected = this.Row; //keep the row
                 Common.ColSelected = this.Col; //keep the col
@@ -159,8 +157,6 @@ namespace ChessKing
 
             if (Common.CanBeMove.Contains(this) || Common.CanBeEat.Contains(this))//inside list Can Move
             {
-                Common.RowProQueen = this.Row;
-                Common.ColProQueen = this.Col;
                 for (int i = 0; i < Common.CanBeMove.Count; i++)
                 {
                     if (Common.CanBeMove[i].Chess == null)

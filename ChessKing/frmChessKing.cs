@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace ChessKing
 {
-    public delegate void FindWayAction();
+    public delegate void FindWayDisplayAction();
     enum ColorTeam
     {
         None,
@@ -17,8 +17,6 @@ namespace ChessKing
     public partial class frmChessKing : Form
     {
 
-        WMPLib.WindowsMediaPlayer Player = new WMPLib.WindowsMediaPlayer();
-        WMPLib.WindowsMediaPlayer announcerNewGameWelcome= new WMPLib.WindowsMediaPlayer();
         SoundManager soundManager;
 
         private bool dangkeo;
@@ -26,7 +24,6 @@ namespace ChessKing
 
         #region enit board image
         ChessSquare[,] Board = new ChessSquare[8, 8];
-      
         #endregion
         public frmChessKing()
         {
@@ -64,7 +61,7 @@ namespace ChessKing
                     temp.Col = col;
 
                     Board[row, col] = temp;
-                    Board[row, col].findWayAction += new FindWayAction(OnAction);
+                    Board[row, col].findWayDisplayAction += new FindWayDisplayAction(OnAction);
 
                     this.Controls.Add(Board[row, col]);
                 }
@@ -91,7 +88,7 @@ namespace ChessKing
                     temp.Col = col;
 
                     Common.VirtualBoard[row, col] = temp;
-                    Board[row, col].findWayAction += new FindWayAction(OnAction);
+                    Board[row, col].findWayDisplayAction += new FindWayDisplayAction(OnAction);
 
                 }
             }
@@ -410,8 +407,6 @@ namespace ChessKing
                                                 where !item.Equals(selectedMenuItem)
                                                 select ltoolStripMenuItem))
                 (ltoolStripMenuItem).Checked = false;
-
-            // This line is optional, for show the mainMenu after click
         }
 
       

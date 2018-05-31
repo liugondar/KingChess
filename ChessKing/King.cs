@@ -83,7 +83,6 @@ namespace ChessKing
             if (!Common.IsEmptyChessSquare(board, row, BishopCol)) return false;
 
             if (Common.IsDangerSquareToMove(board, row, QueenCol, team)) return false;
-            if (Common.IsDangerSquareToMove(board, row, KnightCol, team)) return false;
             if (Common.IsDangerSquareToMove(board, row, BishopCol, team)) return false;
 
             return true;
@@ -163,7 +162,6 @@ namespace ChessKing
             }
         }
         #endregion
-
 
         #region Check square in checking path to make sure no teamate chess can protect king
         /// <summary>
