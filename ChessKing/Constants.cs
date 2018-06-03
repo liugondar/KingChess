@@ -8,56 +8,29 @@
         static public int lastRowOfTable = 7;
         static public int firstColOfTable = 0;
         static public int lastColOfTable = 7;
-        static public int whitePawnDefaultRow = 6;
-        static public int blackPawnDefaultRow = 1;
         // default location white chess
-        static public int rowWhiteRightCastleDefault = 7;
+        static public int rowWhiteChessDefault = 7;
+        static public int rowWhitePawnDefault = 7;
+
         static public int colWhiteRightCastleDefault = 7;
-
-        static public int rowWhiteRightKnightDefault = 7;
         static public int colWhiteRightKnightDefault = 6;
-
-        static public int rowWhiteRightBishopDefault = 7;
         static public int colWhiteRightBishopDefault = 5;
-
-        static public int rowWhiteKingDefault = 7;
         static public int colWhiteKingDefault = 4;
-
-        static public int rowWhiteQueenDefault = 7;
         static public int colWhiteQueenDefault = 3;
-
-        static public int rowWhiteLeftBishopDefault = 7;
         static public int colWhiteLeftBishopDefault = 2;
-
-        static public int rowWhiteLeftKnightDefault = 7;
         static public int colWhiteLeftKnightDefault = 1;
-
-        static public int rowWhiteLeftCastleDefault = 7;
         static public int colWhiteLeftCastleDefault = 0;
-
         //Default black chess
-        static public int rowBlackRightCastleDefault = 0;
+        static public int rowBlackChessDefault = 0;
+        static public int rowBlackPawnDefault = 7;
+
         static public int colBlackRightCastleDefault = 7;
-
-        static public int rowBlackRightKnightDefault = 0;
         static public int colBlackRightKnightDefault = 6;
-
-        static public int rowBlackRightBishopDefault = 0;
         static public int colBlackRightBishopDefault = 5;
-
-        static public int rowBlackKingDefault = 0;
         static public int colBlackKingDefault = 4;
-
-        static public int rowBlackQueenDefault = 0;
         static public int colBlackQueenDefault = 3;
-
-        static public int rowBlackLeftBishopDefault = 0;
         static public int colBlackLeftBishopDefault = 2;
-
-        static public int rowBlackLeftKnightDefault = 0;
         static public int colBlackLeftKnightDefault = 1;
-
-        static public int rowBlackLeftCastleDefault = 0;
         static public int colBlackLeftCastleDefault = 0;
         //Link image
         static public string linkWhiteCastle = "Image\\Chess_rlt60.png";
@@ -73,5 +46,26 @@
         static public string linkBlackKing = "Image\\Chess_kdt60.png";
         static public string linkBlackPawn = "Image\\Chess_pdt60.png";
         static public string linkPoint = "Image\\circle.png";
+        public static void SetDefaultChessLocation()
+        {
+            if (Common.Player1ColorTeam == (int)ColorTeam.White)
+            {
+                // default location white chess
+                rowWhiteChessDefault = 7;
+                rowWhitePawnDefault = 6;
+                //Default black chess
+                rowBlackChessDefault = 0;
+                rowBlackPawnDefault = 1;
+            }
+            else
+            {
+                // default location white chess
+                rowWhiteChessDefault = 0;
+                rowWhitePawnDefault = 1;
+                //Default black chess
+                rowBlackChessDefault = 7;
+                rowBlackPawnDefault = 6;
+            }
+        }
     }
 }

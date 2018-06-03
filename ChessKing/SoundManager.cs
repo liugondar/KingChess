@@ -33,6 +33,8 @@
             {
                 Music.URL = @"Sounds\Music.wav";
                 Music.settings.setMode("Loop", true);
+                CheckMateSound.settings.autoStart = false;
+                CheckMateSound.URL = @"Sounds\CheckMate.wav";
             }
         }
         public void StopMusic()
@@ -57,9 +59,12 @@
         {
             if (!Common.IsSoundMuted)
             {
-                CheckMateSound.settings.setMode("Loop", true);
-                CheckMateSound.URL = @"Sounds\CheckMate.wav";
+                CheckMateSound.controls.play();
             }
+        }
+        public void StopCheckMateSound()
+        {
+            CheckMateSound.controls.stop();
         }
 
         public void PlayCheckSound()

@@ -11,6 +11,10 @@ namespace ChessKing
         // Game mode
         static public bool Is2PlayerMode = false; //1 player
         static public bool IsSelectedSquare = false; //selected yet
+        static public int Player1Turn = 0;
+        static public int Player2Turn = 1;
+        static public int Player1ColorTeam = 1;
+        static public int Player2ColorTeam = 2;
         static public bool IsPlaying = false;
         static public int IsTurn = 0;
         static public bool Close = false;
@@ -76,13 +80,13 @@ namespace ChessKing
         }
         static public void ChangeBackgroundColorToCanEat(ChessSquare[,] board, int row, int col)
         {
-            if (IsTurn % 2 == Constants.WhiteTurn || Is2PlayerMode == true)
+            if (IsTurn % 2 == Player1Turn|| Is2PlayerMode == true)
                 board[row, col].BackColor = Color.Red;
             CanBeEat.Add(board[row, col]);
         }
         static public void ChangeBackgroundColorToCanMove(ChessSquare[,] board, int row, int col)
         {
-            if (IsTurn % 2 == Constants.WhiteTurn || Is2PlayerMode == true)
+            if (IsTurn % 2 == Player1Turn || Is2PlayerMode == true)
                 board[row, col].Image = Image.FromFile(Constants.linkPoint);
             CanBeMove.Add(board[row, col]);
         }

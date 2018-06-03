@@ -4,6 +4,7 @@ namespace ChessKing
 {
     class Pawn : Chess
     {
+        private int nextRow;
         public Pawn()
         {
             this.IsPawn = true;
@@ -13,197 +14,303 @@ namespace ChessKing
         public override void FindWayAndAutoChangeSquareIfNeeded(ChessSquare[,] board, int row, int col)
         {
             if (board[row, col].Chess.Team == (int)ColorTeam.White)
+                XetCoTrang(board, row, col);
+            else
+                XetCoDen(board, row, col);
+        }
+        #region Xét tốt cờ trắng
+        private void XetCoTrang(ChessSquare[,] board, int row, int col)
+        {
+            if (Common.Player1ColorTeam == (int)ColorTeam.White)
             {
-                XetCoTrangDiTuDuoiLen(board, row, col);
+                if (row >= Constants.lastRowOfTable) return;
             }
             else
             {
-                XetCoDenDiTuTrenXuong(board, row, col);
+                if (row <= Constants.firstColOfTable)
+                    return;
             }
-        }
-        #region Xét tốt cờ trắng
-        private void XetCoTrangDiTuDuoiLen(ChessSquare[,] board, int row, int col)
-        {
-            if (row < Constants.lastRowOfTable)
-            {
-                bool isInTable = row >= Constants.firstRowOfTable && row <= Constants.lastRowOfTable;
-                if (isInTable)
-                {
-                    CoTrangKiemTraOCheoBenTrai(board, row, col);
-                    CoTrangKiemTraOCheoPhai(board, row, col);
-                }
 
-                if (row == Constants.whitePawnDefaultRow)
-                    CoTrangCoTheTienHaiBuoc(board, row, col);
-                else
-                    CoTrangCoTheTienMotBuoc(board, row, col);
-            }
+            if (col < Constants.lastColOfTable)
+                CoTrangKiemTraOCheoPhai(board, row, col);
+            if (col > Constants.firstColOfTable)
+                CoTrangKiemTraOCheoBenTrai(board, row, col);
+            if (row == Constants.rowWhitePawnDefault)
+                CoTrangCoTheTienHaiBuoc(board, row, col);
+            else
+                CoTrangCoTheTienMotBuoc(board, row, col);
         }
         private void CoTrangKiemTraOCheoPhai(ChessSquare[,] board, int row, int col)
         {
-            bool laConTotCuoiCung = col >= Constants.lastColOfTable;
-            if (laConTotCuoiCung) return;
-
-            bool oCheoBenPhaiCoQuanCo = board[row - 1, col + 1].Chess != null;
+            nextRow = row - 1;
+            if (Common.Player1ColorTeam == (int)ColorTeam.Black)
+            {
+                nextRow = row + 1;
+            }
+            if (nextRow == 8 || nextRow < 0) return;
+            bool oCheoBenPhaiCoQuanCo = board[nextRow, col + 1].Chess != null;
             if (oCheoBenPhaiCoQuanCo)
             {
-                bool quanCoKhacTeam = this.Team != board[row - 1, col + 1].Chess.Team;
+                bool quanCoKhacTeam = this.Team != board[nextRow, col + 1].Chess.Team;
 
                 if (quanCoKhacTeam)
                 {
-
                     // Báo hiệu có thể ăn quân cờ
-                    if (Common.IsTurn % 2 == 0 || Common.Is2PlayerMode == true)
-                        board[row - 1, col + 1].BackColor = Color.Red;
-
+                    if (Common.IsTurn % 2 == Common.Player1Turn || Common.Is2PlayerMode)
+                        board[nextRow, col + 1].BackColor = Color.Red;
                     // Báo hiểu có thể ăn và tiến hóa
-                    if (row - 1 == 0 && board[row, col].Chess.Team == 1)
+                    if (Common.Player1ColorTeam == (int)ColorTeam.White)
                     {
-                        Common.CheckPromote = true;
+                        if (nextRow == 0 && board[row, col].Chess.Team == (int)ColorTeam.White)
+                            Common.CheckPromote = true;
+                    }
+                    else if (Common.Player2ColorTeam == (int)ColorTeam.White)
+                    {
+                        if (nextRow == 7 && board[row, col].Chess.Team == (int)ColorTeam.White)
+                            Common.CheckPromote = true;
                     }
                     // Add ô chéo phải vào danh sách ô quân cờ có thể di chuyênr
-                    Common.CanBeEat.Add(board[row - 1, col + 1]);
+                    Common.CanBeEat.Add(board[nextRow, col + 1]);
                 }
             }
         }
         private void CoTrangKiemTraOCheoBenTrai(ChessSquare[,] board, int row, int col)
         {
-
-            bool laConTotDauTien = col <= Constants.firstColOfTable;
-            if (laConTotDauTien) return;
-            //check duong cheo
-            bool oCheoBenTraiCoQuanCo = board[row - 1, col - 1].Chess != null;
+            nextRow = row - 1;
+            if (Common.Player1ColorTeam == (int)ColorTeam.Black)
+            {
+                nextRow = row + 1;
+            }
+            if (nextRow == 8 || nextRow < 0) return;
+            bool oCheoBenTraiCoQuanCo = board[nextRow, col - 1].Chess != null;
             if (oCheoBenTraiCoQuanCo)
             {
-                bool quanCoKhacTeam = this.Team != board[row - 1, col - 1].Chess.Team;
+                bool quanCoKhacTeam = this.Team != board[nextRow, col - 1].Chess.Team;
                 if (quanCoKhacTeam)
                 {
-                    // Báo hiệu có thể ăn quân cờ
-                    if (Common.IsTurn % 2 == Constants.WhiteTurn || Common.Is2PlayerMode == true)
-                        board[row - 1, col - 1].BackColor = Color.Red;
-                    // Báo hiểu có thể ăn và tiến hóa
-                    if (row - 1 == 0 && board[row, col].Chess.Team == 1)
+                    if (Common.IsTurn % 2 == Common.Player1Turn || Common.Is2PlayerMode == true)
+                        board[nextRow, col - 1].BackColor = Color.Red;
+
+                    if (Common.Player1ColorTeam == (int)ColorTeam.White)
                     {
-                        Common.CheckPromote = true;
+                        if (nextRow == 0 && board[row, col].Chess.Team == (int)ColorTeam.White)
+                            Common.CheckPromote = true;
                     }
-                    // Add ô trái chéo vào danh sách ô quân cờ có thể di chuyênr
-                    Common.CanBeEat.Add(board[row - 1, col - 1]);
+                    else if (Common.Player2ColorTeam == (int)ColorTeam.White)
+                    {
+                        if (nextRow == 7 && board[row, col].Chess.Team == (int)ColorTeam.White)
+                            Common.CheckPromote = true;
+                    }
+                    Common.CanBeEat.Add(board[nextRow, col - 1]);
                 }
             }
         }
         private void CoTrangCoTheTienMotBuoc(ChessSquare[,] board, int row, int col)
         {
-            if (Common.IsEmptyChessSquare(board, row - 1, col))
+            nextRow = row - 1;
+            if (Common.Player1ColorTeam == (int)ColorTeam.Black)
             {
-                if (Common.IsTurn % 2 == 0 || Common.Is2PlayerMode == true)
-                    board[row - 1, col].Image = Image.FromFile(Constants.linkPoint);
-                if (row - 1 == 0 && board[row, col].Chess.Team == 1)
+                nextRow = row + 1;
+            }
+            if (nextRow >7 || nextRow < 0) return;
+
+            if (Common.IsEmptyChessSquare(board, nextRow, col))
+            {
+                if (Common.IsTurn % 2 == Common.Player1Turn || Common.Is2PlayerMode == true)
+                    board[nextRow, col].Image = Image.FromFile(Constants.linkPoint);
+                if (Common.Player1ColorTeam == (int)ColorTeam.White)
                 {
-                    Common.CheckPromote = true;
+                    if (nextRow == 0 && board[row, col].Chess.Team == (int)ColorTeam.White)
+                        Common.CheckPromote = true;
                 }
-                Common.CanBeMove.Add(board[row - 1, col]);
+                else if (Common.Player2ColorTeam == (int)ColorTeam.White)
+                {
+                    if (nextRow == 7 && board[row, col].Chess.Team == (int)ColorTeam.White)
+                        Common.CheckPromote = true;
+                }
+                Common.CanBeMove.Add(board[nextRow, col]);
             }
         }
         private void CoTrangCoTheTienHaiBuoc(ChessSquare[,] board, int row, int col)
         {
-            // Vòng lặp chạy từ vị trí default=6 tới 2 vị trí tiếp theo 
-            //Kiểm tra 2 ô cờ tiếp theo còn trống không
-            for (int i = row - 1; i >= 4; i--)
+            nextRow = row + 1;
+            int next2Row = row + 2;
+            if (nextRow >7 || nextRow < 0) return;
+            if (Common.Player1ColorTeam == (int)ColorTeam.White)
             {
-                if (Common.IsEmptyChessSquare(board, i, col))
+                nextRow = row - 1;
+                next2Row = row - 2;
+                // Vòng lặp chạy từ vị trí default=6 tới 2 vị trí tiếp theo 
+                //Kiểm tra 2 ô cờ tiếp theo còn trống không
+                for (int i = nextRow; i >= next2Row; i--)
                 {
-                    if (Common.IsTurn % 2 == Constants.WhiteTurn || Common.Is2PlayerMode == true)
-                        board[i, col].Image = Image.FromFile(Constants.linkPoint);
-                    Common.CanBeMove.Add(board[i, col]);
+                    if (Common.IsEmptyChessSquare(board, i, col))
+                    {
+                        if (Common.IsTurn % 2 == Common.Player1Turn || Common.Is2PlayerMode == true)
+                            board[i, col].Image = Image.FromFile(Constants.linkPoint);
+                        Common.CanBeMove.Add(board[i, col]);
+                    }
+                    else break;
                 }
-                else break;
             }
+            else
+            {
+                for (int i = nextRow; i <= next2Row; i++)
+                {
+                    if (Common.IsEmptyChessSquare(board, i, col))
+                    {
+                        if (Common.IsTurn % 2 == Common.Player1Turn || Common.Is2PlayerMode == true)
+                            board[i, col].Image = Image.FromFile(Constants.linkPoint);
+                        Common.CanBeMove.Add(board[i, col]);
+                    }
+                    else break;
+                }
+            }
+
         }
         #endregion
 
         #region Xét tốt cờ đen
-        private void XetCoDenDiTuTrenXuong(ChessSquare[,] board, int row, int col)
+        private void XetCoDen(ChessSquare[,] board, int row, int col)
         {
-            if (row > Constants.firstRowOfTable)
+            if (Common.Player2ColorTeam == (int)ColorTeam.Black)
             {
-                bool isInTable = row >= Constants.firstRowOfTable && row <= Constants.lastRowOfTable;
-                if (isInTable)
-                {
-                    CoDenKiemTraOCheoTrai(board, row, col);
-                    CoDenKiemTraOCheoPhai(board, row, col);
-                }
-
-                if (row == Constants.blackPawnDefaultRow)
-                    CoDenCoTheTienhaiBuoc(board, row, col);
-                else
-                    CoDenCoTheTienMotBuoc(board, row, col);
+                if (row <= Constants.firstRowOfTable) return;
             }
+            else
+            {
+                if (row >= Constants.lastRowOfTable)
+                    return;
+            }
+            if (col > 0)
+                CoDenKiemTraOCheoTrai(board, row, col);
+
+            if (col < 7)
+                CoDenKiemTraOCheoPhai(board, row, col);
+            if (row == Constants.rowBlackPawnDefault)
+                CoDenCoTheTienhaiBuoc(board, row, col);
+            else
+                CoDenCoTheTienMotBuoc(board, row, col);
         }
         private void CoDenCoTheTienMotBuoc(ChessSquare[,] board, int row, int col)
         {
-            if (Common.IsEmptyChessSquare(board, row + 1, col))
+            nextRow = row - 1;
+            if (Common.Player2ColorTeam == (int)ColorTeam.Black)
             {
-                if (Common.IsTurn % 2 == 0 || Common.Is2PlayerMode == true)
-                    board[row + 1, col].Image = Image.FromFile(Constants.linkPoint);
-                if (row + 1 == 7 && board[row, col].Chess.Team == 2)
-                {
-                    Common.CheckPromote = true;
-                }
-                Common.CanBeMove.Add(board[row + 1, col]);
-                //dk phong hau
+                nextRow = row + 1;
+            }
+            if (nextRow >7 || nextRow < 0) return;
+            if (Common.IsEmptyChessSquare(board, nextRow, col))
+            {
+                if (Common.IsTurn % 2 == Common.Player1Turn || Common.Is2PlayerMode)
+                    board[nextRow, col].Image = Image.FromFile(Constants.linkPoint);
 
+                if (Common.Player2ColorTeam == (int)ColorTeam.Black)
+                {
+                    if (nextRow == 7 && board[row, col].Chess.Team == (int)ColorTeam.Black)
+                        Common.CheckPromote = true;
+                }
+                else if (Common.Player1ColorTeam == (int)ColorTeam.Black)
+                {
+                    if (nextRow == 0 && board[row, col].Chess.Team == (int)ColorTeam.Black)
+                        Common.CheckPromote = true;
+                }
+                Common.CanBeMove.Add(board[nextRow, col]);
             }
         }
         private void CoDenCoTheTienhaiBuoc(ChessSquare[,] board, int row, int col)
         {
-            for (int i = row + 1; i <= 3; i++)
+            if (Common.Player2ColorTeam == (int)ColorTeam.Black)
             {
-                if (Common.IsEmptyChessSquare(board, i, col))
+                for (int i = row + 1; i <= 3; i++)
                 {
-                    if (Common.IsTurn % 2 == 0 || Common.Is2PlayerMode == true)
-                        board[i, col].Image = Image.FromFile(Constants.linkPoint);
-                    Common.CanBeMove.Add(board[i, col]);
+                    if (Common.IsEmptyChessSquare(board, i, col))
+                    {
+                        if (Common.IsTurn % 2 == Common.Player1Turn || Common.Is2PlayerMode == true)
+                            board[i, col].Image = Image.FromFile(Constants.linkPoint);
+                        Common.CanBeMove.Add(board[i, col]);
+                    }
+                    else
+                        break;
                 }
-                else
-                    break;
             }
+            else
+            {
+                for (int i = row - 1; i >= 4; i--)
+                {
+                    if (Common.IsEmptyChessSquare(board, i, col))
+                    {
+                        if (Common.IsTurn % 2 == Common.Player1Turn || Common.Is2PlayerMode == true)
+                            board[i, col].Image = Image.FromFile(Constants.linkPoint);
+                        Common.CanBeMove.Add(board[i, col]);
+                    }
+                    else
+                        break;
+                }
+            }
+
         }
         private void CoDenKiemTraOCheoPhai(ChessSquare[,] board, int row, int col)
         {
+            nextRow = row - 1;
+            if (Common.Player2ColorTeam == (int)ColorTeam.Black)
+            {
+                nextRow = row + 1;
+            }
+            if (nextRow >7 || nextRow < 0) return;
             bool laConTotCuoiCung = col >= Constants.lastColOfTable;
             if (laConTotCuoiCung) return;
-            if (board[row + 1, col + 1].Chess != null)
+            if (board[nextRow, col + 1].Chess != null)
             {
-                if (this.Team != board[row + 1, col + 1].Chess.Team)
+                if (this.Team != board[nextRow, col + 1].Chess.Team)
                 {
-                    if (Common.IsTurn % 2 == Constants.WhiteTurn || Common.Is2PlayerMode == true)
-                        board[row + 1, col + 1].BackColor = Color.Red;
+                    if (Common.IsTurn % 2 == Common.Player1Turn || Common.Is2PlayerMode == true)
+                        board[nextRow, col + 1].BackColor = Color.Red;
 
-                    if (row + 1 == 0 && board[row, col].Chess.Team == 2)
+
+                    if (Common.Player2ColorTeam == (int)ColorTeam.Black)
                     {
-                        Common.CheckPromote = true;
+                        if (nextRow == 7 && board[row, col].Chess.Team == (int)ColorTeam.Black)
+                            Common.CheckPromote = true;
                     }
-                    Common.CanBeEat.Add(board[row + 1, col + 1]);
+                    else if (Common.Player1ColorTeam == (int)ColorTeam.Black)
+                    {
+                        if (nextRow == 0 && board[row, col].Chess.Team == (int)ColorTeam.Black)
+                            Common.CheckPromote = true;
+                    }
+                    Common.CanBeEat.Add(board[nextRow, col + 1]);
                 }
             }
         }
         private void CoDenKiemTraOCheoTrai(ChessSquare[,] board, int row, int col)
         {
-
+            nextRow = row - 1;
+            if (Common.Player2ColorTeam == (int)ColorTeam.Black)
+            {
+                nextRow = row + 1;
+            }
+            if (nextRow >7 || nextRow < 0) return;
             bool laConTotDauTien = col <= Constants.firstColOfTable;
             if (laConTotDauTien) return;
-            if (board[row + 1, col - 1].Chess != null)
+            if (board[nextRow, col - 1].Chess != null)
             {
-                if (this.Team != board[row + 1, col - 1].Chess.Team)
+                if (this.Team != board[nextRow, col - 1].Chess.Team)
                 {
-                    if (Common.IsTurn % 2 == 0 || Common.Is2PlayerMode == true)
-                        board[row + 1, col - 1].BackColor = Color.Red;
+                    if (Common.IsTurn % 2 == Common.Player1Turn || Common.Is2PlayerMode == true)
+                        board[nextRow, col - 1].BackColor = Color.Red;
 
-                    if (row + 1 == 0 && board[row, col].Chess.Team == 2)
+
+                    if (Common.Player2ColorTeam == (int)ColorTeam.Black)
                     {
-                        Common.CheckPromote = true;
+                        if (nextRow == 7 && board[row, col].Chess.Team == (int)ColorTeam.Black)
+                            Common.CheckPromote = true;
                     }
-                    Common.CanBeEat.Add(board[row + 1, col - 1]);
+                    else if (Common.Player1ColorTeam == (int)ColorTeam.Black)
+                    {
+                        if (nextRow == 0 && board[row, col].Chess.Team == (int)ColorTeam.Black)
+                            Common.CheckPromote = true;
+                    }
+                    Common.CanBeEat.Add(board[nextRow, col - 1]);
                 }
             }
         }
@@ -214,109 +321,132 @@ namespace ChessKing
         public override void FindSquareCanBeEat(ChessSquare[,] board, int row, int col)
         {
             if (board[row, col].Chess.Team == (int)ColorTeam.White)
+                XetCoTrangTimNuocAn(board, row, col);
+            else
+                XetCoDenTimNuocAn(board, row, col);
+        }
+        #region Xét tốt cờ trắng
+        private void XetCoTrangTimNuocAn(ChessSquare[,] board, int row, int col)
+        {
+            if (Common.Player1ColorTeam == (int)ColorTeam.White)
             {
-                XetCoTrangDiTuDuoiLenTimNuocAn(board, row, col);
+                if (row >= Constants.lastRowOfTable) return;
             }
             else
             {
-                XetCoDenDiTuTrenXuongTimNuocAn(board, row, col);
+                if (row <= Constants.firstColOfTable)
+                    return;
             }
-        }
-        #region Xét tốt cờ trắng
-        private void XetCoTrangDiTuDuoiLenTimNuocAn(ChessSquare[,] board, int row, int col)
-        {
-            if (row < Constants.lastRowOfTable)
-            {
-                bool isInTable = row >= Constants.firstRowOfTable && row <= Constants.lastRowOfTable;
-                if (isInTable)
-                {
-                    CoTrangKiemTraOCheoBenTraiTimNuocAn(board, row, col);
-                    CoTrangKiemTraOCheoPhaiTimNuocAn(board, row, col);
-                }
-            }
+            if (col > Constants.firstColOfTable)
+                CoTrangKiemTraOCheoBenTraiTimNuocAn(board, row, col);
+            if (col < Constants.lastColOfTable)
+                CoTrangKiemTraOCheoPhaiTimNuocAn(board, row, col);
         }
         private void CoTrangKiemTraOCheoPhaiTimNuocAn(ChessSquare[,] board, int row, int col)
         {
+            nextRow = row - 1;
+            if (Common.Player1ColorTeam == (int)ColorTeam.Black)
+            {
+                nextRow = row + 1;
+            }
+            if (nextRow >7 || nextRow < 0) return;
             bool laConTotCuoiCung = col >= Constants.lastColOfTable;
             if (laConTotCuoiCung) return;
 
-            bool oCheoBenPhaiCoQuanCo = board[row - 1, col + 1].Chess == null;
+            bool oCheoBenPhaiCoQuanCo = board[nextRow, col + 1].Chess != null;
             if (oCheoBenPhaiCoQuanCo)
             {
-                    Common.CanBeMoveTemp.Add(board[row - 1, col + 1]);
+                if (board[nextRow, col + 1].Chess.Team != Team)
+                {
+                    Common.CanBeEatTemp.Add(board[nextRow, col + 1]);
+                }
             }
             else
             {
-                if (board[row - 1, col +1].Chess.Team != Team)
-                {
-                    Common.CanBeEatTemp.Add(board[row - 1, col + 1]);
-                }
+                Common.CanBeMoveTemp.Add(board[nextRow, col + 1]);
+                
             }
         }
         private void CoTrangKiemTraOCheoBenTraiTimNuocAn(ChessSquare[,] board, int row, int col)
         {
-
+            nextRow = row - 1;
+            if (Common.Player1ColorTeam == (int)ColorTeam.Black)
+            {
+                nextRow = row + 1;
+            }
+            if (nextRow >7 || nextRow < 0) return;
             bool laConTotDauTien = col <= Constants.firstColOfTable;
             if (laConTotDauTien) return;
             //check duong cheo
-            bool oCheoBenTraiCoQuanCo = board[row - 1, col - 1].Chess == null;
+            bool oCheoBenTraiCoQuanCo = board[nextRow, col - 1].Chess != null;
             if (oCheoBenTraiCoQuanCo)
             {
-                    Common.CanBeMoveTemp.Add(board[row - 1, col - 1]);
+                if (board[nextRow, col - 1].Chess.Team != Team)
+                    Common.CanBeEatTemp.Add(board[nextRow, col - 1]);
             }
             else
             {
-                if (board[row - 1, col - 1].Chess.Team != Team)
-                {
-                    Common.CanBeEatTemp.Add(board[row - 1, col - 1]);
-                }
+                Common.CanBeMoveTemp.Add(board[nextRow, col - 1]);
             }
         }
         #endregion
 
         #region Xét tốt cờ đen
-        private void XetCoDenDiTuTrenXuongTimNuocAn(ChessSquare[,] board, int row, int col)
+        private void XetCoDenTimNuocAn(ChessSquare[,] board, int row, int col)
         {
-            if (row > Constants.firstRowOfTable)
+            if (Common.Player1ColorTeam == (int)ColorTeam.White)
             {
-                bool isInTable = row >= Constants.firstRowOfTable && row <= Constants.lastRowOfTable;
-                if (isInTable)
-                {
-                    CoDenKiemTraOCheoTraiTimNuocAn(board, row, col);
-                    CoDenKiemTraOCheoPhaiTimNuocAn(board, row, col);
-                }
-            }
-        }
-        private void CoDenKiemTraOCheoPhaiTimNuocAn(ChessSquare[,] board, int row, int col)
-        {
-            bool laConTotCuoiCung = col >= Constants.lastColOfTable;
-            if (laConTotCuoiCung) return;
-            if (board[row + 1, col + 1].Chess == null)
-            {
-                    Common.CanBeMoveTemp.Add(board[row + 1, col + 1]);
+                if (row >= Constants.lastRowOfTable) return;
             }
             else
             {
-                if (board[row + 1, col +1 ].Chess.Team != Team)
+                if (row <= Constants.firstColOfTable)
+                    return;
+            }
+            CoDenKiemTraOCheoTraiTimNuocAn(board, row, col);
+            CoDenKiemTraOCheoPhaiTimNuocAn(board, row, col);
+        }
+        private void CoDenKiemTraOCheoPhaiTimNuocAn(ChessSquare[,] board, int row, int col)
+        {
+            nextRow = row - 1;
+            if (Common.Player2ColorTeam == (int)ColorTeam.Black)
+            {
+                nextRow = row + 1;
+            }
+            if (nextRow >7 || nextRow < 0) return;
+            bool laConTotCuoiCung = col >= Constants.lastColOfTable;
+            if (laConTotCuoiCung) return;
+            if (board[nextRow, col + 1].Chess == null)
+            {
+                Common.CanBeMoveTemp.Add(board[nextRow, col + 1]);
+            }
+            else
+            {
+                if (board[nextRow, col + 1].Chess.Team != Team)
                 {
-                    Common.CanBeEatTemp.Add(board[row + 1, col + 1]);
+                    Common.CanBeEatTemp.Add(board[nextRow, col + 1]);
                 }
             }
         }
         private void CoDenKiemTraOCheoTraiTimNuocAn(ChessSquare[,] board, int row, int col)
         {
-
+            nextRow = row - 1;
+            if (Common.Player2ColorTeam == (int)ColorTeam.Black)
+            {
+                nextRow = row + 1;
+            }
+            if (nextRow >7 || nextRow < 0) return;
             bool laConTotDauTien = col <= Constants.firstColOfTable;
             if (laConTotDauTien) return;
-            if (board[row + 1, col - 1].Chess == null)
+            if (board[nextRow, col - 1].Chess == null)
             {
-                    Common.CanBeMoveTemp.Add(board[row + 1, col - 1]);
+                Common.CanBeMoveTemp.Add(board[nextRow, col - 1]);
             }
             else
             {
-                if (board[row+ 1, col - 1].Chess.Team != Team)
+                if (board[nextRow, col - 1].Chess.Team != Team)
                 {
-                    Common.CanBeEatTemp.Add(board[row + 1, col - 1]);
+                    Common.CanBeEatTemp.Add(board[nextRow, col - 1]);
                 }
             }
         }
@@ -328,72 +458,111 @@ namespace ChessKing
         #region Tìm nước đi được và không hiển thị
         public override void FindSquareCanBeMove(ChessSquare[,] board, int row, int col)
         {
-            if (board[row, col].Chess.Team == (int)ColorTeam.White)
+            if (Common.Player1ColorTeam == (int)ColorTeam.White)
             {
-                FindSquareCanBeMoveFromBottom(board, row, col);
+                if (row >= Constants.lastRowOfTable) return;
             }
             else
             {
-                FindSquareCanBeMoveFromTop(board, row, col);
+                if (row <= Constants.firstColOfTable)
+                    return;
             }
+            if (board[row, col].Chess.Team == (int)ColorTeam.White)
+                FindSquareCanBeMoveByWhitePawn(board, row, col);
+            else
+                FindSquareCanBeMoveByBlackPawn(board, row, col);
         }
 
 
         #region Xét tốt cờ trắng
-        private void FindSquareCanBeMoveFromBottom(ChessSquare[,] board, int row, int col)
+        private void FindSquareCanBeMoveByWhitePawn(ChessSquare[,] board, int row, int col)
         {
-                if (row == Constants.whitePawnDefaultRow)
-                    CheckIfWhitePawnCanJump2Step(board, row, col);
-                else
-                    CheckIfWhitePawnCanJump1Step(board, row, col);
+
+            if (row == Constants.rowWhitePawnDefault)
+                CheckIfWhitePawnCanJump2Step(board, row, col);
+            else
+                CheckIfWhitePawnCanJump1Step(board, row, col);
         }
 
         private void CheckIfWhitePawnCanJump1Step(ChessSquare[,] board, int row, int col)
         {
-            if (Common.IsEmptyChessSquare(board, row - 1, col))
+            nextRow = row - 1;
+            if (Common.Player1ColorTeam == (int)ColorTeam.Black)
             {
-                Common.CanBeMoveTemp.Add(board[row - 1, col]);
+                nextRow = row + 1;
+            }
+            if (Common.IsEmptyChessSquare(board, nextRow, col))
+            {
+                Common.CanBeMoveTemp.Add(board[nextRow, col]);
             }
         }
         private void CheckIfWhitePawnCanJump2Step(ChessSquare[,] board, int row, int col)
         {
             // Vòng lặp chạy từ vị trí default=6 tới 2 vị trí tiếp theo 
             //Kiểm tra 2 ô cờ tiếp theo còn trống không
-            for (int i = row - 1; i >= 4; i--)
+            if (Common.Player1ColorTeam == (int)ColorTeam.White)
             {
-                if (Common.IsEmptyChessSquare(board, i, col))
+                for (int i = row - 1; i >= 4; i--)
                 {
-                    Common.CanBeMoveTemp.Add(board[i, col]);
+                    if (Common.IsEmptyChessSquare(board, i, col))
+                    {
+                        Common.CanBeMoveTemp.Add(board[i, col]);
+                    }
+                    else break;
                 }
-                else break;
+            }
+            else
+            {
+                for (int i = row + 1; i <= 3; i++)
+                {
+                    if (Common.IsEmptyChessSquare(board, i, col))
+                    {
+                        Common.CanBeMoveTemp.Add(board[i, col]);
+                    }
+                    else break;
+                }
             }
         }
         #endregion
 
         #region Xét tốt cờ đen
-        private void FindSquareCanBeMoveFromTop(ChessSquare[,] board, int row, int col)
+        private void FindSquareCanBeMoveByBlackPawn(ChessSquare[,] board, int row, int col)
         {
-                if (row == Constants.blackPawnDefaultRow)
-                    CheckIfBlackPawnCanJump2Step(board, row, col);
-                else
-                    CheckIfBlackPawnCanJump1Step(board, row, col);
+            if (row == Constants.rowBlackPawnDefault)
+                CheckIfBlackPawnCanJump2Step(board, row, col);
+            else
+                CheckIfBlackPawnCanJump1Step(board, row, col);
         }
         private void CheckIfBlackPawnCanJump1Step(ChessSquare[,] board, int row, int col)
         {
-            if (Common.IsEmptyChessSquare(board, row + 1, col))
+            nextRow = row - 1;
+            if (Common.Player2ColorTeam == (int)ColorTeam.Black)
             {
-                Common.CanBeMoveTemp.Add(board[row + 1, col]);
+                nextRow = row + 1;
             }
+            if (nextRow >7 || nextRow < 0) return;
+            if (Common.IsEmptyChessSquare(board, nextRow, col))
+                Common.CanBeMoveTemp.Add(board[nextRow, col]);
         }
         private void CheckIfBlackPawnCanJump2Step(ChessSquare[,] board, int row, int col)
         {
-            for (int i = row + 1; i <= 3; i++)
+            if (Common.Player2ColorTeam == (int)ColorTeam.Black)
             {
-                if (Common.IsEmptyChessSquare(board, i, col))
+                for (int i = row + 1; i <= 3; i++)
                 {
-                    Common.CanBeMoveTemp.Add(board[i, col]);
+                    if (Common.IsEmptyChessSquare(board, i, col))
+                        Common.CanBeMoveTemp.Add(board[i, col]);
+                    else break;
                 }
-                    break;
+            }
+            else if (Common.Player1ColorTeam == (int)ColorTeam.Black)
+            {
+                for (int i = row - 1; i >= 4; i--)
+                {
+                    if (Common.IsEmptyChessSquare(board, i, col))
+                        Common.CanBeMoveTemp.Add(board[i, col]);
+                    else break;
+                }
             }
         }
 
@@ -405,102 +574,101 @@ namespace ChessKing
         public override void FindSquaresCanProtect(ChessSquare[,] board, int row, int col)
         {
             if (board[row, col].Chess.Team == (int)ColorTeam.White)
-            {
-                XetCoTrangDiTuDuoiLenTimOBaove(board, row, col);
-            }
+                FindSquaresCanBeProtectedByWhitePawn(board, row, col);
             else
-            {
-                XetCoDenDiTuTrenXuongTimOBaoVe(board, row, col);
-            }
+                FindSquaresCanBeProtectedByBlackPawn(board, row, col);
         }
         #region Xét tốt cờ trắng
-        private void XetCoTrangDiTuDuoiLenTimOBaove(ChessSquare[,] board, int row, int col)
+        private void FindSquaresCanBeProtectedByWhitePawn(ChessSquare[,] board, int row, int col)
         {
-            if (row < Constants.lastRowOfTable)
+
+            bool isInTable = row >= Constants.firstRowOfTable && row <= Constants.lastRowOfTable;
+            if (isInTable)
             {
-                bool isInTable = row >= Constants.firstRowOfTable && row <= Constants.lastRowOfTable;
-                if (isInTable)
-                {
-                    CoTrangKiemTraOCheoBenTraiTimOBaoVe(board, row, col);
-                    CoTrangKiemTraOCheoPhaiTimOBaoVe(board, row, col);
-                }
+                if (col > Constants.firstColOfTable)
+                    CheckLeftSquareCanBeProtectedByWhitePawn(board, row, col);
+                if (col < Constants.lastColOfTable)
+                    CheckRightSquareCanBeProtectedByWhitePawn(board, row, col);
             }
         }
-        private void CoTrangKiemTraOCheoPhaiTimOBaoVe(ChessSquare[,] board, int row, int col)
+        private void CheckRightSquareCanBeProtectedByWhitePawn(ChessSquare[,] board, int row, int col)
         {
-            bool laConTotCuoiCung = col >= Constants.lastColOfTable;
-            if (laConTotCuoiCung) return;
-
-            bool oCheoBenPhaiCoQuanCo = board[row - 1, col + 1].Chess != null;
+            nextRow = row - 1;
+            if (Common.Player1ColorTeam == (int)ColorTeam.Black)
+            {
+                nextRow = row + 1;
+            }
+            if (nextRow >7 || nextRow < 0) return;
+            bool oCheoBenPhaiCoQuanCo = board[nextRow, col + 1].Chess != null;
             if (oCheoBenPhaiCoQuanCo)
             {
-                bool quanCoCungTeam = this.Team == board[row - 1, col + 1].Chess.Team;
+                bool quanCoCungTeam = this.Team == board[nextRow, col + 1].Chess.Team;
 
                 if (quanCoCungTeam)
-                {
-                    // Báo hiểu có thể ăn và tiến hóa
-                    // Add ô chéo phải vào danh sách ô quân cờ có thể di chuyênr
-                    Common.CanBeProtect.Add(board[row - 1, col + 1]);
-                }
+                    Common.CanBeProtect.Add(board[nextRow, col + 1]);
             }
         }
-        private void CoTrangKiemTraOCheoBenTraiTimOBaoVe(ChessSquare[,] board, int row, int col)
+        private void CheckLeftSquareCanBeProtectedByWhitePawn(ChessSquare[,] board, int row, int col)
         {
 
-            bool laConTotDauTien = col <= Constants.firstColOfTable;
-            if (laConTotDauTien) return;
+            nextRow = row - 1;
+            if (Common.Player1ColorTeam == (int)ColorTeam.Black)
+                nextRow = row + 1;
+
+            if (nextRow >7 || nextRow < 0) return;
             //check duong cheo
-            bool oCheoBenTraiCoQuanCo = board[row - 1, col - 1].Chess != null;
+            bool oCheoBenTraiCoQuanCo = board[nextRow, col - 1].Chess != null;
             if (oCheoBenTraiCoQuanCo)
             {
-                bool quanCoCungTeam = this.Team == board[row - 1, col - 1].Chess.Team;
+                bool quanCoCungTeam = this.Team == board[nextRow, col - 1].Chess.Team;
                 if (quanCoCungTeam)
-                {
-                    Common.CanBeProtect.Add(board[row - 1, col - 1]);
-                }
+                    Common.CanBeProtect.Add(board[nextRow, col - 1]);
             }
         }
         #endregion
 
         #region Xét tốt cờ đen
-        private void XetCoDenDiTuTrenXuongTimOBaoVe(ChessSquare[,] board, int row, int col)
+        private void FindSquaresCanBeProtectedByBlackPawn(ChessSquare[,] board, int row, int col)
         {
-            if (row > Constants.firstRowOfTable)
+            bool isInTable = row >= Constants.firstRowOfTable && row <= Constants.lastRowOfTable;
+            if (isInTable)
             {
-                bool isInTable = row >= Constants.firstRowOfTable && row <= Constants.lastRowOfTable;
-                if (isInTable)
-                {
+                if (col > Constants.firstColOfTable)
                     CoDenKiemTraOCheoTraiTimOBaoVe(board, row, col);
+                if (col < Constants.lastColOfTable)
                     CoDenKiemTraOCheoPhaiTimOBaoVe(board, row, col);
-                }
             }
         }
         private void CoDenKiemTraOCheoPhaiTimOBaoVe(ChessSquare[,] board, int row, int col)
         {
-            bool laConTotCuoiCung = col >= Constants.lastColOfTable;
-            if (laConTotCuoiCung) return;
-            if (board[row + 1, col + 1].Chess != null)
+            nextRow = row - 1;
+            if (Common.Player2ColorTeam == (int)ColorTeam.Black)
+                nextRow = row + 1;
+            if (nextRow >7 || nextRow < 0) return;
+            if (board[nextRow, col + 1].Chess != null)
             {
-                if (this.Team == board[row + 1, col + 1].Chess.Team)
+                if (this.Team == board[nextRow, col + 1].Chess.Team)
                 {
-                    Common.CanBeProtect.Add(board[row + 1, col + 1]);
+                    Common.CanBeProtect.Add(board[nextRow, col + 1]);
                 }
             }
         }
         private void CoDenKiemTraOCheoTraiTimOBaoVe(ChessSquare[,] board, int row, int col)
         {
+            nextRow = row - 1;
+            if (Common.Player2ColorTeam == (int)ColorTeam.Black)
+                nextRow = row + 1;
 
-            bool laConTotDauTien = col <= Constants.firstColOfTable;
-            if (laConTotDauTien) return;
-            if (board[row + 1, col - 1].Chess != null)
+            if (nextRow >7 || nextRow < 0) return;
+            if (board[nextRow, col - 1].Chess != null)
             {
-                if (this.Team == board[row + 1, col - 1].Chess.Team)
-                {
-                    Common.CanBeProtect.Add(board[row + 1, col - 1]);
-                }
+                if (this.Team == board[nextRow, col - 1].Chess.Team)
+                    Common.CanBeProtect.Add(board[nextRow, col - 1]);
             }
         }
         #endregion
         #endregion
+
+
     }
 }

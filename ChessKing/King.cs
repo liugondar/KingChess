@@ -28,26 +28,21 @@ namespace ChessKing
                 if (Common.isWhiteKingChecked) return;
 
                 bool isWhiteQueenSideCastleAvailable =
-                    !Common.IsEmptyChessSquare(board, 7, 0)
+                    !Common.IsEmptyChessSquare(board, Constants.rowWhiteChessDefault, 0)
                     && !Common.isLeftWhiteCastleMoved
-                    && CheckAvailableQueenPath(board, row: 7, KnightCol: 1, BishopCol: 2,
+                    && CheckAvailableQueenPath(board, row: Constants.rowWhiteChessDefault, KnightCol: 1, BishopCol: 2,
                     QueenCol: 3, team: (int)ColorTeam.White);
 
                 bool isWhiteKingSideCastleAvailable =
-                    !Common.IsEmptyChessSquare(board, 7, 7)
+                    !Common.IsEmptyChessSquare(board, Constants.rowWhiteChessDefault, 7)
                     && !Common.isRightWhiteCastleMoved
-                    && CheckAvailableKingPath(board, row: 7, KnightCol: 6, BishopCol: 5,
+                    && CheckAvailableKingPath(board, row: Constants.rowWhiteChessDefault, KnightCol: 6, BishopCol: 5,
                     team: (int)ColorTeam.White);
-                Console.WriteLine(Common.isWhiteKingMoved);
-                Console.WriteLine("White king checked" + Common.isWhiteKingChecked);
-                Console.WriteLine("is white empty righ castle" + Common.IsEmptyChessSquare(board, 7, 7));
-                Console.WriteLine("is white right castle move" + Common.isRightWhiteCastleMoved);
-
                 if (isWhiteQueenSideCastleAvailable)
-                    Common.ChangeBackgroundColorToCanMove(board, 7, 2);
+                    Common.ChangeBackgroundColorToCanMove(board, Constants.rowWhiteChessDefault, 2);
 
                 if (isWhiteKingSideCastleAvailable)
-                    Common.ChangeBackgroundColorToCanMove(board, 7, 6);
+                    Common.ChangeBackgroundColorToCanMove(board, Constants.rowWhiteChessDefault, 6);
             }
             // row= 0 col=4 is default location black king
             // row= 0 col=0 is default location black queen side castle
@@ -58,22 +53,22 @@ namespace ChessKing
                 if (Common.isBlackKingChecked) return;
 
                 bool isBlackQueenSideCastleAvailable =
-                     !Common.IsEmptyChessSquare(board, 0, 0)
+                     !Common.IsEmptyChessSquare(board, Constants.rowBlackChessDefault, 0)
                      && !Common.isLeftBlackCastleMoved
-                     && CheckAvailableQueenPath(board, row: 0, KnightCol: 1, BishopCol: 2, QueenCol: 3,
+                     && CheckAvailableQueenPath(board, row: Constants.rowBlackChessDefault, KnightCol: 1, BishopCol: 2, QueenCol: 3,
                      team: (int)ColorTeam.Black);
 
                 bool isBlackKingSideCastleAvailable =
-                    !Common.IsEmptyChessSquare(board, 0, 7)
+                    !Common.IsEmptyChessSquare(board, Constants.rowBlackChessDefault, 7)
                     && !Common.isRightBlackCastleMoved
-                    && CheckAvailableKingPath(board, row: 0, KnightCol: 6, BishopCol: 5,
+                    && CheckAvailableKingPath(board, row: Constants.rowBlackChessDefault, KnightCol: 6, BishopCol: 5,
                     team: (int)ColorTeam.Black);
 
                 if (isBlackQueenSideCastleAvailable)
-                    Common.ChangeBackgroundColorToCanMove(board, 0, 2);
+                    Common.ChangeBackgroundColorToCanMove(board, Constants.rowBlackChessDefault, 2);
 
                 if (isBlackKingSideCastleAvailable)
-                    Common.ChangeBackgroundColorToCanMove(board, 0, 6);
+                    Common.ChangeBackgroundColorToCanMove(board, Constants.rowBlackChessDefault, 6);
             }
         }
         private bool CheckAvailableQueenPath(ChessSquare[,] board, int row, int KnightCol, int BishopCol, int QueenCol, int team)
@@ -209,13 +204,14 @@ namespace ChessKing
             //Castle is in bottom side ofking
             if (kingCheckedSquare.Row < chessCheckSquare.Row)
             {
-                for (int i = chessCheckSquare.Row -1; i >=0 ; i--)
+                for (int i = chessCheckSquare.Row - 1; i >= 0; i--)
                 {
-                    if(kingCheckedSquare.Row<i)
+                    if (kingCheckedSquare.Row < i)
                     {
                         if (Common.IsEmptyChessSquare(board, i, chessCheckSquare.Col))
-                        Common.SquaresCheckingPath.Add(board[i, chessCheckSquare.Col]);
-                    }else if (kingCheckedSquare.Row -1 == i)
+                            Common.SquaresCheckingPath.Add(board[i, chessCheckSquare.Col]);
+                    }
+                    else if (kingCheckedSquare.Row - 1 == i)
                     {
                         RemoveElementCanBeMoveOrEatAfterKingInCheckPath(board, chessCheckSquare.Col, i);
                     }
@@ -226,13 +222,14 @@ namespace ChessKing
             //Castle is in the top side of the king
             if (kingCheckedSquare.Row > chessCheckSquare.Row)
             {
-                for (int i = chessCheckSquare.Row +1; i <=7;i++)
+                for (int i = chessCheckSquare.Row + 1; i <= 7; i++)
                 {
-                    if(kingCheckedSquare.Row>i)
+                    if (kingCheckedSquare.Row > i)
                     {
                         if (Common.IsEmptyChessSquare(board, i, chessCheckSquare.Col))
-                        Common.SquaresCheckingPath.Add(board[i, chessCheckSquare.Col]);
-                    }else if (kingCheckedSquare.Row + 1 == i)
+                            Common.SquaresCheckingPath.Add(board[i, chessCheckSquare.Col]);
+                    }
+                    else if (kingCheckedSquare.Row + 1 == i)
                     {
                         RemoveElementCanBeMoveOrEatAfterKingInCheckPath(board, chessCheckSquare.Col, i);
                     }
@@ -243,13 +240,14 @@ namespace ChessKing
             //Castle is in the right side of theking
             if (kingCheckedSquare.Col < chessCheckSquare.Col)
             {
-                for (int i = chessCheckSquare.Col - 1; i >=0; i--)
+                for (int i = chessCheckSquare.Col - 1; i >= 0; i--)
                 {
-                    if(kingCheckedSquare.Col<i)
+                    if (kingCheckedSquare.Col < i)
                     {
                         if (Common.IsEmptyChessSquare(board, chessCheckSquare.Row, i))
-                        Common.SquaresCheckingPath.Add(board[chessCheckSquare.Row, i]);
-                    }else if (kingCheckedSquare.Col - 1 == i)
+                            Common.SquaresCheckingPath.Add(board[chessCheckSquare.Row, i]);
+                    }
+                    else if (kingCheckedSquare.Col - 1 == i)
                     {
                         RemoveElementCanBeMoveOrEatAfterKingInCheckPath(board, i, chessCheckSquare.Col);
                     }
@@ -260,13 +258,14 @@ namespace ChessKing
             //Castle is in left side of the king
             if (kingCheckedSquare.Col > chessCheckSquare.Col)
             {
-                for (int i = chessCheckSquare.Col + 1; i <=7; i++)
+                for (int i = chessCheckSquare.Col + 1; i <= 7; i++)
                 {
-                    if(kingCheckedSquare.Col>i)
+                    if (kingCheckedSquare.Col > i)
                     {
                         if (Common.IsEmptyChessSquare(board, chessCheckSquare.Row, i))
-                        Common.SquaresCheckingPath.Add(board[chessCheckSquare.Row, i]);
-                    }else if (kingCheckedSquare.Col + 1 == i)
+                            Common.SquaresCheckingPath.Add(board[chessCheckSquare.Row, i]);
+                    }
+                    else if (kingCheckedSquare.Col + 1 == i)
                     {
                         RemoveElementCanBeMoveOrEatAfterKingInCheckPath(board, i, chessCheckSquare.Row);
                     }
@@ -541,18 +540,18 @@ namespace ChessKing
                     {
                         RemoveElementCanBeMoveOrEatAfterKingInCheckPath(board, i, j);
                     }
-                        j++;
+                    j++;
                 }
                 return IsSquareInPathCanBeProtect(board);
             }
             return false;
         }
 
-        private void RemoveElementCanBeMoveOrEatAfterKingInCheckPath(ChessSquare[,] board, int col,int row)
+        private void RemoveElementCanBeMoveOrEatAfterKingInCheckPath(ChessSquare[,] board, int col, int row)
         {
             if (Common.IsEmptyChessSquare(board, row, col))
             {
-                Common.CanBeMove.RemoveAll(r=>r.Col==col&&r.Row==row);
+                Common.CanBeMove.RemoveAll(r => r.Col == col && r.Row == row);
             }
             else
             {
