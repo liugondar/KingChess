@@ -521,13 +521,10 @@ namespace ChessKing
             isCheckmate = !(temp.Chess as King).
                   IsKingCanBeProtect(Common.Board, temp,
                   Common.Board[this.Row, this.Col]);
-
             if (Common.CanBeMove.Count > 0)
                 isCheckmate = false;
             if (Common.CanBeEat.Count > 0)
                 isCheckmate = false;
-
-
 
             if (isCheckmate)
             {

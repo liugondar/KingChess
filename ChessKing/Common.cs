@@ -114,13 +114,24 @@ namespace ChessKing
                 }
             return false;
         }
-        static public bool IsSquareCanBeAttackByTeamate(ChessSquare[,] board, int rowCheck, int colCheck, int teamCheck)
+        static public bool IsSquareCanBeAttackOrMoveByTeamate(ChessSquare[,] board, int rowCheck, int colCheck, int teamCheck)
         {
             for (int i = 0; i < 8; i++)
                 for (int j = 0; j < 8; j++)
                 {
                     if (board[i, j].Chess != null && board[i, j].Chess.Team == teamCheck)
                     {
+                        board[i, j].Chess.FindSquareCanBeMove(board, board[i, j].Row, board[i, j].Col);
+                        for (int k = 0; k < CanBeMoveTemp.Count; k++)
+                        {
+                            if (CanBeMoveTemp[k].Chess == null) CanBeMoveTemp[k].Image = null;
+                            if (CanBeMoveTemp[k].Row == rowCheck && CanBeMoveTemp[k].Col == colCheck)
+                            {
+                                CanBeEatTemp.Clear();
+                                CanBeMoveTemp.Clear();
+                                return true;
+                            }
+                        }
                         board[i, j].Chess.FindSquareCanBeEat(board, board[i, j].Row, board[i, j].Col);
                         for (int k = 0; k < CanBeEatTemp.Count; k++)
                         {

@@ -563,7 +563,7 @@ namespace ChessKing
         {
             for (int i = 0; i < Common.SquaresCheckingPath.Count; i++)
             {
-                if (Common.IsSquareCanBeAttackByTeamate(board,
+                if (Common.IsSquareCanBeAttackOrMoveByTeamate(board,
                     Common.SquaresCheckingPath[i].Row, Common.SquaresCheckingPath[i].Col,
                     this.Team))
                 {
