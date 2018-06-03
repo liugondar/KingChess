@@ -97,6 +97,7 @@ namespace ChessKing
         {
             Chess tempChess;
             Constants.SetDefaultChessLocation();
+            Constants.SetDefualtEvaluation();
             //pawn
             for (int i = 0; i < 16; i++)
             {
@@ -106,14 +107,14 @@ namespace ChessKing
                     tempChess.Team = (int)ColorTeam.Black;
                     Board[Constants.rowBlackPawnDefault, i].Chess = tempChess;
                     Board[Constants.rowBlackPawnDefault, i].Image = Image.FromFile(Constants.linkBlackPawn);
-                    Board[Constants.rowBlackPawnDefault, i].Chess.Evaluation = -10;
+                    Board[Constants.rowBlackPawnDefault, i].Chess.Evaluation = Constants.blackPawnEvaluation;
                 }
                 else
                 {
                     tempChess.Team = (int)ColorTeam.White;
                     Board[Constants.rowWhitePawnDefault, i - 8].Chess = tempChess;
                     Board[Constants.rowWhitePawnDefault, i - 8].Image = Image.FromFile(Constants.linkWhitePawn);
-                    Board[Constants.rowWhitePawnDefault, i - 8].Chess.Evaluation = 10;
+                    Board[Constants.rowWhitePawnDefault, i - 8].Chess.Evaluation = Constants.whitePawnEvaluation;
                 }
             }
 
@@ -128,8 +129,8 @@ namespace ChessKing
                     Board[Constants.rowBlackChessDefault, 7].Chess = tempChess;
                     Board[Constants.rowBlackChessDefault, 0].Image = Image.FromFile(Constants.linkBlackCastle);
                     Board[Constants.rowBlackChessDefault, 7].Image = Image.FromFile(Constants.linkBlackCastle);
-                    Board[Constants.rowBlackChessDefault, 0].Chess.Evaluation = -50;
-                    Board[Constants.rowBlackChessDefault, 7].Chess.Evaluation = -50;
+                    Board[Constants.rowBlackChessDefault, 0].Chess.Evaluation = Constants.blackCastleEvaluation;
+                    Board[Constants.rowBlackChessDefault, 7].Chess.Evaluation = Constants.blackCastleEvaluation;
                 }
                 else
                 {
@@ -138,8 +139,8 @@ namespace ChessKing
                     Board[Constants.rowWhiteChessDefault, 7].Chess = tempChess;
                     Board[Constants.rowWhiteChessDefault, 0].Image = Image.FromFile(Constants.linkWhiteCastle);
                     Board[Constants.rowWhiteChessDefault, 7].Image = Image.FromFile(Constants.linkWhiteCastle);
-                    Board[Constants.rowWhiteChessDefault, 0].Chess.Evaluation = 50;
-                    Board[Constants.rowWhiteChessDefault, 7].Chess.Evaluation = 50;
+                    Board[Constants.rowWhiteChessDefault, 0].Chess.Evaluation = Constants.whiteCastleEvaluation;
+                    Board[Constants.rowWhiteChessDefault, 7].Chess.Evaluation = Constants.whiteCastleEvaluation;
 
                 }
             }
@@ -155,8 +156,8 @@ namespace ChessKing
                     Board[Constants.rowBlackChessDefault, 6].Chess = tempChess;
                     Board[Constants.rowBlackChessDefault, 1].Image = Image.FromFile(Constants.linkBlackKnight);
                     Board[Constants.rowBlackChessDefault, 6].Image = Image.FromFile(Constants.linkBlackKnight);
-                    Board[Constants.rowBlackChessDefault, 1].Chess.Evaluation = -30;
-                    Board[Constants.rowBlackChessDefault, 6].Chess.Evaluation = -30;
+                    Board[Constants.rowBlackChessDefault, 1].Chess.Evaluation = Constants.blackKnightEvaluation;
+                    Board[Constants.rowBlackChessDefault, 6].Chess.Evaluation = Constants.blackKnightEvaluation;
 
                 }
                 else
@@ -166,8 +167,8 @@ namespace ChessKing
                     Board[Constants.rowWhiteChessDefault, 6].Chess = tempChess;
                     Board[Constants.rowWhiteChessDefault, 1].Image = Image.FromFile(Constants.linkWhiteKnight);
                     Board[Constants.rowWhiteChessDefault, 6].Image = Image.FromFile(Constants.linkWhiteKnight);
-                    Board[Constants.rowWhiteChessDefault, 1].Chess.Evaluation = 30;
-                    Board[Constants.rowWhiteChessDefault, 6].Chess.Evaluation = 30;
+                    Board[Constants.rowWhiteChessDefault, 1].Chess.Evaluation = Constants.whiteKnightEvaluation;
+                    Board[Constants.rowWhiteChessDefault, 6].Chess.Evaluation = Constants.whiteKnightEvaluation;
                 }
             }
 
@@ -182,8 +183,8 @@ namespace ChessKing
                     Board[Constants.rowBlackChessDefault, 5].Chess = tempChess;
                     Board[Constants.rowBlackChessDefault, 2].Image = Image.FromFile(Constants.linkBlackBishop);
                     Board[Constants.rowBlackChessDefault, 5].Image = Image.FromFile(Constants.linkBlackBishop);
-                    Board[Constants.rowBlackChessDefault, 2].Chess.Evaluation = -30;
-                    Board[Constants.rowBlackChessDefault, 5].Chess.Evaluation = -30;
+                    Board[Constants.rowBlackChessDefault, 2].Chess.Evaluation =  Constants.blackBishopEvaluation;
+                    Board[Constants.rowBlackChessDefault, 5].Chess.Evaluation = Constants.blackBishopEvaluation;
                 }
                 else
                 {
@@ -192,8 +193,8 @@ namespace ChessKing
                     Board[Constants.rowWhiteChessDefault, 5].Chess = tempChess;
                     Board[Constants.rowWhiteChessDefault, 2].Image = Image.FromFile(Constants.linkWhiteBishop);
                     Board[Constants.rowWhiteChessDefault, 5].Image = Image.FromFile(Constants.linkWhiteBishop);
-                    Board[Constants.rowWhiteChessDefault, 2].Chess.Evaluation = 30;
-                    Board[Constants.rowWhiteChessDefault, 5].Chess.Evaluation = 30;
+                    Board[Constants.rowWhiteChessDefault, 2].Chess.Evaluation = Constants.whiteBishopEvaluation;
+                    Board[Constants.rowWhiteChessDefault, 5].Chess.Evaluation = Constants.whiteBishopEvaluation;
 
                 }
             }
@@ -203,26 +204,26 @@ namespace ChessKing
             tempChess.Team = (int)ColorTeam.Black;
             Board[Constants.rowBlackChessDefault, 3].Chess = tempChess;
             Board[Constants.rowBlackChessDefault, 3].Image = Image.FromFile(Constants.linkBlackQueen);
-            Board[Constants.rowBlackChessDefault, 3].Chess.Evaluation = -90;
+            Board[Constants.rowBlackChessDefault, 3].Chess.Evaluation = Constants.blackQueenEvaluation;
 
             tempChess = new Queen();
             tempChess.Team = (int)ColorTeam.White;
             Board[Constants.rowWhiteChessDefault, 3].Chess = tempChess;
             Board[Constants.rowWhiteChessDefault, 3].Image = Image.FromFile(Constants.linkWhiteQueen);
-            Board[Constants.rowWhiteChessDefault, 3].Chess.Evaluation = 90;
+            Board[Constants.rowWhiteChessDefault, 3].Chess.Evaluation = Constants.whiteQueenEvaluation;
 
             //King
             tempChess = new King();
             tempChess.Team = (int)ColorTeam.Black;
             Board[Constants.rowBlackChessDefault, 4].Chess = tempChess;
             Board[Constants.rowBlackChessDefault, 4].Image = Image.FromFile(Constants.linkBlackKing);
-            Board[Constants.rowBlackChessDefault, 4].Chess.Evaluation = -900;
+            Board[Constants.rowBlackChessDefault, 4].Chess.Evaluation = Constants.blackKingEvaluation;
 
             tempChess = new King();
             tempChess.Team = (int)ColorTeam.White;
             Board[Constants.rowWhiteChessDefault, 4].Chess = tempChess;
             Board[Constants.rowWhiteChessDefault, 4].Image = Image.FromFile(Constants.linkWhiteKing);
-            Board[Constants.rowWhiteChessDefault, 4].Chess.Evaluation = 900;
+            Board[Constants.rowWhiteChessDefault, 4].Chess.Evaluation = Constants.whiteKingEvaluation;
 
             Common.Board = Board;
         }

@@ -195,7 +195,7 @@ namespace ChessKing
                         Thread.Sleep(100); // delay
                         this.BeginInvoke((MethodInvoker)delegate
                         {
-                            if(Common.IsPlaying&&!Common.Close)XuLiKhiDanhVoiAI();
+                            if (Common.IsPlaying && !Common.Close) XuLiKhiDanhVoiAI();
                         });
                     });
                 }
@@ -772,9 +772,7 @@ namespace ChessKing
             if (depth == 0)
                 return -this.BestValue(root);
             ChessSquare[,] a = new ChessSquare[8, 8];
-
             double bestValue;
-
             int team = 0;
             if (isMax == true)
             {
@@ -786,8 +784,6 @@ namespace ChessKing
                 team = Common.Player1ColorTeam;
                 bestValue = 9999;
             } //white
-
-
 
             //ke list can move from root
             //List<ChessSquare[,]> tempList = new List<ChessSquare[,]>();
@@ -828,7 +824,6 @@ namespace ChessKing
                             root[RootTemp[k].Row, RootTemp[k].Col].Image = root[befRow, befCol].Image;
                             root[befRow, befCol].Chess = null;
                             root[befRow, befCol].Image = null;
-
                             if (team == Common.Player2ColorTeam)
                             {
                                 bestValue = Math.Max(bestValue, minimax(depth - 1, ref root, alpha, beta, !isMax));
@@ -861,23 +856,46 @@ namespace ChessKing
         private double BestValue(ChessSquare[,] board)
         {
             double Val = 0;
-            for (int i = 0; i < 8; i++)
-                for (int j = 0; j < 8; j++)
-                {
-                    if (board[i, j].Chess != null)
+            if (Common.Player2ColorTeam == (int)ColorTeam.Black)
+            {
+                for (int i = 0; i < 8; i++)
+                    for (int j = 0; j < 8; j++)
                     {
-                        double pieceEvaluation = 0;
-                        if (board[i, j].Chess.Team==(int)ColorTeam.White)
+                        if (board[i, j].Chess != null)
                         {
-                            pieceEvaluation = getPieceEvaluation(board, i, j);
+                            double pieceEvaluation = 0;
+                            if (board[i, j].Chess.Team == (int)ColorTeam.White)
+                            {
+                                pieceEvaluation = getPieceEvaluation(board, i, j);
+                            }
+                            else
+                            {
+                                pieceEvaluation = -getPieceEvaluation(board, i, j);
+                            }
+                            Val = Val + board[i, j].Chess.Evaluation + pieceEvaluation;
                         }
-                        else 
-                        {
-                            pieceEvaluation = -getPieceEvaluation(board, i, j);
-                        }
-                        Val = Val + board[i, j].Chess.Evaluation + pieceEvaluation;
                     }
-                }
+            }
+            else
+            {
+                for (int i = 0; i < 8; i++)
+                    for (int j = 0; j < 8; j++)
+                    {
+                        if (board[i, j].Chess != null)
+                        {
+                            double pieceEvaluation = 0;
+                            if (board[i, j].Chess.Team == (int)ColorTeam.Black)
+                            {
+                                pieceEvaluation = getPieceEvaluation(board, i, j);
+                            }
+                            else
+                            {
+                                pieceEvaluation = -getPieceEvaluation(board, i, j);
+                            }
+                            Val = Val + board[i, j].Chess.Evaluation + pieceEvaluation;
+                        }
+                    }
+            }
             return Val;
         }
 
@@ -931,7 +949,6 @@ namespace ChessKing
                     : PieceEvaluation(Common.KingBlack, row, col);
             }
         }
-
         public double PieceEvaluation(double[,] a, int row, int col)
         {
             return a[row, col];

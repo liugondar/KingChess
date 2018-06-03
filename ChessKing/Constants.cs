@@ -1,4 +1,6 @@
-﻿namespace ChessKing
+﻿using System;
+
+namespace ChessKing
 {
     public static class Constants
     {
@@ -32,6 +34,21 @@
         static public int colBlackLeftBishopDefault = 2;
         static public int colBlackLeftKnightDefault = 1;
         static public int colBlackLeftCastleDefault = 0;
+        //Evaluation
+        //White chess
+        static public int whitePawnEvaluation = 10;
+        static public int whiteKnightEvaluation = 30;
+        static public int whiteBishopEvaluation = 30;
+        static public int whiteCastleEvaluation = 50;
+        static public int whiteQueenEvaluation = 90;
+        static public int whiteKingEvaluation = 900;
+        //Black chess
+        static public int blackPawnEvaluation = -10;
+        static public int blackKnightEvaluation = -30;
+        static public int blackBishopEvaluation = -30;
+        static public int blackCastleEvaluation = -50;
+        static public int blackQueenEvaluation = -90;
+        static public int blackKingEvaluation = -900;
         //Link image
         static public string linkWhiteCastle = "Image\\Chess_rlt60.png";
         static public string linkWhiteBishop = "Image\\Chess_blt60.png";
@@ -65,6 +82,44 @@
                 //Default black chess
                 rowBlackChessDefault = 7;
                 rowBlackPawnDefault = 6;
+            }
+        }
+
+        public static void SetDefualtEvaluation()
+        {
+            if (Common.Player1ColorTeam == (int)ColorTeam.White)
+            {
+                //White chess
+                whitePawnEvaluation = 10;
+                whiteKnightEvaluation = 30;
+                whiteBishopEvaluation = 30;
+                whiteCastleEvaluation = 50;
+                whiteQueenEvaluation = 90;
+                whiteKingEvaluation = 900;
+                //Black chess
+                blackPawnEvaluation = -10;
+                blackKnightEvaluation = -30;
+                blackBishopEvaluation = -30;
+                blackCastleEvaluation = -50;
+                blackQueenEvaluation = -90;
+                blackKingEvaluation = -900;
+            }
+            else
+            {
+                //White chess
+                whitePawnEvaluation = -10;
+                whiteKnightEvaluation = -30;
+                whiteBishopEvaluation = -30;
+                whiteCastleEvaluation = -50;
+                whiteQueenEvaluation = -90;
+                whiteKingEvaluation = -900;
+                //Black chess
+                blackPawnEvaluation = 10;
+                blackKnightEvaluation = 30;
+                blackBishopEvaluation = 30;
+                blackCastleEvaluation = 50;
+                blackQueenEvaluation = 90;
+                blackKingEvaluation = 900;
             }
         }
     }
