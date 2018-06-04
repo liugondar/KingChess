@@ -12,7 +12,7 @@ namespace ChessKing
         static public int lastColOfTable = 7;
         // default location white chess
         static public int rowWhiteChessDefault = 7;
-        static public int rowWhitePawnDefault = 7;
+        static public int rowWhitePawnDefault = 6;
 
         static public int colWhiteRightCastleDefault = 7;
         static public int colWhiteRightKnightDefault = 6;
@@ -24,7 +24,7 @@ namespace ChessKing
         static public int colWhiteLeftCastleDefault = 0;
         //Default black chess
         static public int rowBlackChessDefault = 0;
-        static public int rowBlackPawnDefault = 7;
+        static public int rowBlackPawnDefault = 1;
 
         static public int colBlackRightCastleDefault = 7;
         static public int colBlackRightKnightDefault = 6;
