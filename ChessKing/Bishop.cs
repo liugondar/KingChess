@@ -8,6 +8,14 @@
         }
 
         #region find way and display
+        /// <summary>
+        /// Tìm đường đi quân cờ có thể đi được
+        /// Thêm vào common.CanBeEat và Common.CanBeMove các ô cờ đi được
+        /// Sau đó đổi màu các ô cờ tương ứng
+        /// </summary>
+        /// <param name="board"></param>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
         public override void FindWayAndAutoChangeSquareIfNeeded(ChessSquare[,] board, int row, int col)
         {
             CheckNorthWest(board, row, col);
@@ -105,18 +113,20 @@
         #region find way can be eat and move 
         /// <summary>
         /// in bishop is find way can be move is find way can be eat
+        /// Thêm vào common.CanBeEatTemp và common.CanBeMoveTemp các ô phù hợp
+        /// phục vụ cho việc t kiểm tra đường đi cho vua, nhập thành, chiếu,...
         /// </summary>
         /// <param name="board"></param>
         /// <param name="row"></param>
         /// <param name="col"></param>
-        public override void FindSquareCanBeMove(ChessSquare[,] board, int row, int col)
+        public override void FindSquaresCanMove(ChessSquare[,] board, int row, int col)
         {
             CheckNorthWestNoChangeBackground(board, row, col);
             CheckSouthWestNoChangeBackground(board, row, col);
             CheckNorthEastNoChangeBackground(board, row, col);
             CheckSouthEastNoChangeBackground(board, row, col);
         }
-        public override void FindSquareCanBeEat(ChessSquare[,] board, int row, int col)
+        public override void FindSquaresCanEat(ChessSquare[,] board, int row, int col)
         {
             CheckNorthWestNoChangeBackground(board, row, col);
             CheckSouthWestNoChangeBackground(board, row, col);

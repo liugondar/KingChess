@@ -61,6 +61,9 @@ namespace ChessKing
                     Thread.Sleep(200); // delay
                     this.BeginInvoke((MethodInvoker)delegate
                     {
+                        // hàm find way display action để hiển thị 
+                        // lượt chơi
+                        // được truyền từ lúc tạo object chessSquare
                         this.findWayDisplayAction();
                     });
                 });
@@ -328,7 +331,7 @@ namespace ChessKing
         {
             //Check if not king chess => do nothing
             var selectedChessSquare = Common.Board[Common.RowSelected, Common.ColSelected];
-            if (!selectedChessSquare.Chess.IsKing) return;
+            if (selectedChessSquare.Chess == null ||!selectedChessSquare.Chess.IsKing) return;
 
             //Variable for queen side castle
             int rowLeftBishop = -1, colLeftBishop = -1;
@@ -481,7 +484,7 @@ namespace ChessKing
                 {
                     if (Common.Board[i, j].Chess != null)
                     {
-                        Common.Board[i, j].Chess.FindSquareCanBeEat(Common.Board, i, j);
+                        Common.Board[i, j].Chess.FindSquaresCanEat(Common.Board, i, j);
                         for (int k = 0; k < Common.CanBeEatTemp.Count; k++)
                         {
                             if (Common.CanBeEatTemp[k].Chess.IsKing

@@ -97,7 +97,7 @@ namespace ChessKing
                 {
                     if (board[i, j].Chess != null && board[i, j].Chess.Team != teamCheck)
                     {
-                        board[i, j].Chess.FindSquareCanBeEat(board, board[i, j].Row, board[i, j].Col);
+                        board[i, j].Chess.FindSquaresCanEat(board, board[i, j].Row, board[i, j].Col);
                         for (int k = 0; k < CanBeMoveTemp.Count; k++)
                         {
                             if (CanBeMoveTemp[k].Row == rowCheck &&
@@ -121,7 +121,7 @@ namespace ChessKing
                 {
                     if (board[i, j].Chess != null && board[i, j].Chess.Team == teamCheck)
                     {
-                        board[i, j].Chess.FindSquareCanBeMove(board, board[i, j].Row, board[i, j].Col);
+                        board[i, j].Chess.FindSquaresCanMove(board, board[i, j].Row, board[i, j].Col);
                         for (int k = 0; k < CanBeMoveTemp.Count; k++)
                         {
                             if (CanBeMoveTemp[k].Chess == null) CanBeMoveTemp[k].Image = null;
@@ -132,7 +132,7 @@ namespace ChessKing
                                 return true;
                             }
                         }
-                        board[i, j].Chess.FindSquareCanBeEat(board, board[i, j].Row, board[i, j].Col);
+                        board[i, j].Chess.FindSquaresCanEat(board, board[i, j].Row, board[i, j].Col);
                         for (int k = 0; k < CanBeEatTemp.Count; k++)
                         {
                             

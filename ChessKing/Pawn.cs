@@ -318,7 +318,7 @@ namespace ChessKing
         #endregion
 
         #region tìm nước ăn và không hiển thị
-        public override void FindSquareCanBeEat(ChessSquare[,] board, int row, int col)
+        public override void FindSquaresCanEat(ChessSquare[,] board, int row, int col)
         {
             if (board[row, col].Chess.Team == (int)ColorTeam.White)
                 XetCoTrangTimNuocAn(board, row, col);
@@ -456,7 +456,7 @@ namespace ChessKing
         #endregion
 
         #region Tìm nước đi được và không hiển thị
-        public override void FindSquareCanBeMove(ChessSquare[,] board, int row, int col)
+        public override void FindSquaresCanMove(ChessSquare[,] board, int row, int col)
         {
             if (Common.Player1ColorTeam == (int)ColorTeam.White)
             {

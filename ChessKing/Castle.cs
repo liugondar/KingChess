@@ -91,14 +91,14 @@
         /// <param name="board"></param>
         /// <param name="row"></param>
         /// <param name="col"></param>
-        public override void FindSquareCanBeEat(ChessSquare[,] board, int row, int col)
+        public override void FindSquaresCanEat(ChessSquare[,] board, int row, int col)
         {
             CheckLeftNoChangeBackground(board, row, col);
             CheckRightNoChangeBackground(board, row, col);
             CheckBottomNoChangeBackground(board, row, col);
             CheckTopNoChangeBackground(board, row, col);
         }
-        public override void FindSquareCanBeMove(ChessSquare[,] board, int row, int col)
+        public override void FindSquaresCanMove(ChessSquare[,] board, int row, int col)
         {
             CheckLeftNoChangeBackground(board, row, col);
             CheckRightNoChangeBackground(board, row, col);
