@@ -199,6 +199,7 @@ namespace ChessKing
                         this.BeginInvoke((MethodInvoker)delegate
                         {
                             if (Common.IsPlaying && !Common.Close) XuLiKhiDanhVoiAI();
+                            KiemTraQuanVuaConTrenBanCoKhong();
                         });
                     });
                 }
@@ -331,7 +332,7 @@ namespace ChessKing
         {
             //Check if not king chess => do nothing
             var selectedChessSquare = Common.Board[Common.RowSelected, Common.ColSelected];
-            if (selectedChessSquare.Chess == null ||!selectedChessSquare.Chess.IsKing) return;
+            if (selectedChessSquare.Chess == null || !selectedChessSquare.Chess.IsKing) return;
 
             //Variable for queen side castle
             int rowLeftBishop = -1, colLeftBishop = -1;
