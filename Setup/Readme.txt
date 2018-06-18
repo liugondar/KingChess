@@ -1,0 +1,1 @@
+Open file setup.ext from AnyCPU_ReleaseSetupFiles to install
