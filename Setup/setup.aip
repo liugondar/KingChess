@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<DOCUMENT Type="Advanced Installer" CreateVersion="11.1" version="11.1" Modules="professional" RootPath="." Language="en" Id="{AAB67D37-2C55-4D74-9998-B00E491D600E}">
+<DOCUMENT Type="Advanced Installer" CreateVersion="11.1" version="11.1" Modules="professional" RootPath="." Language="en" Id="{093DAEBF-9AFF-439F-9AFF-02F88B666768}">
   <COMPONENT cid="caphyon.advinst.msicomp.MsiPropsComponent">
     <ROW Property="AI_BITMAP_DISPLAY_MODE" Value="0"/>
     <ROW Property="AI_FINDEXE_TITLE" Value="Select the installation package for [|ProductName]" ValueLocId="AI.Property.FindExeTitle"/>
     <ROW Property="ALLUSERS" Value="1"/>
     <ROW Property="ARPCOMMENTS" Value="This installer database contains the logic and data required to install [|ProductName]." ValueLocId="*"/>
+    <ROW Property="ARPPRODUCTICON" Value="Chessicon.exe" Type="8"/>
     <ROW Property="CTRLS" Value="2"/>
-    <ROW Property="Manufacturer" Value="Fly to moon"/>
-    <ROW Property="ProductCode" Value="1033:{4FBEA131-86FE-4C27-89A5-4C151196C262} " Type="16"/>
+    <ROW Property="Manufacturer" Value="FlyToMoon"/>
+    <ROW Property="ProductCode" Value="1033:{9CDCAE86-8D49-4C7E-B1CB-31DD8EEB53ED} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="KingChess"/>
     <ROW Property="ProductVersion" Value="1.0.0" Type="32"/>
     <ROW Property="RUNAPPLICATION" Value="1" Type="4"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND;AI_SETUPEXEPATH;SETUPEXEDIR"/>
-    <ROW Property="UpgradeCode" Value="{1555FB91-4B2E-4D0B-AB8E-750717CB9147}"/>
+    <ROW Property="UpgradeCode" Value="{B7D4F881-28FC-4DE0-A964-B31D670FB127}"/>
     <ROW Property="WindowsType9X" MultiBuildValue="DefaultBuild:Windows 9x/ME#AnyCPU_Release:Windows 9x/ME" ValueLocId="-"/>
     <ROW Property="WindowsType9XDisplay" MultiBuildValue="DefaultBuild:Windows 9x/ME#AnyCPU_Release:Windows 9x/ME" ValueLocId="-"/>
     <ROW Property="WindowsTypeNT40" MultiBuildValue="DefaultBuild:Windows NT 4.0#AnyCPU_Release:Windows NT 4.0" ValueLocId="-"/>
@@ -22,38 +23,72 @@
   <COMPONENT cid="caphyon.advinst.msicomp.MsiDirsComponent">
     <ROW Directory="APPDIR" Directory_Parent="TARGETDIR" DefaultDir="APPDIR:." IsPseudoRoot="1"/>
     <ROW Directory="DesktopFolder" Directory_Parent="TARGETDIR" DefaultDir="DESKTO~1|DesktopFolder" IsPseudoRoot="1"/>
+    <ROW Directory="Help_Dir" Directory_Parent="APPDIR" DefaultDir="Help"/>
+    <ROW Directory="Image_Dir" Directory_Parent="APPDIR" DefaultDir="Image"/>
+    <ROW Directory="Resources_Dir" Directory_Parent="APPDIR" DefaultDir="RESOUR~1|Resources"/>
     <ROW Directory="SHORTCUTDIR" Directory_Parent="TARGETDIR" DefaultDir="SHORTC~1|SHORTCUTDIR" IsPseudoRoot="1"/>
+    <ROW Directory="Sounds_Dir" Directory_Parent="APPDIR" DefaultDir="Sounds"/>
     <ROW Directory="TARGETDIR" DefaultDir="SourceDir"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCompsComponent">
-    <ROW Component="AI_ExePath" ComponentId="{6BBBBB43-0F53-4D3F-95EF-7F36EB4725C8}" Directory_="APPDIR" Attributes="4" KeyPath="AI_ExePath"/>
-    <ROW Component="AxInterop.WMPLib.dll" ComponentId="{44D5F5D3-A8D2-4D41-8480-89B66F0DE311}" Directory_="APPDIR" Attributes="0" KeyPath="AxInterop.WMPLib.dll"/>
-    <ROW Component="ChessKing.exe" ComponentId="{9020EC32-BADB-4D49-88AB-28B52FA22541}" Directory_="APPDIR" Attributes="0" KeyPath="ChessKing.exe"/>
-    <ROW Component="Interop.WMPLib.dll" ComponentId="{826CD30A-7801-49BF-8C1A-3042B4087F37}" Directory_="APPDIR" Attributes="0" KeyPath="Interop.WMPLib.dll"/>
-    <ROW Component="Microsoft.CSharp.dll" ComponentId="{0916BB9E-48E4-4C47-9F8A-F642C56E044A}" Directory_="APPDIR" Attributes="0" KeyPath="Microsoft.CSharp.dll"/>
-    <ROW Component="ProductInformation" ComponentId="{0F24E818-5B50-4B0A-9879-977F8E956887}" Directory_="APPDIR" Attributes="4" KeyPath="Version"/>
-    <ROW Component="SHORTCUTDIR" ComponentId="{B1DA8714-56A9-4527-8A14-BCAA888B0EB3}" Directory_="SHORTCUTDIR" Attributes="0"/>
-    <ROW Component="System.Core.dll" ComponentId="{99DCFACF-E616-4AD8-BF59-85014543CF98}" Directory_="APPDIR" Attributes="0" KeyPath="System.Core.dll"/>
-    <ROW Component="System.Data.DataSetExtensions.dll" ComponentId="{1403E5E6-1C46-4661-8481-67D6C5329A22}" Directory_="APPDIR" Attributes="0" KeyPath="System.Data.DataSetExtensions.dll"/>
-    <ROW Component="System.Data.dll" ComponentId="{D3FE0609-8B63-40B9-B46B-362853113A09}" Directory_="APPDIR" Attributes="0" KeyPath="System.Data.dll"/>
-    <ROW Component="System.Deployment.dll" ComponentId="{5D453524-DA6B-4B19-B721-F290FCB4F2F2}" Directory_="APPDIR" Attributes="0" KeyPath="System.Deployment.dll"/>
-    <ROW Component="System.Drawing.dll" ComponentId="{FBE5E934-A471-449E-9667-F98C075CB3F0}" Directory_="APPDIR" Attributes="0" KeyPath="System.Drawing.dll"/>
-    <ROW Component="System.Net.Http.dll" ComponentId="{9870F033-4FA1-4428-B1C7-8836141E12CE}" Directory_="APPDIR" Attributes="0" KeyPath="System.Net.Http.dll"/>
-    <ROW Component="System.Windows.Forms.dll" ComponentId="{B2952731-F68A-4690-A798-B46A08164F23}" Directory_="APPDIR" Attributes="0" KeyPath="System.Windows.Forms.dll"/>
-    <ROW Component="System.Xml.Linq.dll" ComponentId="{E5F9BAF5-A495-42AD-A8FA-1877FCD57E01}" Directory_="APPDIR" Attributes="0" KeyPath="System.Xml.Linq.dll"/>
-    <ROW Component="System.Xml.dll" ComponentId="{557A8532-8D56-4B89-9F76-3BF6DCAC420A}" Directory_="APPDIR" Attributes="0" KeyPath="System.Xml.dll"/>
-    <ROW Component="System.dll" ComponentId="{610F79D3-B05A-4271-A0D5-0116C9C89F88}" Directory_="APPDIR" Attributes="0" KeyPath="System.dll"/>
-    <ROW Component="mscorlib.dll" ComponentId="{AA51477A-210E-4FC9-8F35-A45682C63271}" Directory_="APPDIR" Attributes="0" KeyPath="mscorlib.dll"/>
+    <ROW Component="AI_ExePath" ComponentId="{4220B95C-8763-4E3F-83E4-8F0D5A768F71}" Directory_="APPDIR" Attributes="4" KeyPath="AI_ExePath"/>
+    <ROW Component="AnnounceWelcome.wav" ComponentId="{DDFD3F89-A730-41BF-A8AD-2ADE591CD159}" Directory_="Sounds_Dir" Attributes="0" KeyPath="AnnounceWelcome.wav" Type="0"/>
+    <ROW Component="AxInterop.WMPLib.dll" ComponentId="{3D3FAD01-4632-4204-92F9-94D6C11D06A4}" Directory_="APPDIR" Attributes="0" KeyPath="AxInterop.WMPLib.dll"/>
+    <ROW Component="AxInterop.WMPLib.dll_1" ComponentId="{56527003-E02B-44D1-A78E-A2903A80EBBB}" Directory_="Resources_Dir" Attributes="0" KeyPath="AxInterop.WMPLib.dll_1"/>
+    <ROW Component="B1.png" ComponentId="{EA90AA85-E41D-43DC-A2D1-9D8A9E3A1EFE}" Directory_="Resources_Dir" Attributes="0" KeyPath="B1.png" Type="0"/>
+    <ROW Component="ChessKing.exe" ComponentId="{5ABA74C8-38EB-436C-A31C-75169279F6A5}" Directory_="APPDIR" Attributes="0" KeyPath="ChessKing.exe"/>
+    <ROW Component="Chess_bdt60.png" ComponentId="{F9F8C300-73C7-45ED-950E-FA4F281F8410}" Directory_="Image_Dir" Attributes="0" KeyPath="Chess_bdt60.png" Type="0"/>
+    <ROW Component="HD.pdf" ComponentId="{B824B28B-FDFD-4FCB-AE72-BA05339D1D99}" Directory_="Help_Dir" Attributes="0" KeyPath="HD.pdf" Type="0"/>
+    <ROW Component="Interop.WMPLib.dll" ComponentId="{ED765364-9761-4EB9-AD20-C5861A4E90F5}" Directory_="APPDIR" Attributes="0" KeyPath="Interop.WMPLib.dll"/>
+    <ROW Component="Interop.WMPLib.dll_1" ComponentId="{E3CF72BA-7538-43CB-AE5C-0FB25A2CA757}" Directory_="Resources_Dir" Attributes="0" KeyPath="Interop.WMPLib.dll_1"/>
+    <ROW Component="Microsoft.CSharp.dll" ComponentId="{AB5B728E-CE66-4935-A33A-FC63966105D6}" Directory_="APPDIR" Attributes="0" KeyPath="Microsoft.CSharp.dll"/>
+    <ROW Component="ProductInformation" ComponentId="{ED0DD1D3-637C-4A95-96B6-9C6519C50157}" Directory_="APPDIR" Attributes="4" KeyPath="Version"/>
+    <ROW Component="SHORTCUTDIR" ComponentId="{A73E2692-82B6-45F4-9F76-3D199C89436B}" Directory_="SHORTCUTDIR" Attributes="0"/>
+    <ROW Component="System.Core.dll" ComponentId="{2A02AE03-5551-4E6C-8E37-0D17694ABC66}" Directory_="APPDIR" Attributes="0" KeyPath="System.Core.dll"/>
+    <ROW Component="System.Data.DataSetExtensions.dll" ComponentId="{7ACA3B97-593A-47EF-A82E-5938806E02BA}" Directory_="APPDIR" Attributes="0" KeyPath="System.Data.DataSetExtensions.dll"/>
+    <ROW Component="System.Data.dll" ComponentId="{B4137D35-9F8B-4BB9-9AE2-EB0E4BF072BA}" Directory_="APPDIR" Attributes="0" KeyPath="System.Data.dll"/>
+    <ROW Component="System.Deployment.dll" ComponentId="{5708B4AB-6653-4AF8-8A27-CFA2E12686A0}" Directory_="APPDIR" Attributes="0" KeyPath="System.Deployment.dll"/>
+    <ROW Component="System.Drawing.dll" ComponentId="{AA8662CD-E365-4F0A-831C-0AF8E8C8575D}" Directory_="APPDIR" Attributes="0" KeyPath="System.Drawing.dll"/>
+    <ROW Component="System.Net.Http.dll" ComponentId="{0D0EB239-F4CC-40EF-8255-ED24ED200A05}" Directory_="APPDIR" Attributes="0" KeyPath="System.Net.Http.dll"/>
+    <ROW Component="System.Windows.Forms.dll" ComponentId="{CCB33634-32F1-44E4-B08D-13C33C16DDB0}" Directory_="APPDIR" Attributes="0" KeyPath="System.Windows.Forms.dll"/>
+    <ROW Component="System.Xml.Linq.dll" ComponentId="{C6038682-2568-4595-9BC7-28D47ED6F744}" Directory_="APPDIR" Attributes="0" KeyPath="System.Xml.Linq.dll"/>
+    <ROW Component="System.Xml.dll" ComponentId="{E2EF907F-5E3F-4C28-8F04-AF95F55D822B}" Directory_="APPDIR" Attributes="0" KeyPath="System.Xml.dll"/>
+    <ROW Component="System.dll" ComponentId="{97A68797-8F32-48DA-9806-27A165A636A8}" Directory_="APPDIR" Attributes="0" KeyPath="System.dll"/>
+    <ROW Component="mscorlib.dll" ComponentId="{2A1DB9D4-B0C5-41C0-B7AD-8A7D69080DDE}" Directory_="APPDIR" Attributes="0" KeyPath="mscorlib.dll"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiFeatsComponent">
-    <ROW Feature="MainFeature" Title="MainFeature" Description="Description" Display="1" Level="1" Directory_="APPDIR" Attributes="0" Components="AI_ExePath AxInterop.WMPLib.dll ChessKing.exe Interop.WMPLib.dll Microsoft.CSharp.dll ProductInformation SHORTCUTDIR System.Core.dll System.Data.DataSetExtensions.dll System.Data.dll System.Deployment.dll System.Drawing.dll System.Net.Http.dll System.Windows.Forms.dll System.Xml.Linq.dll System.Xml.dll System.dll mscorlib.dll"/>
+    <ROW Feature="MainFeature" Title="MainFeature" Description="Description" Display="1" Level="1" Directory_="APPDIR" Attributes="0" Components="AI_ExePath AnnounceWelcome.wav AxInterop.WMPLib.dll AxInterop.WMPLib.dll_1 B1.png ChessKing.exe Chess_bdt60.png HD.pdf Interop.WMPLib.dll Interop.WMPLib.dll_1 Microsoft.CSharp.dll ProductInformation SHORTCUTDIR System.Core.dll System.Data.DataSetExtensions.dll System.Data.dll System.Deployment.dll System.Drawing.dll System.Net.Http.dll System.Windows.Forms.dll System.Xml.Linq.dll System.Xml.dll System.dll mscorlib.dll"/>
     <ATTRIBUTE name="CurrentFeature" value="MainFeature"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiFilesComponent">
+    <ROW File="AnnounceWelcome.wav" Component_="AnnounceWelcome.wav" FileName="ANNOUN~1.WAV|AnnounceWelcome.wav" Attributes="0" SourcePath="..\..\..\..\..\Project\lapTrinhTrucQuan\KingChess\ChessKing\Sounds\AnnounceWelcome.wav" SelfReg="false" NextFile="Check.wav"/>
     <ROW File="AxInterop.WMPLib.dll" Component_="AxInterop.WMPLib.dll" FileName="AXINTE~1.DLL|AxInterop.WMPLib.dll" Attributes="0" SourcePath="..\..\..\..\..\Project\lapTrinhTrucQuan\KingChess\ChessKing\Resources\AxInterop.WMPLib.dll" SelfReg="false" NextFile="System.dll"/>
+    <ROW File="AxInterop.WMPLib.dll_1" Component_="AxInterop.WMPLib.dll_1" FileName="AXINTE~1.DLL|AxInterop.WMPLib.dll" Attributes="0" SourcePath="..\..\..\..\..\Project\lapTrinhTrucQuan\KingChess\ChessKing\Resources\AxInterop.WMPLib.dll" SelfReg="false" NextFile="B1.png"/>
+    <ROW File="B1.png" Component_="B1.png" FileName="B1.png" Attributes="0" SourcePath="..\..\..\..\..\Project\lapTrinhTrucQuan\KingChess\ChessKing\Resources\B1.png" SelfReg="false" NextFile="B2.png"/>
+    <ROW File="B2.png" Component_="B1.png" FileName="B2.png" Attributes="0" SourcePath="..\..\..\..\..\Project\lapTrinhTrucQuan\KingChess\ChessKing\Resources\B2.png" SelfReg="false" NextFile="back.png"/>
+    <ROW File="Check.wav" Component_="AnnounceWelcome.wav" FileName="Check.wav" Attributes="0" SourcePath="..\..\..\..\..\Project\lapTrinhTrucQuan\KingChess\ChessKing\Sounds\Check.wav" SelfReg="false" NextFile="CheckMate.wav"/>
+    <ROW File="CheckMate.wav" Component_="AnnounceWelcome.wav" FileName="CHECKM~1.WAV|CheckMate.wav" Attributes="0" SourcePath="..\..\..\..\..\Project\lapTrinhTrucQuan\KingChess\ChessKing\Sounds\CheckMate.wav" SelfReg="false" NextFile="Move.wav"/>
     <ROW File="ChessKing.exe" Component_="ChessKing.exe" FileName="CHESSK~1.EXE|ChessKing.exe" Attributes="0" SourcePath="..\..\..\..\..\Project\lapTrinhTrucQuan\KingChess\ChessKing\bin\Release\ChessKing.exe" SelfReg="false" NextFile="AxInterop.WMPLib.dll" DigSign="true"/>
+    <ROW File="Chess_bdt60.png" Component_="Chess_bdt60.png" FileName="CHESS_~1.PNG|Chess_bdt60.png" Attributes="0" SourcePath="..\..\..\..\..\Project\lapTrinhTrucQuan\KingChess\ChessKing\Image\Chess_bdt60.png" SelfReg="false" NextFile="Chess_blt60.png"/>
+    <ROW File="Chess_blt60.png" Component_="Chess_bdt60.png" FileName="CHESS_~2.PNG|Chess_blt60.png" Attributes="0" SourcePath="..\..\..\..\..\Project\lapTrinhTrucQuan\KingChess\ChessKing\Image\Chess_blt60.png" SelfReg="false" NextFile="Chess_kdt60.png"/>
+    <ROW File="Chess_kdt60.png" Component_="Chess_bdt60.png" FileName="CHESS_~3.PNG|Chess_kdt60.png" Attributes="0" SourcePath="..\..\..\..\..\Project\lapTrinhTrucQuan\KingChess\ChessKing\Image\Chess_kdt60.png" SelfReg="false" NextFile="Chess_klt60.png"/>
+    <ROW File="Chess_klt60.png" Component_="Chess_bdt60.png" FileName="CHESS_~4.PNG|Chess_klt60.png" Attributes="0" SourcePath="..\..\..\..\..\Project\lapTrinhTrucQuan\KingChess\ChessKing\Image\Chess_klt60.png" SelfReg="false" NextFile="Chess_ndt60.png"/>
+    <ROW File="Chess_ndt60.png" Component_="Chess_bdt60.png" FileName="CHESS_~5.PNG|Chess_ndt60.png" Attributes="0" SourcePath="..\..\..\..\..\Project\lapTrinhTrucQuan\KingChess\ChessKing\Image\Chess_ndt60.png" SelfReg="false" NextFile="Chess_nlt60.png"/>
+    <ROW File="Chess_nlt60.png" Component_="Chess_bdt60.png" FileName="CHESS_~6.PNG|Chess_nlt60.png" Attributes="0" SourcePath="..\..\..\..\..\Project\lapTrinhTrucQuan\KingChess\ChessKing\Image\Chess_nlt60.png" SelfReg="false" NextFile="Chess_pdt60.png"/>
+    <ROW File="Chess_pdt60.png" Component_="Chess_bdt60.png" FileName="CHESS_~7.PNG|Chess_pdt60.png" Attributes="0" SourcePath="..\..\..\..\..\Project\lapTrinhTrucQuan\KingChess\ChessKing\Image\Chess_pdt60.png" SelfReg="false" NextFile="Chess_plt60.png"/>
+    <ROW File="Chess_plt60.png" Component_="Chess_bdt60.png" FileName="CHESS_~8.PNG|Chess_plt60.png" Attributes="0" SourcePath="..\..\..\..\..\Project\lapTrinhTrucQuan\KingChess\ChessKing\Image\Chess_plt60.png" SelfReg="false" NextFile="Chess_qdt60.png"/>
+    <ROW File="Chess_qdt60.png" Component_="Chess_bdt60.png" FileName="CHESS_~9.PNG|Chess_qdt60.png" Attributes="0" SourcePath="..\..\..\..\..\Project\lapTrinhTrucQuan\KingChess\ChessKing\Image\Chess_qdt60.png" SelfReg="false" NextFile="Chess_qlt60.png"/>
+    <ROW File="Chess_qlt60.png" Component_="Chess_bdt60.png" FileName="CHESS~10.PNG|Chess_qlt60.png" Attributes="0" SourcePath="..\..\..\..\..\Project\lapTrinhTrucQuan\KingChess\ChessKing\Image\Chess_qlt60.png" SelfReg="false" NextFile="Chess_rdt60.png"/>
+    <ROW File="Chess_rdt60.png" Component_="Chess_bdt60.png" FileName="CHESS~11.PNG|Chess_rdt60.png" Attributes="0" SourcePath="..\..\..\..\..\Project\lapTrinhTrucQuan\KingChess\ChessKing\Image\Chess_rdt60.png" SelfReg="false" NextFile="Chess_rlt60.png"/>
+    <ROW File="Chess_rlt60.png" Component_="Chess_bdt60.png" FileName="CHESS~12.PNG|Chess_rlt60.png" Attributes="0" SourcePath="..\..\..\..\..\Project\lapTrinhTrucQuan\KingChess\ChessKing\Image\Chess_rlt60.png" SelfReg="false" NextFile="circle.png"/>
+    <ROW File="Chessicon.ico" Component_="B1.png" FileName="CHESS-~1.ICO|Chess-icon.ico" Attributes="0" SourcePath="..\..\..\..\..\Project\lapTrinhTrucQuan\KingChess\ChessKing\Resources\Chess-icon.ico" SelfReg="false" NextFile="FlashScreen.jpg"/>
+    <ROW File="FlashScreen.jpg" Component_="B1.png" FileName="FLASHS~1.JPG|FlashScreen.jpg" Attributes="0" SourcePath="..\..\..\..\..\Project\lapTrinhTrucQuan\KingChess\ChessKing\Resources\FlashScreen.jpg" SelfReg="false" NextFile="Interop.WMPLib.dll_1"/>
+    <ROW File="HD.pdf" Component_="HD.pdf" FileName="HD.pdf" Attributes="0" SourcePath="..\..\..\..\..\Project\lapTrinhTrucQuan\KingChess\ChessKing\Help\HD.pdf" SelfReg="false" NextFile="AnnounceWelcome.wav"/>
     <ROW File="Interop.WMPLib.dll" Component_="Interop.WMPLib.dll" FileName="INTERO~1.DLL|Interop.WMPLib.dll" Attributes="0" SourcePath="..\..\..\..\..\Project\lapTrinhTrucQuan\KingChess\ChessKing\Resources\Interop.WMPLib.dll" SelfReg="false" NextFile="System.Core.dll"/>
+    <ROW File="Interop.WMPLib.dll_1" Component_="Interop.WMPLib.dll_1" FileName="INTERO~1.DLL|Interop.WMPLib.dll" Attributes="0" SourcePath="..\..\..\..\..\Project\lapTrinhTrucQuan\KingChess\ChessKing\Resources\Interop.WMPLib.dll" SelfReg="false"/>
     <ROW File="Microsoft.CSharp.dll" Component_="Microsoft.CSharp.dll" FileName="MICROS~1.DLL|Microsoft.CSharp.dll" Attributes="0" SourcePath="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Microsoft.CSharp.dll" SelfReg="false" NextFile="System.Data.dll"/>
+    <ROW File="Move.wav" Component_="AnnounceWelcome.wav" FileName="Move.wav" Attributes="0" SourcePath="..\..\..\..\..\Project\lapTrinhTrucQuan\KingChess\ChessKing\Sounds\Move.wav" SelfReg="false" NextFile="Music.wav"/>
+    <ROW File="Music.wav" Component_="AnnounceWelcome.wav" FileName="Music.wav" Attributes="0" SourcePath="..\..\..\..\..\Project\lapTrinhTrucQuan\KingChess\ChessKing\Sounds\Music.wav" SelfReg="false" NextFile="AxInterop.WMPLib.dll_1"/>
     <ROW File="System.Core.dll" Component_="System.Core.dll" FileName="SYSTEM~2.DLL|System.Core.dll" Attributes="0" SourcePath="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Core.dll" SelfReg="false" NextFile="System.Deployment.dll"/>
     <ROW File="System.Data.DataSetExtensions.dll" Component_="System.Data.DataSetExtensions.dll" FileName="SYSTEM~4.DLL|System.Data.DataSetExtensions.dll" Attributes="0" SourcePath="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Data.DataSetExtensions.dll" SelfReg="false" NextFile="System.Xml.dll"/>
     <ROW File="System.Data.dll" Component_="System.Data.dll" FileName="SYSTEM~6.DLL|System.Data.dll" Attributes="0" SourcePath="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Data.dll" SelfReg="false" NextFile="System.Drawing.dll"/>
@@ -64,7 +99,10 @@
     <ROW File="System.Xml.Linq.dll" Component_="System.Xml.Linq.dll" FileName="SYSTEM~1.DLL|System.Xml.Linq.dll" Attributes="0" SourcePath="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Xml.Linq.dll" SelfReg="false" NextFile="ChessKing.exe"/>
     <ROW File="System.Xml.dll" Component_="System.Xml.dll" FileName="SYSTEM~5.DLL|System.Xml.dll" Attributes="0" SourcePath="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Xml.dll" SelfReg="false" NextFile="Microsoft.CSharp.dll"/>
     <ROW File="System.dll" Component_="System.dll" FileName="System.dll" Attributes="0" SourcePath="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.dll" SelfReg="false" NextFile="Interop.WMPLib.dll"/>
-    <ROW File="mscorlib.dll" Component_="mscorlib.dll" FileName="mscorlib.dll" Attributes="0" SourcePath="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\mscorlib.dll" SelfReg="false"/>
+    <ROW File="back.png" Component_="B1.png" FileName="back.png" Attributes="0" SourcePath="..\..\..\..\..\Project\lapTrinhTrucQuan\KingChess\ChessKing\Resources\back.png" SelfReg="false" NextFile="back2.png"/>
+    <ROW File="back2.png" Component_="B1.png" FileName="back2.png" Attributes="0" SourcePath="..\..\..\..\..\Project\lapTrinhTrucQuan\KingChess\ChessKing\Resources\back2.png" SelfReg="false" NextFile="Chessicon.ico"/>
+    <ROW File="circle.png" Component_="Chess_bdt60.png" FileName="circle.png" Attributes="0" SourcePath="..\..\..\..\..\Project\lapTrinhTrucQuan\KingChess\ChessKing\Image\circle.png" SelfReg="false" NextFile="HD.pdf"/>
+    <ROW File="mscorlib.dll" Component_="mscorlib.dll" FileName="mscorlib.dll" Attributes="0" SourcePath="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\mscorlib.dll" SelfReg="false" NextFile="Chess_bdt60.png"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.BuildComponent">
     <ROW BuildKey="AnyCPU_Release" BuildName="AnyCPU_Release" BuildOrder="2" BuildType="0" PackageFolder="AnyCPU_ReleaseSetupFiles" PackageFileName="setup" Languages="en" InstallationType="4" UseLargeSchema="true"/>
@@ -156,6 +194,9 @@
     <ROW Action="SET_APPDIR" Type="307" Source="APPDIR" Target="[ProgramFilesFolder][Manufacturer]\[ProductName]"/>
     <ROW Action="SET_SHORTCUTDIR" Type="307" Source="SHORTCUTDIR" Target="[ProgramMenuFolder][ProductName]"/>
     <ROW Action="SET_TARGETDIR_TO_APPDIR" Type="51" Source="TARGETDIR" Target="[APPDIR]"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiIconsComponent">
+    <ROW Name="Chessicon.exe" SourcePath="..\..\..\..\..\Project\lapTrinhTrucQuan\KingChess\ChessKing\Chess-icon.ico" Index="0"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiInstExSeqComponent">
     <ROW Action="AI_DOWNGRADE" Condition="AI_NEWERPRODUCTFOUND AND (UILevel &lt;&gt; 5)" Sequence="210"/>
